@@ -79,3 +79,14 @@ dist_y_1 = lines_dist(portal_1, y_vec_1, small_sphere_pt_1, small_sphere_line_ve
 dist = [dist_1]
 dist_x = [dist_x_1] 
 dist_y = [dist_y_1]
+
+temp = result_map_1('joint_1_param');
+j1_vec = temp.vector();
+j1_pt = temp.circle(1:3)
+temp = result_map_1('joint_2_param');
+j2_vec = temp.vector();
+j2_pt = temp.circle(1:3);
+
+dist_j1_2 = lines_dist(j1_pt, j1_vec, j2_pt, j2_vec)
+
+angle_j1_2 = rad2deg(subspace(transpose(j1_vec), transpose(j2_vec)))

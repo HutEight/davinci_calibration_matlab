@@ -1,4 +1,4 @@
-function [circle_params, fval] = davinciFit3dCircle(pt_mat)
+function [circle_params, fval, rms] = davinciFit3dCircle(pt_mat)
 % circle params: x, y, z, r
 % pt_mat should be nx3
 
@@ -20,14 +20,14 @@ init_pt_3 =  pt_mat(rnd(3),:);
 
 %% Constructing fmin function for 3d circle
 
-circle_fitting_error = @(a) sqrt((...
+circle_fitting_error = @(a) sqrt(abs(...
     transpose(x_mat - ones(mat_size,1)*[a(1)]) * (x_mat - ones(mat_size,1)*[a(1)]) + ...
     transpose(y_mat - ones(mat_size,1)*[a(2)]) * (y_mat - ones(mat_size,1)*[a(2)]) + ...
     transpose(z_mat - ones(mat_size,1)*[a(3)]) * (z_mat - ones(mat_size,1)*[a(3)]) + ...
     - mat_size * a(4) * a(4))/mat_size);
 
-lb = [-2, -2, -2, 0];
-ub = [2, 2, 2, 2];
+lb = [-1, -1, -1, 0];
+ub = [1, 1, 1, 2];
 a0 = [init_center(1), init_center(2), init_center(3), init_rad];
 A= [];
 b = [];
@@ -35,7 +35,7 @@ Aeq = [];
 beq = [];
 nonlcon = [];
 size_max = 3000000;
-options = optimoptions('fmincon','MaxFunctionEvaluations',size_max,'MaxIterations',30000);
+options = optimoptions('fmincon','MaxFunctionEvaluations',size_max,'MaxIterations',100000);
 
 [a, fval] = fmincon(circle_fitting_error,a0,A,b,Aeq,beq,lb,ub,nonlcon,options);
 
@@ -44,6 +44,16 @@ options = optimoptions('fmincon','MaxFunctionEvaluations',size_max,'MaxIteration
 
 circle_params = a;
 
+%% rms
+err_sum = 0;
+for i = 1:mat_size
+    
+    err_sum = err_sum + abs((x_mat(i) - circle_params(1))^2 + (y_mat(i) - circle_params(2))^2 + ...
+        (z_mat(i) - circle_params(3))^2 - (circle_params(4))^2);
+        
+end % for loop
+
+rms = sqrt(err_sum/mat_size);
 
 
 end

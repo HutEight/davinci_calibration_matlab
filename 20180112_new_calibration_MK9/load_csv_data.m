@@ -20,6 +20,7 @@ mask = (raw_points(:,1) > mask_begin & raw_points(:,1) < mask_end);
 pt_mat_0 = [seq(mask), raw_pose_x(mask), raw_pose_y(mask), raw_pose_z(mask)];
 
 pt_mat_0(isnan(pt_mat_0(:,2)),:)= [];
+
 pt_mat = [pt_mat_0(:,2), pt_mat_0(:,3), pt_mat_0(:,4)];
 %% Checking the Masked data
 % Only use this section when you need to config your mask settings
