@@ -106,11 +106,26 @@ ave_actual_small_ori_increment = (distance_1_2 + distance_2_3 + distance_3_4 + d
 [j3_line_param, j3_line_rms] = davinci_line_fit_svd(pt_mats_map('greenJ3Line'));
 [small_sphere_origins_line_param, small_sphere_origins_line_rms] = davinci_line_fit_svd(small_origins_vec);
 
+% Affine 
 affine_portal_wrt_polaris = zeros(4,4);
 affine_portal_wrt_polaris(4,4) = 1;
 affine_portal_wrt_polaris(1:3,1:3) = portal_rotation_wrt_polaris;
 affine_portal_wrt_polaris(1:3,4) = transpose(portal_origin_wrt_polaris);
-
+% Check direction
+% When the Polaris is facing a PSM, the portal frame of that PSM should
+% conform the following:
+% 1. Portal frame x is roughly antiparallel to Polaris y;
+% 2. Portal frame y is roughly parallel to Polaris z;
+% 3. Portal frame z is roughly antiparallel to Polaris x.
+if affine_portal_wrt_polaris(2,1)>0
+    affine_portal_wrt_polaris(:,1) = -affine_portal_wrt_polaris(:,1);
+end
+if affine_portal_wrt_polaris(3,2)<0
+    affine_portal_wrt_polaris(:,2) = -affine_portal_wrt_polaris(:,2);
+end
+if affine_portal_wrt_polaris(1,3)>0
+    affine_portal_wrt_polaris(:,3) = -affine_portal_wrt_polaris(:,3);
+end
 
 %% RMS
 
