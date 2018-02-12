@@ -2,6 +2,8 @@ function [circle_params, fval, rms] = davinciFit3dCircle(pt_mat)
 % circle params: x, y, z, r
 % pt_mat should be nx3
 
+% TODO open toggle plotting
+
 %% Extracting 3 random pts from mat to find an initial circle in 3d space
 mat_size = size(pt_mat, 1);
 
@@ -54,6 +56,7 @@ for i = 1:mat_size
 end % for loop
 
 rms = sqrt(err_sum/mat_size);
+
 
 
 end

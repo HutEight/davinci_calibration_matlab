@@ -80,13 +80,28 @@ dist = [dist_1]
 dist_x = [dist_x_1] 
 dist_y = [dist_y_1]
 
-temp = result_map_1('joint_1_param');
-j1_vec = temp.vector();
-j1_pt = temp.circle(1:3)
-temp = result_map_1('joint_2_param');
-j2_vec = temp.vector();
-j2_pt = temp.circle(1:3);
+temp_1 = result_map_1('joint_1_param');
+j1_vec = temp_1.vector();
+j1_pt = temp_1.circle(1:3)
+temp_2 = result_map_1('joint_2_param');
+j2_vec = temp_2.vector();
+j2_pt = temp_2.circle(1:3);
 
 dist_j1_2 = lines_dist(j1_pt, j1_vec, j2_pt, j2_vec)
 
 angle_j1_2 = rad2deg(subspace(transpose(j1_vec), transpose(j2_vec)))
+
+%% Plot Circle
+figure('Name', 'Joint 1 Arc Pts and Circle');
+centre_1 = temp_1.circle(1:3);
+normal_1 = temp_1.vector();
+radius_1 = temp_1.circle(4);
+plotCircle3D(centre_1,normal_1,radius_1);
+hold on;
+pcshow(pt_clds_map_1('greenJ1Arc01'));
+centre_2 = temp_2.circle(1:3);
+normal_2 = temp_2.vector();
+radius_2 = temp_2.circle(4);
+plotCircle3D(centre_2,normal_2,radius_2);
+pcshow(pt_clds_map_1('greenJ2Arc01'));
+hold off;
