@@ -83,6 +83,7 @@ dist_y = [dist_y_1]
 temp_1 = result_map_1('joint_1_param');
 j1_vec = temp_1.vector();
 j1_pt = temp_1.circle(1:3)
+
 temp_2 = result_map_1('joint_2_param');
 j2_vec = temp_2.vector();
 j2_pt = temp_2.circle(1:3);
