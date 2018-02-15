@@ -17,7 +17,8 @@ key_ = {'plane_1_param_1', 'plane_2_param_1', 'plane_1_param_2', 'plane_2_param_
     'actual_small_ori_increments', 'ave_actual_small_ori_increment', 'rms_Sphere_vec', 'rms_Small_Spheres_vec', ...
     'j3_line_param', 'j3_line_rms', 'small_sphere_origins_line_param', 'small_sphere_origins_line_rms', ...
     'affine_portal_wrt_polaris', ...
-    'joint_1_param', 'joint_2_param'};
+    'joint_1_param', 'joint_2_param',...
+    'small_origins_vec_wrt_portal'};
 
 
 
@@ -131,31 +132,45 @@ end
 portal_rotation_wrt_polaris = affine_portal_wrt_polaris(1:3,1:3);
 
 
+%% Calculate small_origins_vec_wrt_portal
 
+temp_vec = small_origins_vec;
+temp_vec(:,4) = 1;
+temp_vec = transpose(inv(affine_portal_wrt_polaris) * transpose(temp_vec));
+small_origins_vec_wrt_portal = temp_vec(:,1:3);
+
+
+%% Joint 1 & 2 Params (Independent Analysis)
+ 
 % joint_1_param
-% format: fixed pt + vector
-temp = pt_mats_map('greenJ1Arc01');
-temp_x = temp(:,1);
-temp_y = temp(:,2);
-temp_z = temp(:,3);
-plane_1_param_1_independent = plane(temp_x, temp_y, temp_z);
-[green_j1_arc_01_circle_params, fval_j1_01, rms_j1_01] = davinciFit3dCircle(temp);
-joint_1_param.vector = plane_1_param_1_independent.Normal();
-joint_1_param.circle = green_j1_arc_01_circle_params;
-joint_1_param.circle_rms = rms_j1_01;
+% format: fixed pt + vector + rms
+% Because of the extremely slow speed, comment these line when not used.
+% temp = pt_mats_map('greenJ1Arc01');
+% temp_x = temp(:,1);
+% temp_y = temp(:,2);
+% temp_z = temp(:,3);
+% plane_1_param_1_independent = plane(temp_x, temp_y, temp_z);
+% [green_j1_arc_01_circle_params, fval_j1_01, rms_j1_01] = davinciFit3dCircle(temp);
+% joint_1_param.vector = plane_1_param_1_independent.Normal();
+% joint_1_param.circle = green_j1_arc_01_circle_params;
+% joint_1_param.circle_rms = rms_j1_01;
 
+joint_1_param = 0; % Fake value -- Comment out while doing proper analysis
 
 % joint_2_param
 % format: fixed pt + vector
-temp = pt_mats_map('greenJ2Arc01');
-temp_x = temp(:,1);
-temp_y = temp(:,2);
-temp_z = temp(:,3);
-plane_2_param_1_independent = plane(temp_x, temp_y, temp_z);
-[green_j2_arc_01_circle_params, fval_j2_01, rms_j2_01] = davinciFit3dCircle(temp);
-joint_2_param.vector = plane_2_param_1_independent.Normal();
-joint_2_param.circle = green_j2_arc_01_circle_params;
-joint_2_param.circle_rms = rms_j2_01;
+% Because of the extremely slow speed, comment these line when not used.
+% temp = pt_mats_map('greenJ2Arc01');
+% temp_x = temp(:,1);
+% temp_y = temp(:,2);
+% temp_z = temp(:,3);
+% plane_2_param_1_independent = plane(temp_x, temp_y, temp_z);
+% [green_j2_arc_01_circle_params, fval_j2_01, rms_j2_01] = davinciFit3dCircle(temp);
+% joint_2_param.vector = plane_2_param_1_independent.Normal();
+% joint_2_param.circle = green_j2_arc_01_circle_params;
+% joint_2_param.circle_rms = rms_j2_01;
+
+joint_2_param = 0;% Fake value -- Comment out while doing proper analysis
 
 %% RMS
 
@@ -190,7 +205,8 @@ values_ = {plane_1_param_1, plane_2_param_1, plane_1_param_2, plane_2_param_2, p
     actual_small_ori_increments, ave_actual_small_ori_increment, rms_Sphere_vec, rms_Small_Spheres_vec, ...
     j3_line_param, j3_line_rms, small_sphere_origins_line_param, small_sphere_origins_line_rms, ...
     affine_portal_wrt_polaris, ...
-    joint_1_param, joint_2_param};
+    joint_1_param, joint_2_param, ...
+    small_origins_vec_wrt_portal};
 
 %% Plotting
 if plot_flag == 1

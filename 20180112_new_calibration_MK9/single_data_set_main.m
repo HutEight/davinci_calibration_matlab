@@ -11,12 +11,14 @@ clear all
 %     'portal_origin_wrt_polaris', 'small_origins_vec', 'distance_to_portal_vec', ...
 %     'actual_small_ori_increments', 'ave_actual_small_ori_increment', 'rms_Sphere_vec', 'rms_Small_Spheres_vec', ...
 %     'j3_line_param', 'j3_line_rms', 'small_sphere_origins_line_param', 'small_sphere_origins_line_rms', ...
-%     'affine_portal_wrt_polaris'};
+%     'affine_portal_wrt_polaris', ...
+%     'joint_1_param', 'joint_2_param',...
+%     'small_origins_vec_wrt_portal'};
 
 %% Load and Process Data
 
 % csv_folder_1 = 'data_calibration_20180117/1/';
-csv_folder_1 = 'data_calibration_20180211/';
+csv_folder_1 = 'data_calibration_20180213/';
 
 plot_flag = 1;
 [path_map_1, pt_clds_map_1, pt_mats_map_1] = createGreenRawDataHashTables(csv_folder_1, plot_flag);
@@ -80,29 +82,37 @@ dist = [dist_1]
 dist_x = [dist_x_1] 
 dist_y = [dist_y_1]
 
-temp_1 = result_map_1('joint_1_param');
-j1_vec = temp_1.vector();
-j1_pt = temp_1.circle(1:3)
 
-temp_2 = result_map_1('joint_2_param');
-j2_vec = temp_2.vector();
-j2_pt = temp_2.circle(1:3);
+%% Joint 1 & 2 Circles
+% temp_1 = result_map_1('joint_1_param');
+% j1_vec = temp_1.vector();
+% j1_pt = temp_1.circle(1:3)
+% 
+% temp_2 = result_map_1('joint_2_param');
+% j2_vec = temp_2.vector();
+% j2_pt = temp_2.circle(1:3);
+% 
+% dist_j1_2 = lines_dist(j1_pt, j1_vec, j2_pt, j2_vec)
+% 
+% angle_j1_2 = rad2deg(subspace(transpose(j1_vec), transpose(j2_vec)))
+% 
+% % Plot Circle
+% figure('Name', 'Joint 1 Arc Pts and Circle');
+% centre_1 = temp_1.circle(1:3);
+% normal_1 = temp_1.vector();
+% radius_1 = temp_1.circle(4);
+% plotCircle3D(centre_1,normal_1,radius_1);
+% hold on;
+% pcshow(pt_clds_map_1('greenJ1Arc01'));
+% centre_2 = temp_2.circle(1:3);
+% normal_2 = temp_2.vector();
+% radius_2 = temp_2.circle(4);
+% plotCircle3D(centre_2,normal_2,radius_2);
+% pcshow(pt_clds_map_1('greenJ2Arc01'));
+% hold off;
 
-dist_j1_2 = lines_dist(j1_pt, j1_vec, j2_pt, j2_vec)
-
-angle_j1_2 = rad2deg(subspace(transpose(j1_vec), transpose(j2_vec)))
-
-%% Plot Circle
-figure('Name', 'Joint 1 Arc Pts and Circle');
-centre_1 = temp_1.circle(1:3);
-normal_1 = temp_1.vector();
-radius_1 = temp_1.circle(4);
-plotCircle3D(centre_1,normal_1,radius_1);
-hold on;
-pcshow(pt_clds_map_1('greenJ1Arc01'));
-centre_2 = temp_2.circle(1:3);
-normal_2 = temp_2.vector();
-radius_2 = temp_2.circle(4);
-plotCircle3D(centre_2,normal_2,radius_2);
-pcshow(pt_clds_map_1('greenJ2Arc01'));
-hold off;
+%% Other experiments
+temp = result_map_1('affine_portal_wrt_polaris');
+portal_z_vec = temp(1:3,3);
+sm_spheres_vec = result_map_1('small_sphere_origins_line_param').direction();
+angle_j3_z = rad2deg(atan2(norm(cross(portal_z_vec,sm_spheres_vec)), dot(portal_z_vec,sm_spheres_vec)));
