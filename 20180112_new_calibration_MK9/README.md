@@ -24,6 +24,10 @@ It is designed for the 20-min version data. [Repo_of_that_automated_calibration_
 
 It also produces the Affine_portal_wrt_polaris. When provided with the 'base-marker'([affine_Md_wrt_board](https://github.com/HutEight/davinci_calibration_matlab/blob/master/20180112_new_calibration_MK9/arcs_and_big_sphere_only_main.m#L52)) you can also get the test points at the end of the programme.
 
+4. [davinci_primatic_offsets_main.m](https://github.com/HutEight/davinci_calibration_matlab/blob/master/20180112_new_calibration_MK9/davinci_primatic_offsets_main.m)
+
+It is a modified version of the standard 2-hr full data collection experiments. Its data acquisition process only involves 1 set of sphere, arcs, plus four small spheres -- to determine the prismatic offsets w/rt portal frame.
+
 ### Key Functions
 
 1. [createGreenRawDataHashTables.m](https://github.com/HutEight/davinci_calibration_matlab/blob/master/20180112_new_calibration_MK9/createGreenRawDataHashTables.m)
@@ -52,6 +56,14 @@ key_ = {'plane_1_param_1', 'plane_2_param_1', 'plane_1_param_2', 'plane_2_param_
 To toggle plotting, change the 'plot_flag' in ```function [result_map] = createPostProcessingHashTables(pt_clds_map, pt_mats_map, plot_flag)```.
 
 To toggle the Joint 1 & 2 analysis, you need to goto (this line)[https://github.com/HutEight/davinci_calibration_matlab/blob/master/20180112_new_calibration_MK9/createPostProcessingHashTables.m#L143] to manually comment in these section. This is because it is extremely time consuming to do a round of test like this.
+
+3. [createGreenRawDataHashTablesShort.m](https://github.com/HutEight/davinci_calibration_matlab/blob/master/20180112_new_calibration_MK9/createGreenRawDataHashTablesShort.m)
+
+Used by davinci_primatic_offsets_main.m for prismatic offests acquisition.
+
+4. [createPostProcessingHashTablesShort.m](https://github.com/HutEight/davinci_calibration_matlab/blob/master/20180112_new_calibration_MK9/createPostProcessingHashTablesShort.m)
+
+Used by davinci_primatic_offsets_main.m for prismatic offests acquisition.
 
 
 
