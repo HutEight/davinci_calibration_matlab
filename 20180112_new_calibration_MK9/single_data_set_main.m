@@ -51,18 +51,19 @@ p0 = small_sphere_origins_line_param_1.p0;
 direction = small_sphere_origins_line_param_1.direction;
 dist_1 = fcn_line_pt_dist(p0, direction, result_map_1('portal_origin_wrt_polaris'));
 
+disp('dist_portal_s_sphere_ori_line:');
+dist_portal_s_sphere_ori_line = [dist_1]
 
-dist_portal_s_sphere_ori_line = [dist_1];
-
+disp('transpose(small_sphere_origins_line_param_1.direction):');
 [transpose(small_sphere_origins_line_param_1.direction)]
-
-result_map_1('portal_rotation_wrt_polaris');
 
 
 
 %% Addition
 
 % function [dist] = lines_dist(a, b, c, d)
+
+result_map_1('portal_rotation_wrt_polaris');
 
 portal_1 = result_map_1('portal_origin_wrt_polaris');
 portal_1 = transpose(portal_1);
