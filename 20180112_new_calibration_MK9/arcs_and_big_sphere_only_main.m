@@ -3,15 +3,15 @@ close all
 clear all
 
 
-%% Loading data
-csv_folder = 'old_fashion_data/20180213_03/'; % Modify this everytime
-joint_1_arc_file = strcat(csv_folder, '1_g.csv')
-joint_2_arc_file = strcat(csv_folder, '2_g.csv')
-sphere_file = strcat(csv_folder, 'sphere_g.csv')
+%% Loading data (CHANGE PATH EACH TIME!)
+csv_folder = 'old_fashion_data/20180215_03/'; % Modify this everytime
+joint_1_arc_file = strcat(csv_folder, '1_g.csv');
+joint_2_arc_file = strcat(csv_folder, '2_g.csv');
+sphere_file = strcat(csv_folder, 'sphere_g.csv');
 
-[joint_1_arc_cld, joint_1_arc_mat] = load_csv_data(joint_1_arc_file)
-[joint_2_arc_cld, joint_2_arc_mat] = load_csv_data(joint_2_arc_file)
-[sphere_cld, sphere_mat] = load_csv_data(sphere_file)
+[joint_1_arc_cld, joint_1_arc_mat] = load_csv_data(joint_1_arc_file);
+[joint_2_arc_cld, joint_2_arc_mat] = load_csv_data(joint_2_arc_file);
+[sphere_cld, sphere_mat] = load_csv_data(sphere_file);
 
 pcshow(sphere_cld);
 
@@ -79,14 +79,16 @@ affine_Md_wrt_board_6 =  [0, -1,  0,    -0.155;
                        -1,  0,  0, -0.00877;
                         0,  0,  0,     1];                     
                     
-%% Update this every time    
+%% Update this every time  
+
 % G_N_Md
-affine_Md_wrt_polaris =[-0.9903664507460902, 0.08056744902336488, 0.112619622599525, 0.06089000031352043;
- -0.006030209524304879, -0.8376291184738702, 0.5462060933912949, -0.05192999914288521;
- 0.1383399067864545, 0.5402650701670009, 0.8300456157029933, -0.7827799916267395;
+affine_Md_wrt_polaris = [-0.9958920320026502, 0.02817981160363598, 0.08605207035054949, 0.09613999724388123;
+ -0.01669489720704399, -0.9911918570957992, 0.1313772538692569, -0.06460999697446823;
+ 0.08899629768073822, 0.1294009298458265, 0.9875905317256521, -0.674310028553009;
  0, 0, 0, 1];
 
-
+% G_N_Mg
+affine_Mg_wrt_poliaris=
 
 %% TF calculation
 
@@ -101,6 +103,16 @@ affine_board_3_wrt_portal = affine_Md_wrt_portal * inv(affine_Md_wrt_board_3);
 affine_board_4_wrt_portal = affine_Md_wrt_portal * inv(affine_Md_wrt_board_4);
 affine_board_5_wrt_portal = affine_Md_wrt_portal * inv(affine_Md_wrt_board_5);
 affine_board_6_wrt_portal = affine_Md_wrt_portal * inv(affine_Md_wrt_board_6);
+
+
+%%%%%
+% affine_Mg_wrt_portal = 
+
+% affine_Md_wrt_portal_2 
+
+affine_board_wrt_portal_2 = inv(affine_portal_wrt_polaris) * affine_Mg_wrt_poliaris * inv(affine_Mg_wrt_poliaris)
+
+
 
 %% Extracted Target Point
 
