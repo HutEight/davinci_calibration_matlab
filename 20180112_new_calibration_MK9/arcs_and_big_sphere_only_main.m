@@ -88,7 +88,7 @@ affine_Md_wrt_polaris = [-0.9958920320026502, 0.02817981160363598, 0.08605207035
  0, 0, 0, 1];
 
 % G_N_Mg
-affine_Mg_wrt_poliaris=
+% affine_Mg_wrt_poliaris=
 
 %% TF calculation
 
@@ -110,7 +110,7 @@ affine_board_6_wrt_portal = affine_Md_wrt_portal * inv(affine_Md_wrt_board_6);
 
 % affine_Md_wrt_portal_2 
 
-affine_board_wrt_portal_2 = inv(affine_portal_wrt_polaris) * affine_Mg_wrt_poliaris * inv(affine_Mg_wrt_poliaris)
+% affine_board_wrt_portal_2 = inv(affine_portal_wrt_polaris) * affine_Mg_wrt_poliaris * inv(affine_Mg_wrt_poliaris)
 
 
 
@@ -130,3 +130,8 @@ fprintf('%f, %f, %f, 0,1,0, 0,0,-1,0,0,0,-0.05,0,1,0,0,0,-1,0,25      \n', ...
     affine_board_5_wrt_portal(1,4), affine_board_5_wrt_portal(2,4), affine_board_5_wrt_portal(3,4))
 fprintf('%f, %f, %f, 0,1,0, 0,0,-1,0,0,0,-0.05,0,1,0,0,0,-1,0,25      \n', ...
     affine_board_6_wrt_portal(1,4), affine_board_6_wrt_portal(2,4), affine_board_6_wrt_portal(3,4))
+
+%% Testing Generation Function
+output_folder_path = 'test_output/';
+
+generateTestTrajectory(output_folder_path, affine_Md_wrt_polaris, affine_portal_wrt_polaris);

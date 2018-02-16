@@ -16,8 +16,18 @@ clear all
 %     'joint_1_param', 'joint_2_param',...
 %     'small_origins_vec_wrt_portal'};
 
+%% Update this everytime you do the test
+
+% G_N_Md
+affine_Md_wrt_polaris = [-0.9958920320026502, 0.02817981160363598, 0.08605207035054949, 0.09613999724388123;
+ -0.01669489720704399, -0.9911918570957992, 0.1313772538692569, -0.06460999697446823;
+ 0.08899629768073822, 0.1294009298458265, 0.9875905317256521, -0.674310028553009;
+ 0, 0, 0, 1];
+
 
 %% Load and Process Data
+
+% Update the path
 csv_folder_1 = '20180216_offset_cal_1/';
 
 plot_flag = 1;
@@ -76,3 +86,8 @@ disp('dist_y_1:');
 dist_y = [dist_y_1];
 sprintf('%f', dist_y_1)
 
+%% Generate Test Trajectory based on Portal Calibration
+
+output_folder_path = 'test_output/';
+affine_portal_wrt_polaris = result_map_1('affine_portal_wrt_polaris');
+generateTestTrajectory(output_folder_path, affine_Md_wrt_polaris, affine_portal_wrt_polaris);
