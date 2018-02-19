@@ -9,6 +9,8 @@ clear all
 
 %% Reference
 
+% angle = atan2(norm(cross(a,b)), dot(a,b))
+
 % Keys
 % key_ = {'plane_1_param_1', 'plane_2_param_1', ...
 %     'portal_rotation_wrt_polaris', ...
@@ -19,15 +21,17 @@ clear all
 %     'small_sphere_origins_line_param', 'small_sphere_origins_line_rms', ...
 %     'affine_portal_wrt_polaris', ...
 %     'joint_1_param', 'joint_2_param',...
-%     'small_origins_vec_wrt_portal'};
+%     'small_origins_vec_wrt_portal',...
+%     'small_sphere_origins_line_param_wrt_portal', 'small_sphere_origins_line_rms_wrt_porta'};
 
 %% Update this everytime you do the test
 
 % G_N_Md
-affine_Md_wrt_polaris =[-0.997353728169001, 0.07268484159776739, 0.001566751193328941, 0.1469700038433075;
- -0.06434360220355018, -0.8925206022393293, 0.4463931847976806, -0.1790499985218048;
- 0.03384437564597145, 0.4451110966716651, 0.8948355546450318, -0.7849199771881104;
+affine_Md_wrt_polaris =[-0.9988502024073657, -0.03988837238448927, -0.02659306111151736, 0.1332499980926514;
+ -0.03928800706476091, 0.9989693950997349, -0.02272883971849295, 0.02177999913692474;
+ 0.0274722705949814, -0.02165791778047834, -0.9993879171501775, -0.8265900015830994;
  0, 0, 0, 1];
+
 
 % G_N_Mg
 affine_Mg_wrt_polaris =[0.04603747211624454, -0.027710971422254, -0.9985552830083975, 0.1237900033593178;
@@ -60,16 +64,10 @@ affine_board_0_0_wrt_l_cam= [0.9556381888033338, -0.1084893843511532, 0.27383517
  0, 0, 0, 1];
 
 
-
-
-
-
-
-
 %% Load and Process Data
 
 % Update the path
-csv_folder_1 = '20180217_offset_data_01/';
+csv_folder_1 = '20180219_offset_data_01/';
 
 plot_flag = 1;
 
@@ -114,7 +112,16 @@ small_sphere_pt_1 =  transpose(small_sphere_pt_1);
 dist_x_1 = lines_dist(portal_1, x_vec_1, small_sphere_pt_1, small_sphere_line_vec_1);
 dist_y_1 = lines_dist(portal_1, y_vec_1, small_sphere_pt_1, small_sphere_line_vec_1);
 
-%%%
+small_sphere_origins_line_wrt_poratl_param_1 = result_map_1('small_sphere_origins_line_param_wrt_portal');
+small_sphere_line_vec_1 = small_sphere_origins_line_wrt_poratl_param_1.direction;
+portal_z = [0; 0; 1]
+small_spheres_vec_portal_z_angle = atan2(norm(cross(small_sphere_line_vec_1,portal_z)), dot(small_sphere_line_vec_1,portal_z));
+
+if small_spheres_vec_portal_z_angle > pi/2
+    small_spheres_vec_portal_z_angle = pi - small_spheres_vec_portal_z_angle;
+end
+
+%%%%%%%%%
 disp('dist_portal_s_sphere_ori_line:');
 dist = [dist_1];
 sprintf('%f', dist)
@@ -126,6 +133,47 @@ sprintf('%f', dist_x)
 disp('dist_y_1:');
 dist_y = [dist_y_1];
 sprintf('%f', dist_y_1)
+
+small_spheres_vec_portal_z_angle
+disp('small_spheres_vec_portal_z_angle in degrees:');
+sprintf('%f', rad2deg(small_spheres_vec_portal_z_angle))
+
+%% Prismatic/DH2 Frame Rotation Mat (TODO: put into fnc.)
+
+z_temp = small_sphere_line_vec_1/norm(small_sphere_line_vec_1);
+dh1_z = [-1; 0; 0]; % is portal -x direction
+x_temp = cross(dh1_z,z_temp);
+x_temp = x_temp/norm(x_temp);
+
+y_temp = cross(z_temp, x_temp);
+DH2_frame_rot_mat_wrt_portal = [(x_temp) (y_temp) (z_temp)];
+
+
+%% Joint 1 & 2 Circles
+
+% temp_1 = result_map_1('joint_1_param');
+% j1_vec = temp_1.vector();
+% j1_pt = temp_1.circle(1:3)
+% 
+% temp_2 = result_map_1('joint_2_param');
+% j2_vec = temp_2.vector();
+% j2_pt = temp_2.circle(1:3);
+% 
+% dist_j1_2 = lines_dist(j1_pt, j1_vec, j2_pt, j2_vec)
+% 
+% angle_j1_2 = atan2(norm(cross(j1_vec, j2_vec)), dot(j1_vec, j2_vec))
+
+
+
+%% Generate DH2 param adjustment recommendation
+
+temp_ = result_map_1('small_sphere_origins_line_param_wrt_portal');
+DH_d2 = - dist_y_1
+DH_theta2 = 0.5*pi - (temp_.direction(2))
+DH_a2 = dist_x_1
+DH_alpha2 = 0.5*pi -abs(temp_.direction(1))
+
+
 
 %% Generate Test Trajectory based on Portal Calibration
 

@@ -17,9 +17,8 @@ key_ = {'plane_1_param_1', 'plane_2_param_1', ...
     'small_sphere_origins_line_param', 'small_sphere_origins_line_rms', ...
     'affine_portal_wrt_polaris', ...
     'joint_1_param', 'joint_2_param',...
-    'small_origins_vec_wrt_portal'};
-
-
+    'small_origins_vec_wrt_portal',...
+    'small_sphere_origins_line_param_wrt_portal', 'small_sphere_origins_line_rms_wrt_porta'};
 
 %% Fittings
 
@@ -80,6 +79,8 @@ ave_actual_small_ori_increment = (distance_1_2 + distance_2_3 + distance_3_4)/3;
 
 [small_sphere_origins_line_param, small_sphere_origins_line_rms] = davinci_line_fit_svd(small_origins_vec);
 
+
+
 % Affine 
 affine_portal_wrt_polaris = zeros(4,4);
 affine_portal_wrt_polaris(4,4) = 1;
@@ -111,12 +112,14 @@ temp_vec(:,4) = 1;
 temp_vec = transpose(inv(affine_portal_wrt_polaris) * transpose(temp_vec));
 small_origins_vec_wrt_portal = temp_vec(:,1:3);
 
+[small_sphere_origins_line_param_wrt_portal, small_sphere_origins_line_rms_wrt_porta] = davinci_line_fit_svd(small_origins_vec_wrt_portal);
 
-%% Joint 1 & 2 Params (Independent Analysis)
+%% Joint 1 & 2 Params (From Independent Analysis)
  
-% joint_1_param
-% format: fixed pt + vector + rms
-% Because of the extremely slow speed, comment these line when not used.
+%%%joint_1_param
+% % format: fixed pt + vector + rms
+% % Because of the extremely slow speed, comment these line when not used.
+
 % temp = pt_mats_map('greenJ1Arc01');
 % temp_x = temp(:,1);
 % temp_y = temp(:,2);
@@ -129,9 +132,10 @@ small_origins_vec_wrt_portal = temp_vec(:,1:3);
 
 joint_1_param = 0; % Fake value -- Comment out while doing proper analysis
 
-% joint_2_param
-% format: fixed pt + vector
-% Because of the extremely slow speed, comment these line when not used.
+%%% joint_2_param
+% % format: fixed pt + vector
+% % Because of the extremely slow speed, comment these line when not used.
+
 % temp = pt_mats_map('greenJ2Arc01');
 % temp_x = temp(:,1);
 % temp_y = temp(:,2);
@@ -169,7 +173,8 @@ values_ = {plane_1_param_1, plane_2_param_1, ...
     small_sphere_origins_line_param, small_sphere_origins_line_rms, ...
     affine_portal_wrt_polaris, ...
     joint_1_param, joint_2_param, ...
-    small_origins_vec_wrt_portal};
+    small_origins_vec_wrt_portal, ...
+    small_sphere_origins_line_param_wrt_portal, small_sphere_origins_line_rms_wrt_porta};
 
 %% Plotting
 if plot_flag == 1
