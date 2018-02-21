@@ -177,7 +177,7 @@ DH_alpha2 = 0.5*pi -abs(temp_.direction(1))
 
 %% Generate Test Trajectory based on Portal Calibration
 
-output_folder_path = 'Kinematic_calibration_output/';
+output_folder_path = 'Kinematic_cali/';
 affine_portal_wrt_polaris = result_map_1('affine_portal_wrt_polaris');
 generateTestTrajectory(output_folder_path, affine_Md_wrt_polaris, affine_portal_wrt_polaris);
 
