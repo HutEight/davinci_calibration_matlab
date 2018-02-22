@@ -24,50 +24,64 @@ clear all
 %     'small_origins_vec_wrt_portal',...
 %     'small_sphere_origins_line_param_wrt_portal', 'small_sphere_origins_line_rms_wrt_porta'};
 
-%% Update this everytime you do the test
+%% Update this ONLY when you do the ARM Calibration (spheres and arcs)
+% G_N_Mg_0
+% RECORDED IN YOUR CALIBRATION
+% MEANING THE POLARIS HAS NOT BEEN MOVED
+% affine_Mg_wrt_polaris_0 =[0.04714905129531968, -0.02772806534037126, -0.9985029400830182, 0.1239200010895729;
+%  0.09001994027480772, 0.9956650634981135, -0.02339854017279064, -0.1217299997806549;
+%  0.9948232894915917, -0.08878195605965072, 0.04944074193770646, -1.145869970321655;
+%  0, 0, 0, 1];
 
-% G_N_Md
-affine_Md_wrt_polaris =[-0.9988502024073657, -0.03988837238448927, -0.02659306111151736, 0.1332499980926514;
- -0.03928800706476091, 0.9989693950997349, -0.02272883971849295, 0.02177999913692474;
- 0.0274722705949814, -0.02165791778047834, -0.9993879171501775, -0.8265900015830994;
+affine_Mg_wrt_polaris_0=[0.1689240155702601, -0.002011271326206696, -0.9856270246656547, 0.03633999824523926;
+ -0.1274250124356267, 0.9915611182639736, -0.02386241716336912, -0.02151999995112419;
+ 0.9773574285640843, 0.1296244712033597, 0.1672421995067346, -1.111279964447021;
+ 0, 0, 0, 1]
+
+
+%% Update this when you do the test (after calibration)
+% You may move the Polaris around now.
+
+% G_N_Md 
+affine_Md_wrt_polaris =[-0.9971979623064575, -0.01916660736374668, 0.07231089222249212, 0.1331399977207184;
+ -0.002812181234079059, -0.9563331510180277, -0.2922652834337954, -0.03342000022530556;
+ 0.07475503734569058, -0.2916496964272277, 0.9535995695077414, -0.7640900015830994;
+ 0, 0, 0, 1];
+
+% G_N_Mg 
+affine_Mg_wrt_polaris =[0.08185661209184185, 0.05425511005945785, -0.9951662565065608, 0.1062399968504906;
+ -0.1852839842912695, 0.9819386170615376, 0.03829356980523078, 0.05116999894380569;
+ 0.9792697995047118, 0.1812537871486044, 0.09043077143478359, -1.038540005683899;
  0, 0, 0, 1];
 
 
-% G_N_Mg
-affine_Mg_wrt_polaris =[0.04603747211624454, -0.027710971422254, -0.9985552830083975, 0.1237900033593178;
- 0.09141306052402291, 0.9955377928578698, -0.02341271785402627, -0.1216100007295609;
- 0.9947483116481159, -0.09020313217685924, 0.04836518808716379, -1.1458899974823;
- 0, 0, 0, 1];
-
-% G_Mg_Md
-affine_Md_wrt_Mg =[-0.04236681568176687, -0.9669071094799431, 0.251586356081024, 0.2926427609124402;
- -0.02407618297455795, -0.2507512786928744, -0.967752103406272, 0.07680221448903546;
- 0.9988119894866915, -0.04705781413356479, -0.01265589928089181, 0.02613060270224771;
- 0, 0, 0, 1];
+% CALCULATE G_Mg_Md 
+affine_Md_wrt_Mg = inv(affine_Mg_wrt_polaris) * affine_Md_wrt_polaris;
 
 % G_Mg_Mc
-affine_Mc_wrt_Mg = [0.2952790233294461, 0.9554037217435692, -0.003745245004632872, 0.4231785780551462;
- -0.9486162120071466, 0.2927100689272258, -0.1202002407062117, 0.02008079125591733;
- -0.1137434864017322, 0.03904540980902808, 0.9927426027294405, 0.3860468782445587;
+affine_Mc_wrt_Mg =[0.991112743820027, 0.09321135742021028, 0.09490612143280919, 0.372731856252092;
+ -0.08888790030467122, 0.9948447031263929, -0.04881554917017025, 0.08437681730407724;
+ -0.09896701580306511, 0.03994570701890626, 0.9942886252360505, 0.263487508033087;
  0, 0, 0, 1];
 
 % G_Mc_C
-affine_cam_wrt_Mc =   [ -0.0377,    0.9992,    0.0157,   -0.0263;
-    0.9635,    0.0406,   -0.2646,   -0.0004;
-   -0.2650,    0.0052,   -0.9642,   -0.0809;
-         0,         0,         0,   1.0000]
+affine_cam_wrt_Mc =  [-0.0365,    0.9991,    0.0221,   -0.0267;
+    0.9620,    0.0411,   -0.2698,    0.0011;
+   -0.2705,    0.0114,   -0.9627,   -0.0818;
+         0,         0,         0,    1.0000];
 
 % G_C_D_l{i}
-affine_board_0_0_wrt_l_cam= [0.9556381888033338, -0.1084893843511532, 0.273835179594937, 0.03766894387912491;
- 0.08578523034745042, 0.9919069585826652, 0.09360277650541052, -0.02287606745939376;
- -0.2817739277415824, -0.06595937384780662, 0.9572109561881783, 0.290484589431916;
+affine_board_0_0_wrt_l_cam=  [0.9572163575212601, -0.123324357613027, 0.261778432482635, 0.02696784736608578;
+ 0.09748270041882574, 0.9891890043139568, 0.1095547208632109, -0.03315416118783917;
+ -0.272459112552296, -0.07934870234412669, 0.9588898870170227, 0.20443006950197;
  0, 0, 0, 1];
+
 
 
 %% Load and Process Data
 
 % Update the path
-csv_folder_1 = '20180219_offset_data_01/';
+csv_folder_1 = '20180221_offset_data_01/';
 
 plot_flag = 1;
 
@@ -178,20 +192,42 @@ DH_alpha2 = 0.5*pi -abs(temp_.direction(1))
 %% Generate Test Trajectory based on Portal Calibration
 
 output_folder_path = 'Kinematic_calibration_output/';
-affine_portal_wrt_polaris = result_map_1('affine_portal_wrt_polaris');
-generateTestTrajectory(output_folder_path, affine_Md_wrt_polaris, affine_portal_wrt_polaris);
+affine_portal_wrt_polaris_0 = result_map_1('affine_portal_wrt_polaris');
+generateTestTrajectory(output_folder_path, affine_Md_wrt_polaris, affine_portal_wrt_polaris_0); % should be updated
 
+% _0_0 means the Pt(0,0) 
 affine_Md_wrt_board_0_0 =  [0, -1,  0,    -0.08;
                         0,  0,  1,        0;
                        -1,  0,  0, -0.00877;
                         0,  0,  0,     1];
+    
+% _2_2 means the Pt(2,2)                    
+affine_Md_wrt_board_2_2 =  [0, -1,  0,    -0.11;
+                        0,  0,  1,        -0.03;
+                       -1,  0,  0, -0.00877;
+                        0,  0,  0,     1];                     
 
-
-% This should be const once calibratied no matter how you move the Mg
+% This should be CONST once calibratied no matter how you move the Mg
 % later on, meaning you should NOT update the affine_Mg_wrt_polaris!
-affine_Mg_wrt_portal = inv(affine_portal_wrt_polaris)*affine_Mg_wrt_polaris; % Mg is Marker on Green base
+affine_Mg_wrt_portal_0 = inv(affine_portal_wrt_polaris_0)*affine_Mg_wrt_polaris_0; % Mg is Marker on Green base
 
 % G_Pg_Md:
-affine_Md_wrt_portal_via_base = affine_Mg_wrt_portal * affine_Md_wrt_Mg * inv(affine_Md_wrt_board_0_0)
+affine_Md_wrt_portal_via_base_0_0 = affine_Mg_wrt_portal_0 * affine_Md_wrt_Mg * inv(affine_Md_wrt_board_0_0)
+affine_Md_wrt_portal_via_base_2_2 = affine_Mg_wrt_portal_0 * affine_Md_wrt_Mg * inv(affine_Md_wrt_board_2_2)
 
-goal = affine_Mg_wrt_portal*affine_Mc_wrt_Mg*affine_cam_wrt_Mc*affine_board_0_0_wrt_l_cam*[0;0;0;1]
+ generate_traj_only_arm(affine_Mg_wrt_portal_0 , affine_Md_wrt_Mg,  affine_Md_wrt_board_0_0)
+
+affine_board_2_2_wrt_board_0_0 = [1 0 0 0.03;
+                                  0 1 0 0.03
+                                  0 0 1 0; 
+                                  0 0 0 1];
+                              
+affine_board_2_2_wrt_l_cam = affine_board_0_0_wrt_l_cam * affine_board_2_2_wrt_board_0_0;
+
+goal_0_0 = affine_Mg_wrt_portal_0*affine_Mc_wrt_Mg*affine_cam_wrt_Mc*affine_board_0_0_wrt_l_cam*[0;0;0;1]
+goal_2_2 = affine_Mg_wrt_portal_0*affine_Mc_wrt_Mg*affine_cam_wrt_Mc*affine_board_2_2_wrt_l_cam*[0;0;0;1]
+
+generate_traj_2(affine_Mg_wrt_portal_0,affine_Mc_wrt_Mg,affine_cam_wrt_Mc,affine_board_0_0_wrt_l_cam)
+% output_folder_path = 'Full_calibration_output/';
+% affine_portal_wrt_polaris = result_map_1('affine_portal_wrt_polaris');
+% generateTestTrajectory(output_folder_path, affine_Md_wrt_polaris, affine_portal_wrt_polaris);
