@@ -40,11 +40,11 @@ path_map = path_map_;
 
 all_green_Pts_Mat_ = [pt_mat_greenSphere01;
     pt_mat_greenJ1Arc01;
-    pt_mat_greenJ2Arc01;
-    pt_mat_greenSmallSphere01;
-    pt_mat_greenSmallSphere02;
-    pt_mat_greenSmallSphere03;
-    pt_mat_greenSmallSphere04];
+    pt_mat_greenJ2Arc01;];
+%     pt_mat_greenSmallSphere01;
+%     pt_mat_greenSmallSphere02;
+%     pt_mat_greenSmallSphere03;
+%     pt_mat_greenSmallSphere04
 
 all_green_Pt_Clouds_ = pointCloud([all_green_Pts_Mat_(:,1), all_green_Pts_Mat_(:,2), all_green_Pts_Mat_(:,3)]);
 
