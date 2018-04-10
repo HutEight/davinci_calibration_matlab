@@ -180,7 +180,7 @@ DH2_frame_rot_mat_wrt_portal = [(x_temp) (y_temp) (z_temp)];
 
 
 %% Joint 1 & 2 Circles
-
+% 
 % temp_1 = result_map_1('joint_1_param');
 % j1_vec = temp_1.vector();
 % j1_pt = temp_1.circle(1:3)
