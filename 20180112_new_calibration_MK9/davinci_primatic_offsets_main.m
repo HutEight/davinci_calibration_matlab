@@ -181,17 +181,17 @@ DH2_frame_rot_mat_wrt_portal = [(x_temp) (y_temp) (z_temp)];
 
 %% Joint 1 & 2 Circles
 % 
-% temp_1 = result_map_1('joint_1_param');
-% j1_vec = temp_1.vector();
-% j1_pt = temp_1.circle(1:3)
-% 
-% temp_2 = result_map_1('joint_2_param');
-% j2_vec = temp_2.vector();
-% j2_pt = temp_2.circle(1:3);
-% 
-% dist_j1_2 = lines_dist(j1_pt, j1_vec, j2_pt, j2_vec)
-% 
-% angle_j1_2 = atan2(norm(cross(j1_vec, j2_vec)), dot(j1_vec, j2_vec))
+temp_1 = result_map_1('joint_1_param');
+j1_vec = temp_1.vector();
+j1_pt = temp_1.circle(1:3)
+
+temp_2 = result_map_1('joint_2_param');
+j2_vec = temp_2.vector();
+j2_pt = temp_2.circle(1:3);
+
+dist_j1_2 = lines_dist(j1_pt, j1_vec, j2_pt, j2_vec)
+
+angle_j1_2 = atan2(norm(cross(j1_vec, j2_vec)), dot(j1_vec, j2_vec))
 
 
 
