@@ -42,8 +42,17 @@ for i = 0:99
    y_ave = mean(pt_mat_0(:,3));
    z_ave = mean(pt_mat_0(:,4));
    
-   pts(i+1,:) = [x_ave y_ave z_ave];
+   pts_Polaris(i+1,:) = [x_ave y_ave z_ave];
     
     
 end
+
+save('savePts_polaris.mat', 'pts_Polaris');
+
+
+%% Visualise the points
+
+figure('Name','Polaris Points');
+scatter3(pts_Polaris(:,1), pts_Polaris(:,2), pts_Polaris(:,3), 'filled');
+hold off;
 
