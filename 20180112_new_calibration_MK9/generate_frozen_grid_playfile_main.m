@@ -10,7 +10,7 @@ clear all
 % Change these initial values
 x = 0;
 y = 0;
-z = 0;
+z = -0.1;
 
 time = 10;
 count = 1;

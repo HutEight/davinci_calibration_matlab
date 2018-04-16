@@ -8,23 +8,28 @@ clear all
 
 %%
 % fill in the blank
-file_path = '20180319_psm2_offset_data_01/02_green_sphere_01.csv'
+file_path = '20180410_frozen_data_01/green_frozen.csv'
 csv = csvread(file_path);
 
 % check if they are correctly numbered.
-seq = csv(:, 2);
+seq = csv(:, 6);
 % should make it represent this much seconds
-seq = ((seq - seq(1)) / 100);
-raw_pose_x = csv(:, 4);
-raw_pose_y = csv(:, 5);
-raw_pose_z = csv(:, 6);
+seq = ((seq - seq(1)) / 1);
+raw_pose_x = csv(:, 3);
+raw_pose_y = csv(:, 4);
+raw_pose_z = csv(:, 5);
 
 raw_points = [seq, raw_pose_x, raw_pose_y, raw_pose_z];
 raw_size = size(raw_points,1);
 
+figure('Name','Polaris Points');
+axis equal;
+scatter3(raw_points(:,2), raw_points(:,3), raw_points(:,4), 'filled');
+hold off;
+
 %% 
 % fill in start time (second)
-time_0 = 5
+time_0 = 12;
 time_t = time_0 + 1;
 
 for i = 0:99
@@ -50,9 +55,36 @@ end
 save('savePts_polaris.mat', 'pts_Polaris');
 
 
+%% Fit a plane
+
+pm = plane(pts_Polaris(:,1), pts_Polaris(:,2), pts_Polaris(:,3));
+a = pm.Parameters(1);
+b = pm.Parameters(2);
+c = pm.Parameters(3);
+d = pm.Parameters(4);
+% RMS
+
+for i = 1:100
+   
+    dist_square = ((a*pts_Polaris(i,1)+b*pts_Polaris(i,2)+c*pts_Polaris(i,3)+d)^2)/(a^2 + b^2 + c^2)
+    
+end
+
+rms = sqrt(dist_square/100)
+
 %% Visualise the points
 
 figure('Name','Polaris Points');
+axis equal;
 scatter3(pts_Polaris(:,1), pts_Polaris(:,2), pts_Polaris(:,3), 'filled');
+axis equal;
 hold off;
 
+figure('Name','Polaris Points Plane Fitted');
+axis equal;
+scatter3(pts_Polaris(:,1), pts_Polaris(:,2), pts_Polaris(:,3), 'filled');
+hold on;
+axis equal;
+pm.plot;
+axis equal;
+hold off;
