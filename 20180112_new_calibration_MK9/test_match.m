@@ -19,7 +19,10 @@ pts_generated_2 = (ret_R*pts_generated') + repmat(ret_t, 1 ,n);
 pts_generated_2 = pts_generated_2';
 
 err = pts_generated_2 - pts_Polaris;
-err = err .* err;
+err = err .* err; % element-wise multiply
+err_mat = err;
+err_mat = sum(err_mat, 2);
+err_mat = sqrt(err_mat);
 err = sum(err(:));
 rmse = sqrt(err/n);
 
@@ -29,4 +32,8 @@ figure('Name','pts_generated_2 vs. pts_Polaris');
 scatter3(pts_Polaris(:,1), pts_Polaris(:,2), pts_Polaris(:,3), 'filled');
 hold on;
 scatter3(pts_generated_2(:,1), pts_generated_2(:,2), pts_generated_2(:,3));
+hold off;
+
+figure('Name', 'Distribution of errors');
+histfit(err_mat);
 hold off;
