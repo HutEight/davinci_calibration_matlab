@@ -34,28 +34,22 @@ Med = median(err_mat);
 Mean = mean(err_mat);
 
 %% Not-so-nice fits
-j = 1;
 for i = 1:n
-    if (err_mat(i) > Mean)
-        err_pts(j,:) = pts_Polaris_cube(i,:);
-        j = j + 1;
-    end
-
+    j = 1;
+    if err_mat(i) > Mean
+        
+    
 end
 
 
+
+
 %% Plotting
+
 figure('Name','pts_generated_2 vs. pts_Polaris_cube');
 scatter3(pts_Polaris_cube(:,1), pts_Polaris_cube(:,2), pts_Polaris_cube(:,3), 'filled');
 hold on;
 scatter3(pts_generated_2(:,1), pts_generated_2(:,2), pts_generated_2(:,3));
-hold off;
-
-figure('Name','pts_generated_2 vs. pts_Polaris_cube V2');
-scatter3(pts_Polaris_cube(:,1), pts_Polaris_cube(:,2), pts_Polaris_cube(:,3), 'filled');
-hold on;
-scatter3(err_pts(:,1), err_pts(:,2), err_pts(:,3), 'filled','cyan');
-scatter3(pts_generated_2(:,1), pts_generated_2(:,2), pts_generated_2(:,3),'o','red');
 hold off;
 
 figure('Name', 'Distribution of Point matching errors');

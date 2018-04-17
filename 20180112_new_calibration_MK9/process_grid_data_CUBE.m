@@ -28,8 +28,8 @@ scatter3(raw_points(:,2), raw_points(:,3), raw_points(:,4), 'filled');
 hold off;
 
 %% 
-% fill in start time (second)
-time_0 = 12.5;
+% fill in start time (second) Needs adjustment each time
+time_0 = 12.5; % Use 12.5 for some reason... Not 10
 time_t = time_0 + 0.5; % take 1 sec of samples equvilent of 20 pts
 peroid = 4; % 2 + 2 seconds
 
@@ -52,57 +52,59 @@ for i = 0:(n_pts-1)
    y_ave = mean(pt_mat_0(:,3));
    z_ave = mean(pt_mat_0(:,4));
    
-   pts_Polaris(i+1,:) = [x_ave y_ave z_ave];
+   pts_Polaris_cube(i+1,:) = [x_ave y_ave z_ave];
     
     
 end
 
-save('pts_Polaris.mat', 'pts_Polaris');
+save('pts_Polaris_cube.mat', 'pts_Polaris_cube');
 
 
-%% Fit a plane
+%% Fit planes and plot
+figure('Name','Polaris Points Plane Fitted');
+axis equal;
+hold on;
+for i=1:length
+    
+    pm = plane(pts_Polaris_cube((length^0 + (i-1)*(length^2)):(length^2 + (i-1)*(length^2)),1), ...
+               pts_Polaris_cube((length^0 + (i-1)*(length^2)):(length^2 + (i-1)*(length^2)),2), ...
+               pts_Polaris_cube((length^0 + (i-1)*(length^2)):(length^2 + (i-1)*(length^2)),3)); 
+    
+    a = pm.Parameters(1);
+    b = pm.Parameters(2);
+    c = pm.Parameters(3);
+    d = pm.Parameters(4);
+    
+    % RMS
+    for n = 1:(length^2)
 
-% for i=1:length
-%     
-%     pm = plane(pts_Polaris((length^0 + (i-1)*(length^2)):(length^2 + (i-1)*(length^2)),1), ...
-%                pts_Polaris((length^0 + (i-1)*(length^2)):(length^2 + (i-1)*(length^2)),2), ...
-%                pts_Polaris((length^0 + (i-1)*(length^2)):(length^2 + (i-1)*(length^2)),3)); 
-%     
-%     a = pm.Parameters(1);
-%     b = pm.Parameters(2);
-%     c = pm.Parameters(3);
-%     d = pm.Parameters(4);
-%     
-%     % RMS
-%     for n = 1:(length^2)
-% 
-%         dist_square = ((a*pts_Polaris(n,1)+b*pts_Polaris(n,2)+c*pts_Polaris(n,3)+d)^2)/(a^2 + b^2 + c^2);
-%         
-%     end
-%     
-%     rms(i) = sqrt(dist_square/length^2);
-% 
-% end
-% 
-% disp('plane rms:');
-% rms
+        dist_square = ((a*pts_Polaris_cube(n,1)+b*pts_Polaris_cube(n,2)+c*pts_Polaris_cube(n,3)+d)^2)/(a^2 + b^2 + c^2);
+        
+    end
+    
+    rms(i) = sqrt(dist_square/length^2);
+    scatter3(pts_Polaris_cube(:,1), pts_Polaris_cube(:,2), pts_Polaris_cube(:,3), 'filled');
+
+    axis equal;
+    pm.plot;
+end
+axis equal;
+hold off;
+
+disp('plane rms:');
+rms
 
 %% Visualise the points
 
 figure('Name','Polaris Points');
 axis equal;
-scatter3(pts_Polaris(:,1), pts_Polaris(:,2), pts_Polaris(:,3), 'filled');
+scatter3(pts_Polaris_cube(:,1), pts_Polaris_cube(:,2), pts_Polaris_cube(:,3), 'filled');
 axis equal;
 hold off;
 % 
-% figure('Name','Polaris Points Plane Fitted');
-% axis equal;
-% scatter3(pts_Polaris(:,1), pts_Polaris(:,2), pts_Polaris(:,3), 'filled');
-% hold on;
-% axis equal;
-% pm.plot;
-% axis equal;
-% hold off;
+
+
+
 
 % figure('Name', 'Distribution of plane fitting errors');
 % histfit(rms);
