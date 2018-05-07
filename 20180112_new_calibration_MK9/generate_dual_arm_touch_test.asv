@@ -1,0 +1,24 @@
+% RN@HMS Prince of Wales
+% 07/05/18
+
+% Generate points in a sphere region of PSM1 frame, then convert the points to
+% PSM2 frame. 
+
+%%
+clc
+close all
+clear all
+
+%% PSM 1 sphere (range)
+
+centre_x = 0.12;
+centre_y = 0.12;
+centre_z = -0.10;
+
+radius = 0.1;
+
+
+
+
+
+

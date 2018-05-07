@@ -23,7 +23,7 @@ n = size(psm1_pts_Polaris_cube,1);
 %% Finding the PMS1-POLARIS tf
 % may need to inverse psm1_pts_generated_cube
 % rigid_transform_3D(source, target)
-[psm1_ret_R, psm1_ret_t] = rigid_transform_3D(psm1_pts_Polaris_cube, psm1_pts_generated_cube);
+[psm1_ret_R, psm1_ret_t] = rigid_transform_3D(psm1_pts_generated_cube, psm1_pts_Polaris_cube);
 
 % error analysis
 psm1_pts_generated_2 = (psm1_ret_R*psm1_pts_generated_cube') + repmat(psm1_ret_t, 1 ,n);
@@ -87,10 +87,10 @@ hold off;
 %% Finding the PMS2-POLARIS tf
 % may need to inverse psm1_pts_generated_cube
 % rigid_transform_3D(source, target)
-[psm2_ret_R, psm2_ret_t] = rigid_transform_3D(psm2_pts_Polaris_cube, psm2_pts_generated_cube);
+[psm2_ret_R, psm2_ret_t] = rigid_transform_3D(psm2_pts_generated_cube, psm2_pts_Polaris_cube);
 
 % error analysis
-psm2_pts_generated_2 = (psm2_ret_R*psm1_pts_generated_cube') + repmat(psm2_ret_t, 1 ,n);
+psm2_pts_generated_2 = (psm2_ret_R*psm2_pts_generated_cube') + repmat(psm2_ret_t, 1 ,n);
 psm2_pts_generated_2 = psm2_pts_generated_2';
 
 psm2_err = psm2_pts_generated_2 - psm2_pts_Polaris_cube;
@@ -150,14 +150,24 @@ hold off;
 affine_psm1_wrt_polaris(1:3,1:3) = psm1_ret_R;
 affine_psm1_wrt_polaris(1:3,4) = psm1_ret_t;
 affine_psm1_wrt_polaris(4,:) = [0 0 0 1];
+affine_psm1_wrt_polaris = inv(affine_psm1_wrt_polaris);
 
 affine_psm2_wrt_polaris(1:3,1:3) = psm2_ret_R;
 affine_psm2_wrt_polaris(1:3,4) = psm2_ret_t;
 affine_psm2_wrt_polaris(4,:) = [0 0 0 1];
+affine_psm2_wrt_polaris = inv(affine_psm2_wrt_polaris);
 
-affine_psm2_wrt_psm1 = inv(affine_psm1_wrt_polaris)*affine_psm2_wrt_polaris;
+% affine_psm2_wrt_psm1 = inv(affine_psm1_wrt_polaris)*affine_psm2_wrt_polaris;
+affine_psm2_wrt_psm1 = affine_psm1_wrt_polaris\affine_psm2_wrt_polaris;
 
-affine_psm2_wrt_psm1_test = affine_psm1_wrt_polaris\affine_psm2_wrt_polaris;
+
+% % error analysis
+% psm1_pts_generated_2 = (psm1_ret_R*psm1_pts_generated_cube') + repmat(psm1_ret_t, 1 ,n);
+% psm1_pts_generated_2 = psm1_pts_generated_2';
+
+% should be the same same as inv(affine_psm1_wrt_polaris)
+affine_psm2_polaris_wrt_psm1_base = affine_psm2_wrt_psm1 * inv(affine_psm2_wrt_polaris); 
+
 
 
 %% Combined Plotting
