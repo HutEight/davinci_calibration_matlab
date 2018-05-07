@@ -9,9 +9,9 @@ clear all
 %% 
 % Change these initial values
 % centre of the 7x7 cube
-centre_x = -0.1;
-centre_y = 0.15;
-centre_z = -0.15;
+centre_x = -0.12;
+centre_y = 0.12;
+centre_z = -0.12;
 
 psm_x = [1 0 0];
 

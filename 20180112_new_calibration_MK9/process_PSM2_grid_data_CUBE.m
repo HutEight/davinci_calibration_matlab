@@ -8,7 +8,7 @@ clear all
 
 %%
 % fill in the blank
-file_path = '20180416_frozen_data_01/yellow_frozen.csv'
+file_path = '20180507_frozen_data_01/yellow_frozen.csv'
 csv = csvread(file_path);
 
 % check if they are correctly numbered.
@@ -34,7 +34,7 @@ time_t = time_0 + 0.5; % take 1 sec of samples equvilent of 20 pts
 peroid = 4; % 2 + 2 seconds
 
 % Size of data: from a cube of 5x5x5
-length = 6;
+length = 7;
 n_pts = length*length*length; 
 
 for i = 0:(n_pts-1)
