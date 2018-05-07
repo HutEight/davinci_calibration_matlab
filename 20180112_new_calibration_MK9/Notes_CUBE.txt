@@ -1,0 +1,11 @@
+run in the following sequence:
+
+1. generate_PSM1_frozen_grid_playfile_main_CUBE
+
+2. generate_PSM2_frozen_grid_playfile_main_CUBE
+
+3. process_PSM1_grid_data_CUBE
+
+4. process_PSM2_grid_data_CUBE
+
+5. dual_PSMs_match_CUBE
