@@ -63,10 +63,10 @@ time = 10;
 count = 1;
 for i = 1:20
     
-     disp(strcat(num2str(psm1_pts(i,1)), ',  ',num2str(psm1_pts(i,2)), ',  ' ,num2str(psm1_pts(i,2)), ',0,1,0, 0, 0, -1, -1,', ...
-         num2str(psm2_pts(i,2)) ,', ', num2str(psm2_pts(i,2)), ', ', num2str(psm2_pts(i,2)), ', 0,1,0, 0, 0, -1, 0,',   num2str(time)));
-     disp(strcat(num2str(psm1_pts(i,1)), ',  ',num2str(psm1_pts(i,2)), ',  ' ,num2str(psm1_pts(i,2)), ',0,1,0, 0, 0, -1, -1,', ...
-         num2str(psm2_pts(i,2)) ,', ', num2str(psm2_pts(i,2)), ', ', num2str(psm2_pts(i,2)), ', 0,1,0, 0, 0, -1, 0,',   num2str(time + 4)));     
+     disp(strcat(num2str(psm1_pts(i,1)), ',  ',num2str(psm1_pts(i,2)), ',  ' ,num2str(psm1_pts(i,3)), ',0,1,0, 0, 0, -1, -1,', ...
+         num2str(psm2_pts(i,1)) ,', ', num2str(psm2_pts(i,2)), ', ', num2str(psm2_pts(i,3)), ', 0,1,0, 0, 0, -1, 0,',   num2str(time)));
+     disp(strcat(num2str(psm1_pts(i,1)), ',  ',num2str(psm1_pts(i,2)), ',  ' ,num2str(psm1_pts(i,3)), ',0,1,0, 0, 0, -1, -1,', ...
+         num2str(psm2_pts(i,1)) ,', ', num2str(psm2_pts(i,2)), ', ', num2str(psm2_pts(i,3)), ', 0,1,0, 0, 0, -1, 0,',   num2str(time + 4)));     
      time = time + 8;
 
 %      pts_generated_cube(count,:) = [(x+i*0.01) (y+j*0.01) (z+k*0.01)];
