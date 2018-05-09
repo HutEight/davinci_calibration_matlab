@@ -10,7 +10,7 @@ close all
 clear all
 
 %% FILL IN THE TF INFO HERE
-
+% Update every time
 affine_psm2_wrt_psm1 = [
     0.6671    0.7449    0.0112   -0.1679
    -0.7450    0.6670    0.0125    0.0925

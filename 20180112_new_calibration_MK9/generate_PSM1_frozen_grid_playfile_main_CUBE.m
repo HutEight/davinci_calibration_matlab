@@ -9,9 +9,10 @@ clear all
 %% 
 % Change these initial values
 % centre of the 7x7 cube
-centre_x = -0.12;
-centre_y = 0.12;
-centre_z = -0.12;
+%  -0.0760062  0.0248539  -0.184708
+centre_x =  -0.0760062;
+centre_y = 0.0248539;
+centre_z = -0.184708;
 
 psm_x = [1 0 0];
 
@@ -35,8 +36,8 @@ for i = 0:6
            
           point = corner + i*0.01*cube_x + j*0.01*cube_y + k*0.01*cube_z;
 
-          disp( strcat(num2str(point(1)), ',  ', num2str(point(2)), ',  ' , num2str(point(3)), ',0,1,0, 0, 0, -1, -1,       0, 0, -0.15, 0,1,0, 0, 0, -1, 0,',   num2str(time)));
-          disp( strcat(num2str(point(1)), ',  ', num2str(point(2)), ',  ' , num2str(point(3)), ',0,1,0, 0, 0, -1, -1,       0, 0, -0.15, 0,1,0, 0, 0, -1, 0,',   num2str(time + 2))); 
+          disp( strcat(num2str(point(1)), ',  ', num2str(point(2)), ',  ' , num2str(point(3)), ',0,1,0, 0, 0, -1, -1,       0, 0, -0.05, 0,1,0, 0, 0, -1, 0,',   num2str(time)));
+          disp( strcat(num2str(point(1)), ',  ', num2str(point(2)), ',  ' , num2str(point(3)), ',0,1,0, 0, 0, -1, -1,       0, 0, -0.05, 0,1,0, 0, 0, -1, 0,',   num2str(time + 2))); 
 
           time = time + 4;
 
