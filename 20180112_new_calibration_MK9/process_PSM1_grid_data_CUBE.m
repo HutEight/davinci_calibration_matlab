@@ -8,7 +8,7 @@ clear all
 
 %%
 % fill in the blank
-file_path = '20180508_frozen_data_01/green_frozen.csv'
+file_path = '20180521_frozen_data_02/green_frozen_without_adjustments.csv'
 csv = csvread(file_path);
 
 % check if they are correctly numbered.
@@ -22,9 +22,11 @@ raw_pose_z = csv(:, 5);
 raw_points = [seq, raw_pose_x, raw_pose_y, raw_pose_z];
 raw_size = size(raw_points,1);
 
-figure('Name','Polaris Points');
-axis equal;
+figure('Name','Polaris Points full');
+%axis equal;
+axis([-0.3 -0.05 -0.1 0.1  -0.8 -0.7]);
 scatter3(raw_points(:,2), raw_points(:,3), raw_points(:,4), 'filled');
+axis([-0.1 -0.04 -0.28 -0.18 -0.8 -0.7])
 hold off;
 
 %% 
