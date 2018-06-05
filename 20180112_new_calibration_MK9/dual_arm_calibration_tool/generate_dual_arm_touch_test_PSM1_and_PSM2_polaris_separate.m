@@ -10,13 +10,16 @@ close all
 clear all
 
 %% FILL IN THE TF INFO HERE
-% Update every time
+% Update every time if added mannually
 affine_psm2_wrt_psm1 = [
    -0.1888    0.6128   -0.7674   -0.1769
    -0.5612    0.5740    0.5964    0.0625
     0.8059    0.5432    0.2355   -0.0981
          0         0         0    1.0000
 ];
+
+% Or load it from the global variable (generated bt dual_PSMs_match_CUBE.m)
+load('affine_psm2_wrt_psm1.mat')
 
 affine_psm1_wrt_psm2 = inv(affine_psm2_wrt_psm1);
 
