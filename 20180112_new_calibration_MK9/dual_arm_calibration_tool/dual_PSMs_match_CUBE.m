@@ -167,8 +167,6 @@ affine_psm2_wrt_polaris(1:3,4) = psm2_ret_t;
 affine_psm2_wrt_polaris(4,:) = [0 0 0 1];
 
 
-% affine_psm2_wrt_pms1 = affine_polaris_wrt_psm1 * affine_psm2_wrt_polaris;
-% affine_psm2_wrt_psm1 = inv(affine_psm1_wrt_polaris)*affine_psm2_wrt_polaris;
 affine_psm2_wrt_psm1 = affine_psm1_wrt_polaris\affine_psm2_wrt_polaris;
 
 
@@ -191,4 +189,7 @@ scatter3(psm1_pts_Polaris_cube(:,1), psm1_pts_Polaris_cube(:,2), psm1_pts_Polari
 axis equal;
 hold off;
 
+%% Save result
+
+save('affine_psm2_wrt_psm1.mat', 'affine_psm2_wrt_psm1');
 

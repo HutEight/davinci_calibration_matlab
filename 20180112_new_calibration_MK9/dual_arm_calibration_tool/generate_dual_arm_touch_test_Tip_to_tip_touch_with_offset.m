@@ -10,13 +10,16 @@ close all
 clear all
 
 %% FILL IN THE TF INFO HERE
-% Update every time
+% Update every time if added mannually
 affine_psm2_wrt_psm1 = [
    -0.1888    0.6128   -0.7674   -0.1769
    -0.5612    0.5740    0.5964    0.0625
     0.8059    0.5432    0.2355   -0.0981
          0         0         0    1.0000
 ];
+
+% Or load it from the global variable (generated bt dual_PSMs_match_CUBE.m)
+load('affine_psm2_wrt_psm1.mat')
 
 affine_psm1_wrt_psm2 = inv(affine_psm2_wrt_psm1);
 
@@ -41,8 +44,8 @@ centre = [ -0.0760062 0.0248539 -0.184708];
 
 psm2_pts_offset_in_psm1 = [-0.002 0 0]; % 2 mm apart
 
-psm1_pss_prepose_offset_in_psm1 = [0.005 0 0];
-psm2_pss_prepose_offset_in_psm2 = [-0.005 0 0];
+psm1_pts_prepose_offset_in_psm1 = [0.005 0 0];
+psm2_pts_prepose_offset_in_psm2 = [-0.005 0 0];
 
 % Use the following as actual trajectory
 rng(0,'twister')
@@ -56,7 +59,7 @@ psm1_pts = psm1_pts + repmat(centre, 20 ,1);
 
 psm1_pts_plus_offset = psm1_pts + repmat(psm2_pts_offset_in_psm1, 20 ,1); 
 
-psm1_pts_plus_psm1_prepose_offset = psm1_pts + repmat(psm1_pss_prepose_offset_in_psm1, 20 ,1); 
+psm1_pts_plus_psm1_prepose_offset = psm1_pts + repmat(psm1_pts_prepose_offset_in_psm1, 20 ,1); 
 
 figure
 plot3(x,y,z,'.')
@@ -77,7 +80,7 @@ for i = 1:20
    psm2_pt = psm2_pt';
    psm2_pts(i,:) = psm2_pt(1,1:3);
    
-   psm2_pt_plus_pms2_prepose_offset = psm2_pt(:,1:3) + psm2_pss_prepose_offset_in_psm2;
+   psm2_pt_plus_pms2_prepose_offset = psm2_pt(:,1:3) + psm2_pts_prepose_offset_in_psm2;
    psm2_pts_plus_pms2_prepose_offset (i,:) = psm2_pt_plus_pms2_prepose_offset;
     
 end
