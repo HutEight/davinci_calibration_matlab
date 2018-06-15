@@ -99,7 +99,7 @@ affine_board_0_0_wrt_l_cam=  [0.9561741343482142, -0.1290208309114619, 0.2628395
 %% Load and Process Data
 
 % Update the path
-csv_folder_1 = '20180319_psm2_offset_data_01/';
+csv_folder_1 = '20180614_PSM2_offset_01/';
 
 plot_flag = 1;
 
@@ -200,6 +200,7 @@ angle_j1_2 = atan2(norm(cross(j1_vec, j2_vec)), dot(j1_vec, j2_vec))
 %% Generate DH2 param adjustment recommendation
 
 temp_ = result_map_1('small_sphere_origins_line_param_wrt_portal');
+
 DH_d2 = - dist_y_1
 DH_theta2 = 0.5*pi - (temp_.direction(2))
 DH_a2 = dist_x_1
