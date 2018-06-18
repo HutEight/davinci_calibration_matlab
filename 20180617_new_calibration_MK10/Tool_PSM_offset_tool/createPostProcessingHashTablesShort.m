@@ -91,8 +91,8 @@ affine_portal_wrt_polaris(1:3,4) = transpose(portal_origin_wrt_polaris);
 % Considering the existance of j1_j2_dist, then we are not actully getting
 % a perfect fitted circle with its centre to be on the J1 axis. Current
 % adjustment based on experience would move the centre along the 'portal'
-% frame z axis for 0.85*j1_j2_dist, which is approximately 0.0034.
-adjustment = [0; 0; 0.0034];
+% frame z axis for 0.85*j1_j2_dist, which is approximately 0.0034. ~  0.005
+adjustment = [0; 0;  0.005];
 delta_portal_origin_wrt_polaris = 0.85*portal_rotation_wrt_polaris*adjustment
 portal_origin_wrt_polaris = portal_origin_wrt_polaris + transpose(delta_portal_origin_wrt_polaris)
 affine_portal_wrt_polaris(1:3,4) = transpose(portal_origin_wrt_polaris);
