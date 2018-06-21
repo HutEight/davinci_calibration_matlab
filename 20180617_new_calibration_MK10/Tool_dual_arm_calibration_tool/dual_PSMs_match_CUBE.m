@@ -1,19 +1,24 @@
 % RN@HMS Queen Elizabeth
 % 10/04/18
 
+%% THERE ARE 1 UPDATE POINT1 THAT YOU NEED TO CHECK EVERYTIME YOU RUN THIS PROGRAMME.
+
 %%
 clc
 close all
 clear all
 
 %%
-load('psm1_pts_generated_cube.mat')
+% UPDATE CHECKPOINT 1/1
+data_folder = 'Data/20180621_03/';
+
+load(strcat(data_folder, 'psm1_pts_generated_cube.mat'))
 % pts_generated
-load('psm1_pts_Polaris_cube.mat')
+load(strcat(data_folder, 'psm1_pts_Polaris_cube.mat'))
 % pts_Polaris
-load('psm2_pts_generated_cube.mat')
+load(strcat(data_folder, 'psm2_pts_generated_cube.mat'))
 % pts_generated
-load('psm2_pts_Polaris_cube.mat')
+load(strcat(data_folder, 'psm2_pts_Polaris_cube.mat'))
 % pts_Polaris
 
 n = 7*7*7; % number of points
@@ -191,5 +196,5 @@ hold off;
 
 %% Save result
 
-save('affine_psm2_wrt_psm1.mat', 'affine_psm2_wrt_psm1');
+save(strcat(data_folder, 'affine_psm2_wrt_psm1.mat'), 'affine_psm2_wrt_psm1');
 

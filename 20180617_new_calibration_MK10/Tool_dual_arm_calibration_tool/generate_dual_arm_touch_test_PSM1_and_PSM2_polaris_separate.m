@@ -4,6 +4,8 @@
 % Generate points in a sphere region of PSM1 frame, then convert the points to
 % PSM2 frame. 
 
+%% THERE ARE 2 UPDATE POINTS THAT YOU NEED TO CHECK EVERYTIME YOU RUN THIS PROGRAMME.
+
 %%
 clc
 close all
@@ -11,15 +13,19 @@ clear all
 
 %% FILL IN THE TF INFO HERE
 % Update every time if added mannually
-affine_psm2_wrt_psm1 = [
-   -0.1888    0.6128   -0.7674   -0.1769
-   -0.5612    0.5740    0.5964    0.0625
-    0.8059    0.5432    0.2355   -0.0981
-         0         0         0    1.0000
-];
+
+% affine_psm2_wrt_psm1 = [
+%    -0.1888    0.6128   -0.7674   -0.1769
+%    -0.5612    0.5740    0.5964    0.0625
+%     0.8059    0.5432    0.2355   -0.0981
+%          0         0         0    1.0000
+% ];
 
 % Or load it from the global variable (generated bt dual_PSMs_match_CUBE.m)
-load('affine_psm2_wrt_psm1.mat')
+% UPDATE CHECKPOINT 1/2
+data_folder = 'Data/20180621_03/';
+
+load(strcat(data_folder,'affine_psm2_wrt_psm1.mat'))
 
 affine_psm1_wrt_psm2 = inv(affine_psm2_wrt_psm1);
 
@@ -40,7 +46,9 @@ axis equal
 % centre_y = 0.0248539;
 % centre_z = -0.184708;
 
+% UPDATE CHECKPOINT 2/2
 centre = [ -0.0760062 0.0248539 -0.184708];
+
 % Use the following as actual trajectory
 rng(0,'twister')
 rvals = 2*rand(20,1)-1;

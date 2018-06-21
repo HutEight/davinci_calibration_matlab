@@ -1,6 +1,8 @@
 % RN@HMS Prince of Wales
 % 07/05/18
 
+%% THERE ARE 2 UPDATE POINTS THAT YOU NEED TO CHECK EVERYTIME YOU RUN THIS PROGRAMME TO GENREATE A NEW CUBE TRAJECTORY FOR PMS1.
+
 %%
 clc
 close all
@@ -9,10 +11,25 @@ clear all
 %% 
 % Change these initial values
 % centre of the 7x7 cube
-%  -0.0760062  0.0248539  -0.184708
-centre_x =   0.0273001626393;
-centre_y =  0.11983081363;
-centre_z =-0.103379135517;
+
+% UPDATE CHECKPOINT 1/2
+centre_x = 0.0715516166826;
+centre_y = 0.131224898598;
+centre_z = -0.0838271241528;
+
+% UPDATE CHECKPOINT 2/2
+data_seq = '03';
+
+t = datetime('now');
+formatOut = 'yyyymmdd';
+DateString = datestr(t,formatOut);
+
+fileDir = 'Data/';
+folderName = strcat(DateString, '_', data_seq);
+
+mkdir(strcat(fileDir, folderName));
+
+
 
 psm_x = [1 0 0];
 
@@ -40,7 +57,6 @@ for i = 0:6
           disp( strcat(num2str(point(1)), ',  ', num2str(point(2)), ',  ' , num2str(point(3)), ',0,1,0, 0, 0, -1, -1,       0, 0, -0.05, 0,1,0, 0, 0, -1, 0,',   num2str(time + 2))); 
 
           time = time + 4;
-
           psm1_pts_generated_cube(count,:) = [point(1) point(2) point(3)];
           count = count + 1;
       
@@ -49,5 +65,5 @@ for i = 0:6
     
 end
 
-
-save('psm1_pts_generated_cube.mat', 'psm1_pts_generated_cube');
+save_file_name = strcat(fileDir, folderName, '/psm1_pts_generated_cube.mat');
+save(save_file_name, 'psm1_pts_generated_cube');

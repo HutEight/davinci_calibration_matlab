@@ -1,6 +1,9 @@
 % RN@HMS Prince of Wales
 % 07/05/18
 
+%% THERE ARE 2 UPDATE POINTS THAT YOU NEED TO CHECK EVERYTIME YOU RUN THIS PROGRAMME TO GENREATE A NEW CUBE TRAJECTORY FOR PMS2.
+
+
 %%
 clc
 close all
@@ -26,11 +29,25 @@ clear all
 % psm1_pt = [psm1_centre_x;psm1_centre_y;psm1_centre_z;1];
 % psm2_pt = inv(affine_psm2_wrt_psm1)*psm1_pt;
 
-% % %
-% -0.0344318  0.0306464  -0.196211
-centre_x =  -0.0731768561113;
-centre_y = 0.0982496801563;
-centre_z = -0.133373089015;
+
+% UPDATE CHECKPOINT 1/2
+centre_x = -0.0806714729804;
+centre_y = 0.0984567397927;
+centre_z = -0.122032932233;
+
+% UPDATE CHECKPOINT 2/2
+data_seq = '03';
+
+t = datetime('now');
+formatOut = 'yyyymmdd';
+DateString = datestr(t,formatOut);
+
+fileDir = 'Data/';
+folderName = strcat(DateString, '_', data_seq);
+
+mkdir(strcat(fileDir, folderName));
+
+
 
 psm_x = [1 0 0];
 
@@ -68,5 +85,6 @@ for i = 0:6
 end
 
 
+save_file_name = strcat(fileDir, folderName, '/psm2_pts_generated_cube.mat');
+save(save_file_name, 'psm2_pts_generated_cube');
 
-save('psm2_pts_generated_cube.mat', 'psm2_pts_generated_cube');

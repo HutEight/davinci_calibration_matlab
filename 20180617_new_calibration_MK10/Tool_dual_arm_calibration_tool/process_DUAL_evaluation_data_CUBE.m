@@ -1,15 +1,21 @@
 % RN@HMS Queen Elizabeth
 % 08/05/18
 
+%% THERE ARE 1 UPDATE POINT1 THAT YOU NEED TO CHECK EVERYTIME YOU RUN THIS PROGRAMME.
+
+
 %%
 clc
 close all
 clear all
 
 %%
-% fill in the blank
-psm1_file_path = '20180508_frozen_data_01/green_evaluation.csv'
-psm2_file_path = '20180508_frozen_data_01/yellow_evaluation.csv'
+
+FolderDir = 'Data/20180621_03/';
+
+% UPDATE CHECKPOINT 1/1
+psm1_file_path = strcat(FolderDir, 'green_evaluation.csv')
+psm2_file_path = strcat(FolderDir, 'yellow_evaluation.csv')
 
 %% PSM1
 csv = csvread(psm1_file_path);

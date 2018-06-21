@@ -1,15 +1,21 @@
 % RN@HMS Queen Elizabeth
 % 04/06/18
 
+%% THERE ARE 1 UPDATE POINT THAT YOU NEED TO CHECK EVERYTIME YOU RUN THIS PROGRAMME.
+
 %%
 clc
 close all
 clear all
 
 %%
-% fill in the blank
-file_path = '../20180619_frozen_data_01/green_frozen.csv'
-csv = csvread(file_path);
+% UPDATE CHECKPOINT 1/1
+file_path = 'Data/20180621_03/';
+
+
+
+file_name = 'green_frozen.csv';
+csv = csvread(strcat(file_path, file_name));
 
 % check if they are correctly numbered.
 seq = csv(:, 1);
@@ -81,7 +87,7 @@ for i = 0:(n_pts-1)
         
 end
 
-save('psm1_pts_Polaris_cube.mat', 'psm1_pts_Polaris_cube');
+save(strcat(file_path,'psm1_pts_Polaris_cube.mat'), 'psm1_pts_Polaris_cube');
 
 
 
