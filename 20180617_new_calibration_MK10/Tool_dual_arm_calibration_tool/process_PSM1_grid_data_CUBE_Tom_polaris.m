@@ -8,7 +8,7 @@ clear all
 
 %%
 % fill in the blank
-file_path = '../20180604_forzen_data_01/green_frozen_with_adjustments.csv'
+file_path = '../20180619_frozen_data_01/green_frozen.csv'
 csv = csvread(file_path);
 
 % check if they are correctly numbered.
