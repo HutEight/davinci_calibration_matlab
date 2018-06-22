@@ -2,14 +2,14 @@
 % 10/04/18
 
 %% THERE ARE 1 UPDATE POINT1 THAT YOU NEED TO CHECK EVERYTIME YOU RUN THIS PROGRAMME.
-
+% Search for 'checkpoint' to locate them. 
 %%
 clc
 close all
 clear all
 
 %%
-% UPDATE CHECKPOINT 1/1
+% @ UPDATE CHECKPOINT 1/1
 data_folder = 'Data/20180621_03/';
 
 load(strcat(data_folder, 'psm1_pts_generated_cube.mat'))

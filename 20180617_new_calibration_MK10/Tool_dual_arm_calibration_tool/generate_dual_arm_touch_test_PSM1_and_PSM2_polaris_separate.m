@@ -5,7 +5,7 @@
 % PSM2 frame. 
 
 %% THERE ARE 2 UPDATE POINTS THAT YOU NEED TO CHECK EVERYTIME YOU RUN THIS PROGRAMME.
-
+% Search for 'checkpoint' to locate them. 
 %%
 clc
 close all
@@ -22,7 +22,7 @@ clear all
 % ];
 
 % Or load it from the global variable (generated bt dual_PSMs_match_CUBE.m)
-% UPDATE CHECKPOINT 1/2
+% @ UPDATE CHECKPOINT 1/2
 data_folder = 'Data/20180621_03/';
 
 load(strcat(data_folder,'affine_psm2_wrt_psm1.mat'))
@@ -46,7 +46,7 @@ axis equal
 % centre_y = 0.0248539;
 % centre_z = -0.184708;
 
-% UPDATE CHECKPOINT 2/2
+% @ UPDATE CHECKPOINT 2/2
 centre = [ -0.0760062 0.0248539 -0.184708];
 
 % Use the following as actual trajectory

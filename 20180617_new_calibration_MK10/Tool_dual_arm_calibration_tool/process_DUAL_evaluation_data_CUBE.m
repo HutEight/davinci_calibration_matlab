@@ -2,8 +2,7 @@
 % 08/05/18
 
 %% THERE ARE 1 UPDATE POINT1 THAT YOU NEED TO CHECK EVERYTIME YOU RUN THIS PROGRAMME.
-
-
+% Search for 'checkpoint' to locate them. 
 %%
 clc
 close all
@@ -13,7 +12,7 @@ clear all
 
 FolderDir = 'Data/20180621_03/';
 
-% UPDATE CHECKPOINT 1/1
+% @ UPDATE CHECKPOINT 1/1
 psm1_file_path = strcat(FolderDir, 'green_evaluation.csv')
 psm2_file_path = strcat(FolderDir, 'yellow_evaluation.csv')
 
@@ -72,7 +71,12 @@ scatter3(raw_points(:,2), raw_points(:,3), raw_points(:,4), '.', 'c');
 axis equal;
 hold off;
 % 
-%%%%%%%%%%%%%%%%%%%%
+
+
+%% BOUNDARY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 %% PSM2
 csv = csvread(psm2_file_path);
 

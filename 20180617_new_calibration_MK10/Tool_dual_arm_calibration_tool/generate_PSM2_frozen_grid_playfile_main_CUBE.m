@@ -2,8 +2,7 @@
 % 07/05/18
 
 %% THERE ARE 2 UPDATE POINTS THAT YOU NEED TO CHECK EVERYTIME YOU RUN THIS PROGRAMME TO GENREATE A NEW CUBE TRAJECTORY FOR PMS2.
-
-
+% Search for 'checkpoint' to locate them. 
 %%
 clc
 close all
@@ -30,12 +29,12 @@ clear all
 % psm2_pt = inv(affine_psm2_wrt_psm1)*psm1_pt;
 
 
-% UPDATE CHECKPOINT 1/2
+% @ UPDATE CHECKPOINT 1/2
 centre_x = -0.0806714729804;
 centre_y = 0.0984567397927;
 centre_z = -0.122032932233;
 
-% UPDATE CHECKPOINT 2/2
+% @ UPDATE CHECKPOINT 2/2
 data_seq = '04';
 
 t = datetime('now');
