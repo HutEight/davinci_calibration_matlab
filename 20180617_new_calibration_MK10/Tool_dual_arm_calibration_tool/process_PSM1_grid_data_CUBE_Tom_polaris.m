@@ -10,7 +10,7 @@ clear all
 
 %%
 % UPDATE CHECKPOINT 1/1
-file_path = 'Data/20180621_03/';
+file_path = 'Data/test/';
 
 
 
