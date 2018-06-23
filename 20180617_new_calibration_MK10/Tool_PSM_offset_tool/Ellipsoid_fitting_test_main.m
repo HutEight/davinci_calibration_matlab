@@ -1,5 +1,10 @@
 % RN@HMS Queen Elizabeth 
 % 18/06/18
+
+%% NOTE.
+% A better way to illustrate the effect of the offset --
+% Simulated_j1_and_j2_offset_effect_main.m
+
 %%
 clc
 close all
@@ -9,7 +14,7 @@ clear all
 n_step = 50;
 
 r_sphere = 0.2388;
-j1_j2_dist = 0.0034;
+j1_j2_dist = 0.034;
 
 pt_mat = [0 0 0];
 phi_0 = -pi/2.4;
@@ -65,11 +70,11 @@ z_axis_x = 0*t3; z_axis_y = 0*t3; z_axis_z = t3;
         axis equal;
 
 
-%% Squeeze the sphere along y aixs
+%% Squeeze the sphere along x and y axes
 
 ratio =  1 - j1_j2_dist/r_sphere;
 
-sacle = [1 ratio 1];
+sacle = [ratio ratio 1];
 scaling_mat = repmat(sacle, n_row, 1);
 pt_mat_2 = pt_mat .* scaling_mat;
 
