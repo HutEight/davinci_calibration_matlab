@@ -12,7 +12,7 @@ clear all
 
 %%
 % @ UPDATE CHECKPOINT 1/1
-file_path = 'Data/20180621_03/';
+file_path = 'Data/test/';
 
 file_name = 'green_frozen.csv';
 csv = csvread(strcat(file_path, file_name));
@@ -162,7 +162,7 @@ raw_size = size(raw_points,1);
 
 figure('Name','Polaris Points full');
 axis equal;
-scatter3(raw_points(:,2), raw_points(:,3), raw_points(:,4), 'filled');
+scatter3(raw_points(:,2), raw_points(:,3), raw_points(:,4), '.');
 hold off;
 
 
@@ -182,8 +182,8 @@ for i2 = 0:(n_pts2-1)
    mask_begin = time_0 + i2*peroid;
    mask_end = time_t + i2*peroid;
    mask = (raw_points(:,1) > mask_begin & raw_points(:,1) < mask_end);
-   
-   pt_mat_0 = [seq(mask), raw_pose_x(mask), raw_pose_y(mask), raw_pose_z(mask)];
+      
+   pt_mat_0 = [seq(mask), raw_pose_x(mask), raw_pose_y(mask), raw_pose_z(mask)];  
    pt_mat_0(isnan(pt_mat_0(:,2)),:)= [];
    
    pt_mat = [pt_mat_0(:,2), pt_mat_0(:,3), pt_mat_0(:,4)];
@@ -193,6 +193,8 @@ for i2 = 0:(n_pts2-1)
    z_ave = mean(pt_mat_0(:,4));
    
    psm1_pts_Polaris_cube(i2+1,:) = [x_ave y_ave z_ave];
+   
+
         
 end
 
@@ -205,6 +207,14 @@ save(strcat(file_path,'psm1_pts_Polaris_cube.mat'), 'psm1_pts_Polaris_cube');
 figure('Name','PSM1 Polaris Points');
 axis equal;
 scatter3(psm1_pts_Polaris_cube(:,1), psm1_pts_Polaris_cube(:,2), psm1_pts_Polaris_cube(:,3), 'filled');
+axis equal;
+hold off;
+
+figure('Name','PSM1 Polaris Points II');
+axis equal;
+scatter3(raw_points(:,2), raw_points(:,3), raw_points(:,4), '.');
+hold on;
+scatter3(psm1_pts_Polaris_cube(:,1), psm1_pts_Polaris_cube(:,2), psm1_pts_Polaris_cube(:,3), 'filled', 'red');
 axis equal;
 hold off;
 

@@ -162,7 +162,7 @@ raw_size = size(raw_points,1);
 
 figure('Name','Polaris Points full');
 axis equal;
-scatter3(raw_points(:,2), raw_points(:,3), raw_points(:,4), 'filled');
+scatter3(raw_points(:,2), raw_points(:,3), raw_points(:,4), '.');
 hold off;
 
 
@@ -204,7 +204,9 @@ save(strcat(file_path,'psm2_pts_Polaris_cube.mat'), 'psm2_pts_Polaris_cube');
 
 figure('Name','PSM2 Polaris Points');
 axis equal;
-scatter3(psm2_pts_Polaris_cube(:,1), psm2_pts_Polaris_cube(:,2), psm2_pts_Polaris_cube(:,3), 'filled');
+scatter3(raw_points(:,2), raw_points(:,3), raw_points(:,4), '.');
+hold on;
+scatter3(psm2_pts_Polaris_cube(:,1), psm2_pts_Polaris_cube(:,2), psm2_pts_Polaris_cube(:,3), 'filled', 'red');
 axis equal;
 hold off;
 
