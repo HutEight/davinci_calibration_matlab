@@ -8,12 +8,16 @@ clear all
 %% 
 
 a1 = 0.03 ;
-alpha1 = 0; % TODO conside alpha as well..
+alpha1 = 0.08; % TODO conside alpha as well..
+
+rotation = [cos(alpha1) -sin(alpha1) 0; ...
+            sin(alpha1) cos(alpha1)  0; ...
+            0           0            1];
 
 n_step = 50;
 
-phi_0 = -pi/2;
-phi_t = pi/2;
+phi_0 = -pi/2.4;
+phi_t = pi/2.4;
 delta_angle = (phi_t - phi_0)/n_step;
 
 l1 = 0.3; % 30 cm
@@ -59,6 +63,8 @@ end
 n_row = n_row - 1; % one step back to reflect the size of pt_mat
 
 
+%% Without taking the alpha_1
+
 % Reference frame auxiliary
 t3 = (-5:10)/200;
 x_axis_x = t3; x_axis_y = 0*t3; x_axis_z = 0*t3;
@@ -66,7 +72,7 @@ y_axis_x = 0*t3; y_axis_y = t3; y_axis_z = 0*t3;
 z_axis_x = 0*t3; z_axis_y = 0*t3; z_axis_z = t3;
 
         % Visualise the simulated point cloud
-        figure('Name', 'Original Sphere');
+        figure('Name', 'Point cloud a1');
         scatter3(pt_mat(:,1), pt_mat(:,2), pt_mat(:,3));
         axis equal;
         hold on;
@@ -95,3 +101,40 @@ rms_Sphere = calculate_sphere_rms(pt_mat, sphere_param(1:3), sphere_param(4));
         plot3(z_axis_x,z_axis_y,z_axis_z);
         axis equal;
 
+%% After taking the alpha_a
+
+for row=1:n_row
+    
+   pt_mat_rot(row,:) = transpose(rotation*transpose(pt_mat(row,:)));
+    
+end
+        
+        % Visualise the simulated point cloud
+        figure('Name', 'Point Cloud a1 alpha1');
+        scatter3(pt_mat_rot(:,1), pt_mat_rot(:,2), pt_mat_rot(:,3), '.');
+        axis equal;
+        hold on;
+        hold off;  
+        
+ % Try to fit a sphere
+[sphere_param_2, residuals_2] = davinci_sphere_fit_least_square(pt_mat_rot);
+rms_Sphere_2 = calculate_sphere_rms(pt_mat_rot, sphere_param_2(1:3), sphere_param_2(4));         
+
+        figure('Name', 'Pt Cloud & its fitted sphere (a1 + alpha1)');
+        scatter3(pt_mat_rot(:,1), pt_mat_rot(:,2), pt_mat_rot(:,3),'.');
+        hold on;
+        
+        [x y z] = sphere;
+        a = [sphere_param_2(1), sphere_param_2(2), sphere_param_2(3),  sphere_param_2(4)];
+        s1=surf(x*a(1,4)+a(1,1), y*a(1,4)+a(1,2), z*a(1,4)+a(1,3));
+        scatter3(sphere_param_2(1), sphere_param_2(2), sphere_param_2(3), 'filled');
+        
+        [x2 y2 z2] = sphere;
+        a2 = [0, 0, 0, l1];
+        s2=surf(x2*a2(1,4)+a2(1,1), y2*a2(1,4)+a2(1,2), z*a2(1,4)+a2(1,3));
+        
+        
+        plot3(x_axis_x,x_axis_y,x_axis_z);
+        plot3(y_axis_x,y_axis_y,y_axis_z);
+        plot3(z_axis_x,z_axis_y,z_axis_z);
+        axis equal;
