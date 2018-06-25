@@ -103,13 +103,13 @@ affine_board_0_0_wrt_l_cam=  [0.9561741343482142, -0.1290208309114619, 0.2628395
 %% Load and Process Data
 
 % Update the path and flags accordingly
-csv_folder_1 = 'Data/20180618_PSM2_offset_03/';
+csv_folder_1 = 'Data/20180319_psm1_offset_data_02/';
 
 arm_index = 2;
 
 plot_flag = 1;
 
-joint_12_flag = 0;
+joint_12_flag = 1;
 
 [path_map_1, pt_clds_map_1, pt_mats_map_1] = createGreenRawDataHashTablesShort(csv_folder_1, plot_flag);
 

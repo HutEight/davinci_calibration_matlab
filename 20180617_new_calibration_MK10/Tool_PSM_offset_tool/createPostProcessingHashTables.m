@@ -144,7 +144,7 @@ small_origins_vec_wrt_portal = temp_vec(:,1:3);
 
 [small_sphere_origins_line_param_wrt_portal, small_sphere_origins_line_rms_wrt_porta] = davinci_line_fit_svd(small_origins_vec_wrt_portal);
 
-%% Joint 1 & 2 Params (Independent Analysis)
+%% Joint 1 & 2 Params (Independent Analysis) SLOW
  
 % joint_1_param
 % format: fixed pt + vector + rms

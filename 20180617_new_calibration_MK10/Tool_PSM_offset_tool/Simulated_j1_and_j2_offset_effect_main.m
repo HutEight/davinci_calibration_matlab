@@ -8,7 +8,7 @@ clear all
 %% 
 
 a1 = 0.03 ;
-alpha1 = 0.08; % TODO conside alpha as well..
+alpha1 = pi/4; % TODO conside alpha as well..
 
 rotation = [cos(alpha1) -sin(alpha1) 0; ...
             sin(alpha1) cos(alpha1)  0; ...
