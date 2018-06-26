@@ -103,7 +103,7 @@ affine_board_0_0_wrt_l_cam=  [0.9561741343482142, -0.1290208309114619, 0.2628395
 %% Load and Process Data
 
 % Update the path and flags accordingly
-csv_folder_1 = 'Data/20180319_psm1_offset_data_02/';
+csv_folder_1 = 'Data/20180625_PSM2_offset_04/';
 
 arm_index = 2;
 

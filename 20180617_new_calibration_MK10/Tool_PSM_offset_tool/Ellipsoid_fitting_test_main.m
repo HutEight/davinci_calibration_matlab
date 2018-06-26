@@ -2,7 +2,7 @@
 % 18/06/18
 
 %% NOTE.
-% A better way to illustrate the effect of the offset --
+% A more accurate way to illustrate the effect of the offset --
 % Simulated_j1_and_j2_offset_effect_main.m
 
 %%

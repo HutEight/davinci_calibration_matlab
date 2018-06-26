@@ -7,8 +7,8 @@ clear all
 
 %% 
 
-a1 = 0.03 ;
-alpha1 = pi/4; % TODO conside alpha as well..
+a1 = 0.00 ;
+alpha1 = 0.00698132; % TODO conside alpha as well..
 
 rotation = [cos(alpha1) -sin(alpha1) 0; ...
             sin(alpha1) cos(alpha1)  0; ...
@@ -40,7 +40,7 @@ for j2_step = 0:(n_step)
     theta_2 = phi_0 + j2_step*delta_angle;
     
     % First work out the centre and the radius
-    centre = [0 l2*sin(theta_2) -a1-l2*cos(theta_2)];
+    centre = [0 l2*sin(theta_2) 0];
     radius = abs(a1+l2*cos(theta_2));
     
     y = l2*sin(theta_2);
@@ -72,8 +72,8 @@ y_axis_x = 0*t3; y_axis_y = t3; y_axis_z = 0*t3;
 z_axis_x = 0*t3; z_axis_y = 0*t3; z_axis_z = t3;
 
         % Visualise the simulated point cloud
-        figure('Name', 'Point cloud a1');
-        scatter3(pt_mat(:,1), pt_mat(:,2), pt_mat(:,3));
+        figure('Name', 'Point cloud (a1 only)');
+        scatter3(pt_mat(:,1), pt_mat(:,2), pt_mat(:,3), '.');
         axis equal;
         hold on;
         hold off;
@@ -82,7 +82,7 @@ z_axis_x = 0*t3; z_axis_y = 0*t3; z_axis_z = t3;
 [sphere_param, residuals] = davinci_sphere_fit_least_square(pt_mat);
 rms_Sphere = calculate_sphere_rms(pt_mat, sphere_param(1:3), sphere_param(4));    
 
-        figure('Name', 'Pt Cloud & its fitted sphere');
+        figure('Name', 'Pt Cloud & its fitted sphere (a1 only)');
         scatter3(pt_mat(:,1), pt_mat(:,2), pt_mat(:,3),'.');
         hold on;
         
@@ -110,7 +110,7 @@ for row=1:n_row
 end
         
         % Visualise the simulated point cloud
-        figure('Name', 'Point Cloud a1 alpha1');
+        figure('Name', 'Point Cloud (a1 & alpha1)');
         scatter3(pt_mat_rot(:,1), pt_mat_rot(:,2), pt_mat_rot(:,3), '.');
         axis equal;
         hold on;
@@ -120,7 +120,7 @@ end
 [sphere_param_2, residuals_2] = davinci_sphere_fit_least_square(pt_mat_rot);
 rms_Sphere_2 = calculate_sphere_rms(pt_mat_rot, sphere_param_2(1:3), sphere_param_2(4));         
 
-        figure('Name', 'Pt Cloud & its fitted sphere (a1 + alpha1)');
+        figure('Name', 'Pt Cloud & its fitted sphere (a1 & alpha1)');
         scatter3(pt_mat_rot(:,1), pt_mat_rot(:,2), pt_mat_rot(:,3),'.');
         hold on;
         

@@ -1,3 +1,5 @@
+% WARNING: THIS FUNCTION IS VERY SLOW.
+
 function [circle_params, fval, rms] = davinciFit3dCircle(pt_mat)
 % circle params: x, y, z, r
 % pt_mat should be nx3
@@ -76,6 +78,10 @@ for i = 1:mat_size
 end % for loop
 
 rms = sqrt(square_sum/mat_size);
+
+%% Display
+disp('This rms error of 3d circle fitting is:');
+disp(rms);
 
 
 
