@@ -30,12 +30,12 @@ clear all
 
 
 % @ UPDATE CHECKPOINT 1/2
-centre_x = -0.0806714729804;
-centre_y = 0.0984567397927;
-centre_z = -0.122032932233;
+centre_x = -0.022200032118;
+centre_y =  0.0587393809507;
+centre_z = -0.143411909195;
 
 % @ UPDATE CHECKPOINT 2/2
-data_seq = '04';
+data_seq = '03';
 
 t = datetime('now');
 formatOut = 'yyyymmdd';
@@ -46,7 +46,8 @@ folderName = strcat(DateString, '_', data_seq);
 
 mkdir(strcat(fileDir, folderName));
 
-
+% @ OPTIONAL UPDATE CHECKPOINT 1/1
+increment = 0.01;
 
 psm_x = [1 0 0];
 
@@ -57,7 +58,7 @@ cube_y = cross(cube_z, cube_x)/norm(cross(cube_z, cube_x));
 
 rot_cube_wrt_psm = transpose([cube_x; cube_y; cube_z]);
 
-corner = [centre_x centre_y centre_z] - 0.04*(cube_x + cube_y + cube_z);
+corner = [centre_x centre_y centre_z] - 4*increment*(cube_x + cube_y + cube_z);
 
 time = 10;
 count = 1;
@@ -68,7 +69,7 @@ for i = 0:6
        
        for k = 0:6
            
-          point = corner + i*0.01*cube_x + j*0.01*cube_y + k*0.01*cube_z;
+          point = corner + i*increment*cube_x + j*increment*cube_y + k*increment*cube_z;
 
           disp( strcat('0, 0, -0.05, 0,1,0, 0, 0, -1, 0,', num2str(point(1)), ',  ', num2str(point(2)), ',  ' , num2str(point(3)), ',0,1,0, 0, 0, -1, -1,', num2str(time)));
           disp( strcat('0, 0, -0.05, 0,1,0, 0, 0, -1, 0,', num2str(point(1)), ',  ', num2str(point(2)), ',  ' , num2str(point(3)), ',0,1,0, 0, 0, -1, -1,', num2str(time + 2))); 

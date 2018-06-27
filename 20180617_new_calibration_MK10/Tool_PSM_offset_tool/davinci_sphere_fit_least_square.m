@@ -3,7 +3,7 @@ function [sphere_para, residuals] = davinci_sphere_fit_least_square(pt_mat)
 
             sphere_pts = pt_mat;
 
-            pc_sphere_rover = pointCloud([sphere_pts(:,1), sphere_pts(:,2), sphere_pts(:,3)]);
+            pc_sphere_rover = pointCloud([sphere_pts(:+,1), sphere_pts(:,2), sphere_pts(:,3)]);
             
 %             points_colour_yellow_rover = uint8(zeros(pc_sphere_rover.Count, 3));
 %     % colour in r g b [0-255]

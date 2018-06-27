@@ -23,7 +23,7 @@ clear all
 
 % Or load it from the global variable (generated bt dual_PSMs_match_CUBE.m)
 % @ UPDATE CHECKPOINT 1/2
-data_folder = 'Data/20180621_03/';
+data_folder = 'Data/20180626_02/';
 
 load(strcat(data_folder,'affine_psm2_wrt_psm1.mat'))
 
@@ -47,7 +47,7 @@ axis equal
 % centre_z = -0.184708;
 
 % @ UPDATE CHECKPOINT 2/2
-centre = [ -0.0760062 0.0248539 -0.184708];
+centre = [ 0.00738685371377 0.107339708973 -0.122803405732];
 
 % Use the following as actual trajectory
 rng(0,'twister')
