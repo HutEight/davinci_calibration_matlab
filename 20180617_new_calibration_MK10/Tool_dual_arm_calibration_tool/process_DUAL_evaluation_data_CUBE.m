@@ -351,10 +351,10 @@ for n = 1:size(seq,1)
     
 end
 
-raw_points = [seq, raw_pose_x, raw_pose_y, raw_pose_z];
+raw_points_2 = [seq, raw_pose_x, raw_pose_y, raw_pose_z];
 % WARNING: DO NOT REMOVE NAN HERE OR THE SEQUENCE WILL BE BROKEN.
 %          THEY ARE TAKEN CARE OF LATER IN THE CODE.
-raw_size = size(raw_points,1);
+raw_size = size(raw_points_2,1);
 
 
 %% 
@@ -370,7 +370,7 @@ for i = 0:(n_pts-1)
     
    mask_begin = time_0 + i*peroid;
    mask_end = time_t + i*peroid;
-   mask = (raw_points(:,1) > mask_begin & raw_points(:,1) < mask_end);
+   mask = (raw_points_2(:,1) > mask_begin & raw_points_2(:,1) < mask_end);
    
    pt_mat_0 = [seq(mask), raw_pose_x(mask), raw_pose_y(mask), raw_pose_z(mask)];
    pt_mat_0(isnan(pt_mat_0(:,2)),:)= [];
@@ -394,7 +394,7 @@ figure('Name','PSM2--Please check the waypoints are correct');
 axis equal;
 scatter3(pms2_test_pts(:,1), pms2_test_pts(:,2), pms2_test_pts(:,3), 'filled','r');
 hold on;
-scatter3(raw_points(:,2), raw_points(:,3), raw_points(:,4), '.', 'c');
+scatter3(raw_points_2(:,2), raw_points_2(:,3), raw_points_2(:,4), '.', 'c');
 axis equal;
 hold off;
 % 
@@ -406,7 +406,22 @@ hold off;
 %%%%%%%%%%%%%%%%%%%%%%%%%555
 %% COMPARISON
 
-figure('Name','PSM1 & PSM2');
+figure('Name','PSM1 PSM2 combined pt cloud');
+axis equal;
+scatter3(pms2_test_pts(:,1), pms2_test_pts(:,2), pms2_test_pts(:,3), 'filled','g');
+hold on;
+scatter3(raw_points_2(:,2), raw_points_2(:,3), raw_points_2(:,4), '.');
+axis equal;
+axis equal;
+scatter3(pms1_test_pts(:,1), pms1_test_pts(:,2), pms1_test_pts(:,3), 'filled','r');
+scatter3(raw_points(:,2), raw_points(:,3), raw_points(:,4), '.');
+axis equal;
+hold off;
+% 
+
+
+
+figure('Name','PSM1 & PSM2 test points');
 axis equal;
 scatter3(pms1_test_pts(:,1), pms1_test_pts(:,2), pms1_test_pts(:,3), 'o');
 hold on;
@@ -425,4 +440,32 @@ rms = sqrt(err/n_pts);
 
 
 vpa(rms,5)
+
+%% TEST matching (CAN IT BE FURTHER IMPROVED?)
+size = size(pms1_test_pts,1);
+[psm1_ret_R, psm1_ret_t] = rigid_transform_3D(pms2_test_pts, pms1_test_pts); % This should yeild a new tf.
+
+% TEST
+% psm1_ret_t = psm1_ret_t + [0.0014; 0.0004; -0.0014]
+
+pms2_test_pts_adjusted = (psm1_ret_R*pms2_test_pts') + repmat(psm1_ret_t, 1 ,size);
+pms2_test_pts_adjusted = pms2_test_pts_adjusted';
+
+% Comparing them in the Polaris frame
+psm1_err = pms2_test_pts_adjusted - pms1_test_pts;
+psm1_err = psm1_err .* psm1_err; % element-wise multiply
+psm1_err_mat = psm1_err;
+psm1_err_mat = sum(psm1_err_mat, 2);
+psm1_err_mat = sqrt(psm1_err_mat);
+psm1_err = sum(psm1_err(:));
+psm1_rmse = sqrt(psm1_err/size)
+
+figure('Name','pms1_test_pts vs. pms2_test_pts_adjusted');
+scatter3(pms1_test_pts(:,1), pms1_test_pts(:,2), pms1_test_pts(:,3), 'filled');
+hold on;
+scatter3(pms2_test_pts_adjusted(:,1), pms2_test_pts_adjusted(:,2), pms2_test_pts_adjusted(:,3));
+axis equal;
+hold off;
+
+
 
