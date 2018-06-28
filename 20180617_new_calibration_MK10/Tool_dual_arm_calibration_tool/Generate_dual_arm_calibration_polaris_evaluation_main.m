@@ -45,7 +45,7 @@ centre_in_psm1 = [centre_x centre_y centre_z];
 % @ OPTIONAL UPDATE CHECKPOINT 1/2
 increment = 0.005;
 
-additional_affine_psm_2_to_1 = ...
+additional_affine_psm_2_init_to_2_refined = ...
     [1 0 0 0;
      0 1 0 0;
      0 0 1 0;
@@ -54,7 +54,7 @@ additional_affine_psm_2_to_1 = ...
 % @ OPTIONAL UPDATE CHECKPOINT 2/2
 % ONLY USE THIS WHEN YOU HAVE FINISHED THE EVALUATION FOR AT LEAST ONCE AND
 % HENCE CAN ACUQIRE AN ADDITIONAL TRANSFORM ADJUSTMENT.
-additional_affine_psm_2_to_1 =  ...
+additional_affine_psm_2_init_to_2_refined =  ...
     [ 0.9999   -0.0074    0.0152    0.0138;
     0.0072    0.9999    0.0131    0.0125;
    -0.0153   -0.0130    0.9998   -0.0009;
@@ -98,7 +98,7 @@ for i = 1:n_pts
    psm1_pt(1,1:3) =  psm1_pts(i,:);
    psm1_pt(1,4) = 1;
     
-   psm2_pt = (additional_affine_psm_2_to_1) * affine_psm1_wrt_psm2 * transpose(psm1_pt);
+   psm2_pt = (additional_affine_psm_2_init_to_2_refined) * affine_psm1_wrt_psm2 * transpose(psm1_pt);
    psm2_pt = psm2_pt';
    psm2_pts(i,:) = psm2_pt(1,1:3);
     

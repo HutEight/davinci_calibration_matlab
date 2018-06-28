@@ -467,7 +467,7 @@ scatter3(pms2_test_pts_adjusted(:,1), pms2_test_pts_adjusted(:,2), pms2_test_pts
 axis equal;
 hold off;
 
-additional_affine_psm_2_to_1(1:3,1:3) = pts2_to_1_R;
-additional_affine_psm_2_to_1(1:3,4) = pts2_to_1_t;
-additional_affine_psm_2_to_1(4,:) = [0 0 0 1];
+additional_affine_psm_2_init_to_2_refined(1:3,1:3) = pts2_to_1_R;
+additional_affine_psm_2_init_to_2_refined(1:3,4) = pts2_to_1_t;
+additional_affine_psm_2_init_to_2_refined(4,:) = [0 0 0 1];
 
