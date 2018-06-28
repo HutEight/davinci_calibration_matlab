@@ -16,7 +16,7 @@ pt_mat_0 = randn(20, 3);
         scatter3(pt_mat_0(:,1), pt_mat_0(:,2), pt_mat_0(:,3), 'filled');
         hold off;
         
-noise_mat = randn(20, 3) * 0.00;
+noise_mat = randn(20, 3) * 0.01;
 
 test_affine = [
    -0.1888    0.6128   -0.7674   -0.1769
@@ -25,12 +25,7 @@ test_affine = [
          0         0         0    1.0000
 ];
 
-test_affine = [
-   1    0   0   -0.1769
-   0    1   0    0.0625
-   0    0   1   -0.0981
-         0         0         0    1.0000
-];
+
 
 
 % 
@@ -63,7 +58,8 @@ pt_mat_1 = pt_mat_1 + noise_mat;
  %% Matching Test
  
 size = 20;
-[psm1_ret_R, psm1_ret_t] = rigid_transform_3D(pt_mat_1, pt_mat_0); % This should yeild a new tf.
+[psm1_ret_R, psm1_ret_t] = rigid_transform_3D(pt_mat_1, pt_mat_0); % This should yeild a new tf from pt1 to pt0. Therefore
+% subsequent operation involves adding that tf onto pt1, not pt0.
 
 % TEST
 % psm1_ret_t = psm1_ret_t + [0.0014; 0.0004; -0.0014]

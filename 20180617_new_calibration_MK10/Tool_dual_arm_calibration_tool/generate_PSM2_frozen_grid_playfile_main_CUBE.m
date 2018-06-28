@@ -30,12 +30,12 @@ clear all
 
 
 % @ UPDATE CHECKPOINT 1/2
-centre_x = -0.022200032118;
-centre_y =  0.0587393809507;
-centre_z = -0.143411909195;
+centre_x = -0.0001948132505;
+centre_y =  0.0382938301897;
+centre_z = -0.152068030936;
 
 % @ UPDATE CHECKPOINT 2/2
-data_seq = '03';
+data_seq = '01';
 
 t = datetime('now');
 formatOut = 'yyyymmdd';

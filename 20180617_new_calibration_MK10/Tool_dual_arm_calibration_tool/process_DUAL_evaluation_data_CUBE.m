@@ -11,7 +11,7 @@ clear all
 %%
 
 % @ UPDATE CHECKPOINT 1/1
-FolderDir = 'Data/20180626_02/';
+FolderDir = 'Data/20180627_01/';
 
 psm1_file_path = strcat(FolderDir, 'green_evaluation.csv')
 psm2_file_path = strcat(FolderDir, 'yellow_evaluation.csv')
@@ -170,7 +170,7 @@ time_t = time_0 + 1.5; % take 1 sec of samples equvilent of 20 pts
 peroid = 8; % 4 + 4 seconds
 
 % Size of data
-n_pts = 20; 
+n_pts = 27; 
 
 for i = 0:(n_pts-1)
     
@@ -364,7 +364,7 @@ time_t = time_0 + 1.5; % take 1 sec of samples equvilent of 20 pts
 peroid = 8; % 4 + 4 seconds
 
 % Size of data
-n_pts = 20; 
+n_pts = 27; 
 
 for i = 0:(n_pts-1)
     
@@ -443,12 +443,12 @@ vpa(rms,5)
 
 %% TEST matching (CAN IT BE FURTHER IMPROVED?)
 size = size(pms1_test_pts,1);
-[psm1_ret_R, psm1_ret_t] = rigid_transform_3D(pms2_test_pts, pms1_test_pts); % This should yeild a new tf.
+[pts2_to_1_R, pts2_to_1_t] = rigid_transform_3D(pms2_test_pts, pms1_test_pts); % This should yeild a new tf.
 
 % TEST
 % psm1_ret_t = psm1_ret_t + [0.0014; 0.0004; -0.0014]
 
-pms2_test_pts_adjusted = (psm1_ret_R*pms2_test_pts') + repmat(psm1_ret_t, 1 ,size);
+pms2_test_pts_adjusted = (pts2_to_1_R*pms2_test_pts') + repmat(pts2_to_1_t, 1 ,size);
 pms2_test_pts_adjusted = pms2_test_pts_adjusted';
 
 % Comparing them in the Polaris frame
@@ -467,5 +467,7 @@ scatter3(pms2_test_pts_adjusted(:,1), pms2_test_pts_adjusted(:,2), pms2_test_pts
 axis equal;
 hold off;
 
-
+additional_affine_psm_2_to_1(1:3,1:3) = pts2_to_1_R;
+additional_affine_psm_2_to_1(1:3,4) = pts2_to_1_t;
+additional_affine_psm_2_to_1(4,:) = [0 0 0 1];
 

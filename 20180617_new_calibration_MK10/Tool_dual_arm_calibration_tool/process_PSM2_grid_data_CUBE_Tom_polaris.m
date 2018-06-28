@@ -12,7 +12,7 @@ clear all
 
 %%
 % @ UPDATE CHECKPOINT 1/1
-file_path = 'Data/20180626_02/';
+file_path = 'Data/20180627_01/';
 
 file_name = 'yellow_frozen.csv';
 csv = csvread(strcat(file_path, file_name));
