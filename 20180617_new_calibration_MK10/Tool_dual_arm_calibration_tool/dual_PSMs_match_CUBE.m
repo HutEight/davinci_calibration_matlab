@@ -10,7 +10,7 @@ clear all
 
 %%
 % @ UPDATE CHECKPOINT 1/1
-data_folder = 'Data/20180627_01/';
+data_folder = 'Data/20180628_01/';
 
 load(strcat(data_folder, 'psm1_pts_generated_cube.mat'))
 % pts_generated
@@ -197,4 +197,6 @@ hold off;
 %% Save result
 
 save(strcat(data_folder, 'affine_psm2_wrt_psm1.mat'), 'affine_psm2_wrt_psm1');
+save(strcat(data_folder, 'affine_psm1_wrt_polaris.mat'), 'affine_psm1_wrt_polaris');
+save(strcat(data_folder, 'affine_psm2_wrt_polaris.mat'), 'affine_psm2_wrt_polaris');
 

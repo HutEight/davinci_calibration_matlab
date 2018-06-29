@@ -23,12 +23,15 @@ clear all
 
 % Or load it from the global variable (generated bt dual_PSMs_match_CUBE.m)
 % @ UPDATE CHECKPOINT 1/2
-data_folder = 'Data/20180627_01/';
+data_folder = 'Data/20180628_01/';
 
 load(strcat(data_folder,'affine_psm2_wrt_psm1.mat'))
 
 affine_psm1_wrt_psm2 = inv(affine_psm2_wrt_psm1);
 
+load(strcat(data_folder,'affine_psm2_wrt_polaris.mat'))
+
+affine_polaris_wrt_psm2 = inv(affine_psm2_wrt_polaris);
 
 %% PSM 1 sphere (range)
 
@@ -45,7 +48,7 @@ centre_in_psm1 = [centre_x centre_y centre_z];
 % @ OPTIONAL UPDATE CHECKPOINT 1/2
 increment = 0.005;
 
-additional_affine_psm_2_init_to_2_refined = ...
+additional_affine_psm_2_init_to_2_refined_in_polaris_frame = ...
     [1 0 0 0;
      0 1 0 0;
      0 0 1 0;
@@ -54,11 +57,19 @@ additional_affine_psm_2_init_to_2_refined = ...
 % @ OPTIONAL UPDATE CHECKPOINT 2/2
 % ONLY USE THIS WHEN YOU HAVE FINISHED THE EVALUATION FOR AT LEAST ONCE AND
 % HENCE CAN ACUQIRE AN ADDITIONAL TRANSFORM ADJUSTMENT.
-additional_affine_psm_2_init_to_2_refined =  ...
-    [ 0.9999   -0.0074    0.0152    0.0138;
-    0.0072    0.9999    0.0131    0.0125;
-   -0.0153   -0.0130    0.9998   -0.0009;
+
+additional_affine_psm_2_init_to_2_refined_in_polaris_frame =  ...
+    [...
+    0.9999   -0.0088    0.0146    0.0134;
+    0.0086    0.9998    0.0157    0.0150;
+   -0.0148   -0.0156    0.9998   -0.0008;
          0         0         0    1.0000]
+% ---     
+
+affine_polaris_wrt_psm2(:,4) = [0;0;0;1];
+
+additional_affine_psm_2_init_to_2_refined_in_psm2_frame = ...
+    affine_polaris_wrt_psm2 * additional_affine_psm_2_init_to_2_refined_in_polaris_frame;     
 
 
 psm_x = [1 0 0];
@@ -98,7 +109,10 @@ for i = 1:n_pts
    psm1_pt(1,1:3) =  psm1_pts(i,:);
    psm1_pt(1,4) = 1;
     
-   psm2_pt = (additional_affine_psm_2_init_to_2_refined) * affine_psm1_wrt_psm2 * transpose(psm1_pt);
+   psm2_pt = affine_psm1_wrt_psm2 * transpose(psm1_pt);
+   
+   psm2_pt = (additional_affine_psm_2_init_to_2_refined_in_psm2_frame) * psm2_pt;
+   
    psm2_pt = psm2_pt';
    psm2_pts(i,:) = psm2_pt(1,1:3);
     

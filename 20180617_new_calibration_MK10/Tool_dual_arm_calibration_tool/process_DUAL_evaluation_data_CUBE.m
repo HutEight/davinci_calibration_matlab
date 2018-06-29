@@ -11,7 +11,7 @@ clear all
 %%
 
 % @ UPDATE CHECKPOINT 1/1
-FolderDir = 'Data/20180627_01/';
+FolderDir = 'Data/20180628_01/';
 
 psm1_file_path = strcat(FolderDir, 'green_evaluation.csv')
 psm2_file_path = strcat(FolderDir, 'yellow_evaluation.csv')
@@ -443,13 +443,17 @@ vpa(rms,5)
 
 %% TEST matching (CAN IT BE FURTHER IMPROVED?)
 size = size(pms1_test_pts,1);
-[pts2_to_1_R, pts2_to_1_t] = rigid_transform_3D(pms2_test_pts, pms1_test_pts); % This should yeild a new tf.
+[pts2_to_1_R, pts2_to_1_t] = rigid_transform_3D(pms2_test_pts, pms1_test_pts); % This should yeild a new tf psm2 to psm1 pts. 
 
 % TEST
 % psm1_ret_t = psm1_ret_t + [0.0014; 0.0004; -0.0014]
 
+% pts2_to_1_R = [1 0 0; 0 1 0; 0 0 1];
+
 pms2_test_pts_adjusted = (pts2_to_1_R*pms2_test_pts') + repmat(pts2_to_1_t, 1 ,size);
 pms2_test_pts_adjusted = pms2_test_pts_adjusted';
+
+
 
 % Comparing them in the Polaris frame
 psm1_err = pms2_test_pts_adjusted - pms1_test_pts;
@@ -458,7 +462,7 @@ psm1_err_mat = psm1_err;
 psm1_err_mat = sum(psm1_err_mat, 2);
 psm1_err_mat = sqrt(psm1_err_mat);
 psm1_err = sum(psm1_err(:));
-psm1_rmse = sqrt(psm1_err/size)
+psm1_rmse = sqrt(psm1_err/size);
 
 figure('Name','pms1_test_pts vs. pms2_test_pts_adjusted');
 scatter3(pms1_test_pts(:,1), pms1_test_pts(:,2), pms1_test_pts(:,3), 'filled');
@@ -467,7 +471,15 @@ scatter3(pms2_test_pts_adjusted(:,1), pms2_test_pts_adjusted(:,2), pms2_test_pts
 axis equal;
 hold off;
 
-additional_affine_psm_2_init_to_2_refined(1:3,1:3) = pts2_to_1_R;
-additional_affine_psm_2_init_to_2_refined(1:3,4) = pts2_to_1_t;
-additional_affine_psm_2_init_to_2_refined(4,:) = [0 0 0 1];
+figure('Name','pms1_test_pts vs. pms2_test_pts_adjusted');
+scatter3(pms1_test_pts(:,1), pms1_test_pts(:,2), pms1_test_pts(:,3), 'filled');
+hold on;
+scatter3(pms2_test_pts(:,1), pms2_test_pts(:,2), pms2_test_pts(:,3), 'x');
+scatter3(pms2_test_pts_adjusted(:,1), pms2_test_pts_adjusted(:,2), pms2_test_pts_adjusted(:,3),'+','red');
+axis equal;
+hold off;
+
+additional_affine_psm_2_init_to_2_refined_in_polaris_frame(1:3,1:3) = pts2_to_1_R;
+additional_affine_psm_2_init_to_2_refined_in_polaris_frame(1:3,4) = pts2_to_1_t;
+additional_affine_psm_2_init_to_2_refined_in_polaris_frame(4,:) = [0 0 0 1];
 
