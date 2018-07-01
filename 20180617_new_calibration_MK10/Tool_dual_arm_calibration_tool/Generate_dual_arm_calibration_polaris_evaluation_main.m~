@@ -33,10 +33,6 @@ load(strcat(data_folder,'affine_psm2_wrt_polaris.mat'))
 
 affine_polaris_wrt_psm2 = inv(affine_psm2_wrt_polaris);
 
-load(strcat(data_folder,'affine_psm1_wrt_polaris.mat'))
-
-affine_polaris_wrt_psm1 = inv(affine_psm1_wrt_polaris);
-
 %% PSM 1 sphere (range)
 
 % @ UPDATE CHECKPOINT 2/2
@@ -52,7 +48,11 @@ centre_in_psm1 = [centre_x centre_y centre_z];
 % @ OPTIONAL UPDATE CHECKPOINT 1/2
 increment = 0.005;
 
-
+additional_affine_psm_2_init_to_2_refined_in_polaris_frame = ...
+    [1 0 0 0;
+     0 1 0 0;
+     0 0 1 0;
+     0 0 0 1];
 
 % @ OPTIONAL UPDATE CHECKPOINT 2/2
 % ONLY USE THIS WHEN YOU HAVE FINISHED THE EVALUATION FOR AT LEAST ONCE AND
@@ -64,33 +64,12 @@ additional_affine_psm_2_init_to_2_refined_in_polaris_frame =  ...
     0.0086    0.9998    0.0157    0.0150;
    -0.0148   -0.0156    0.9998   -0.0008;
          0         0         0    1.0000]
- 
+% ---     
 
+affine_polaris_wrt_psm2(:,4) = [0;0;0;1];
 
-try
-   
-    load(strcat(data_folder,'additional_affine_psm_2_init_to_2_refined_in_polaris_frame.mat'));
-        
-catch
-    
-    warning('Did not found file "additional_affine_psm_2_init_to_2_refined_in_polaris_frame" ! Using identity Mat.');
-    
-    additional_affine_psm_2_init_to_2_refined_in_polaris_frame = ...
-    [1 0 0 0;
-     0 1 0 0;
-     0 0 1 0;
-     0 0 0 1];
- 
-end
-
-
-% ---  
-adjusted_affine_psm1_wrt_psm2 = affine_polaris_wrt_psm2 * ...
-    additional_affine_psm_2_init_to_2_refined_in_polaris_frame * ...
-    affine_psm1_wrt_polaris; 
-
-
-
+additional_affine_psm_2_init_to_2_refined_in_psm2_frame = ...
+    affine_polaris_wrt_psm2 * additional_affine_psm_2_init_to_2_refined_in_polaris_frame;     
 
 
 psm_x = [1 0 0];
@@ -130,28 +109,19 @@ for i = 1:n_pts
    psm1_pt(1,1:3) =  psm1_pts(i,:);
    psm1_pt(1,4) = 1;
     
-   psm2_pt = adjusted_affine_psm1_wrt_psm2 * transpose(psm1_pt);
-
+   psm2_pt = affine_psm1_wrt_psm2 * transpose(psm1_pt);
+   
+   psm2_pt = (additional_affine_psm_2_init_to_2_refined_in_psm2_frame) * psm2_pt;
    
    psm2_pt = psm2_pt';
    psm2_pts(i,:) = psm2_pt(1,1:3);
-   
-   
-   temp_pt = affine_psm1_wrt_psm2 * transpose(psm1_pt);
-   temp_pt = temp_pt';
-   temp_pts(i,:) = temp_pt(1,1:3);
     
 end
 
 
 %% Preview
 
-figure('Name','Preview of psm2_pt');
-scatter3(psm2_pts(:,1), psm2_pts(:,2), psm2_pts(:,3), 'filled');
-hold on;
-scatter3(temp_pts(:,1), temp_pts(:,2), temp_pts(:,3), 'filled');
-axis equal;
-hold off;
+
 
 
 

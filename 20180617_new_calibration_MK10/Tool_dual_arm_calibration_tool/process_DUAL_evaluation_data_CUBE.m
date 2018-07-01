@@ -11,10 +11,10 @@ clear all
 %%
 
 % @ UPDATE CHECKPOINT 1/1
-FolderDir = 'Data/20180628_01/';
+data_folder = 'Data/20180628_01/';
 
-psm1_file_path = strcat(FolderDir, 'green_evaluation.csv')
-psm2_file_path = strcat(FolderDir, 'yellow_evaluation.csv')
+psm1_file_path = strcat(data_folder, 'green_evaluation.csv')
+psm2_file_path = strcat(data_folder, 'yellow_evaluation.csv')
 
 %% PSM1
 csv = csvread(psm1_file_path);
@@ -479,7 +479,12 @@ scatter3(pms2_test_pts_adjusted(:,1), pms2_test_pts_adjusted(:,2), pms2_test_pts
 axis equal;
 hold off;
 
+% Ideally pts_2_refined is pts_1
 additional_affine_psm_2_init_to_2_refined_in_polaris_frame(1:3,1:3) = pts2_to_1_R;
 additional_affine_psm_2_init_to_2_refined_in_polaris_frame(1:3,4) = pts2_to_1_t;
 additional_affine_psm_2_init_to_2_refined_in_polaris_frame(4,:) = [0 0 0 1];
+
+
+save(strcat(data_folder, 'additional_affine_psm_2_init_to_2_refined_in_polaris_frame.mat'), ...
+    'additional_affine_psm_2_init_to_2_refined_in_polaris_frame');
 
