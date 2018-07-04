@@ -4,7 +4,7 @@
 
 % lines_dist()
 
-function []...
+function [affine_dh_0_wrt_polaris, affine_dh_1_wrt_polaris, affine_base_wrt_polaris]...
     = defineBaseFrameAndDhFrame0And1FromArcs(j1_arc_in_polairs_mat, ...
     j2_arc_in_polairs_mat, ...
     save_file_path)
@@ -113,6 +113,12 @@ end
 dh_0_y = cross(dh_0_z, dh_0_x);
 dh_0_y = dh_0_y/norm(dh_0_y)
 
+rot_mat_dh_0_wrt_polaris = [dh_0_x(:) dh_0_y(:) dh_0_z(:)];
+affine_dh_0_wrt_polaris = zeros(4,4);
+affine_dh_0_wrt_polaris(4,4) = 1;
+affine_dh_0_wrt_polaris(1:3,1:3) = rot_mat_dh_0_wrt_polaris;
+affine_dh_0_wrt_polaris(1:3,4) = O_0(:);
+
 
 %% Define DH_1 frame
 
@@ -126,6 +132,25 @@ end
 
 dh_1_y = cross(dh_1_z, dh_1_x);
 dh_1_y = dh_1_y/norm(dh_1_y)
+
+rot_mat_dh_1_wrt_polaris = [dh_1_x(:) dh_1_y(:) dh_1_z(:)];
+affine_dh_1_wrt_polaris = zeros(4,4);
+affine_dh_1_wrt_polaris(4,4) = 1;
+affine_dh_1_wrt_polaris(1:3,1:3) = rot_mat_dh_1_wrt_polaris;
+affine_dh_1_wrt_polaris(1:3,4) = O_1(:);
+
+%% Define base frame
+
+base_x = dh_0_y;
+base_y = -dh_0_z;
+base_z = -dh_0_x;
+base_o = O_0;
+rot_mat_base_wrt_polaris = [base_x(:) base_y(:) base_z(:)];
+affine_base_wrt_polaris = zeros(4,4);
+affine_base_wrt_polaris(4,4) = 1;
+affine_base_wrt_polaris(1:3,1:3) = rot_mat_base_wrt_polaris;
+affine_base_wrt_polaris(1:3,4) = O_1(:);
+
 
 
 %% Visualisation

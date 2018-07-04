@@ -23,7 +23,7 @@ clear all
 
 % Or load it from the global variable (generated bt dual_PSMs_match_CUBE.m)
 % @ UPDATE CHECKPOINT 1/2
-data_folder = 'Data/20180628_01/';
+data_folder = 'Data/20180702_02/';
 
 load(strcat(data_folder,'affine_psm2_wrt_psm1.mat'))
 
@@ -50,7 +50,7 @@ centre_in_psm1 = [centre_x centre_y centre_z];
 %% Creating a cube
 
 % @ OPTIONAL UPDATE CHECKPOINT 1/2
-increment = 0.005;
+increment = 0.02;
 
 
 
@@ -58,12 +58,12 @@ increment = 0.005;
 % ONLY USE THIS WHEN YOU HAVE FINISHED THE EVALUATION FOR AT LEAST ONCE AND
 % HENCE CAN ACUQIRE AN ADDITIONAL TRANSFORM ADJUSTMENT.
 
-additional_affine_psm_2_init_to_2_refined_in_polaris_frame =  ...
-    [...
-    0.9999   -0.0088    0.0146    0.0134;
-    0.0086    0.9998    0.0157    0.0150;
-   -0.0148   -0.0156    0.9998   -0.0008;
-         0         0         0    1.0000]
+% additional_affine_psm_2_init_to_2_refined_in_polaris_frame =  ...
+%     [...
+%     0.9999   -0.0088    0.0146    0.0134;
+%     0.0086    0.9998    0.0157    0.0150;
+%    -0.0148   -0.0156    0.9998   -0.0008;
+%          0         0         0    1.0000]
  
 
 
@@ -146,7 +146,7 @@ end
 
 %% Preview
 
-figure('Name','Preview of psm2_pt');
+figure('Name','Preview of psm2_pt update');
 scatter3(psm2_pts(:,1), psm2_pts(:,2), psm2_pts(:,3), 'filled');
 hold on;
 scatter3(temp_pts(:,1), temp_pts(:,2), temp_pts(:,3), 'filled');

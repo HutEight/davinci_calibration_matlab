@@ -11,7 +11,7 @@ clear all
 %%
 
 % @ UPDATE CHECKPOINT 1/1
-data_folder = 'Data/20180628_01/';
+data_folder = 'Data/20180702_01/';
 
 psm1_file_path = strcat(data_folder, 'green_evaluation.csv')
 psm2_file_path = strcat(data_folder, 'yellow_evaluation.csv')
@@ -471,7 +471,7 @@ scatter3(pms2_test_pts_adjusted(:,1), pms2_test_pts_adjusted(:,2), pms2_test_pts
 axis equal;
 hold off;
 
-figure('Name','pms1_test_pts vs. pms2_test_pts_adjusted');
+figure('Name','pms2_test_pts vs. pms2_test_pts_adjusted');
 scatter3(pms1_test_pts(:,1), pms1_test_pts(:,2), pms1_test_pts(:,3), 'filled');
 hold on;
 scatter3(pms2_test_pts(:,1), pms2_test_pts(:,2), pms2_test_pts(:,3), 'x');

@@ -129,45 +129,20 @@ small_origins_vec_wrt_portal = temp_vec(:,1:3);
 
 %% Joint 1 & 2 Params (From Independent Analysis)
 
-if (joint_12_flag == 9)
-
-    %%%joint_1_param
-    % % format: fixed pt + vector + rms
-    % % Because of the extremely slow speed, comment these line when not used.
-
-    temp = pt_mats_map('J1Arc01');
-    temp_x = temp(:,1);
-    temp_y = temp(:,2);
-    temp_z = temp(:,3);
-    plane_1_param_1_independent = plane(temp_x, temp_y, temp_z);
-    [j1_arc_01_circle_params, fval_j1_01, rms_j1_01] = davinciFit3dCircle(temp);
-    joint_1_param.vector = plane_1_param_1_independent.Normal();
-    joint_1_param.circle = j1_arc_01_circle_params;
-    joint_1_param.circle_rms = rms_j1_01;
-
-    %%% joint_2_param
-    % % format: fixed pt + vector
-    % % Because of the extremely slow speed, comment these line when not used.
-
-    temp = pt_mats_map('J2Arc01');
-    temp_x = temp(:,1);
-    temp_y = temp(:,2);
-    temp_z = temp(:,3);
-    plane_2_param_1_independent = plane(temp_x, temp_y, temp_z);
-    [j2_arc_01_circle_params, fval_j2_01, rms_j2_01] = davinciFit3dCircle(temp);
-    joint_2_param.vector = plane_2_param_1_independent.Normal();
-    joint_2_param.circle = j2_arc_01_circle_params;
-    joint_2_param.circle_rms = rms_j2_01;
-
-else
-   % DO NOTHING 
+   % DO NOTHING pending removal TODO
    joint_1_param = 0; % Fake value
    joint_2_param = 0; % Fake value
-end
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 02/07/18
-defineBaseFrameAndDhFrame0And1FromArcs(pt_mats_map('J1Arc01'), pt_mats_map('J2Arc01'));
+[affine_dh_0_wrt_polaris, affine_dh_1_wrt_polaris, affine_base_wrt_polaris] = ...
+    defineBaseFrameAndDhFrame0And1FromArcs(pt_mats_map('J1Arc01'), pt_mats_map('J2Arc01'));
+
+temp_u = small_sphere_origins_line_param.direction;
+temp_v = affine_dh_1_wrt_polaris(1:3,1);
+
+theta_2_offset = atan2d(norm(cross(temp_u,temp_v)),dot(temp_u,temp_v)) 
+
 
 openfig('processed_arcs.fig');
 hold on;
@@ -201,7 +176,7 @@ openfig('processed_arcs.fig');
 hold on;
     axis equal;  
     scatter3(portal_origin_wrt_polaris(1), portal_origin_wrt_polaris(2), portal_origin_wrt_polaris(3), 'x', 'blue');
- hold off;     
+hold off;     
     
     
     
@@ -213,7 +188,7 @@ hold on;
 
 %% RMS
 
-rms_Sphere01 = calculate_sphere_rms(pt_mats_map('BigSphere01'), sphere_param_1(1:3), sphere_param_1(4))
+ rms_Sphere01 = calculate_sphere_rms(pt_mats_map('BigSphere01'), sphere_param_1(1:3), sphere_param_1(4))
 
 rms_Sphere_vec = [rms_Sphere01];
 
