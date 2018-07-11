@@ -6,7 +6,7 @@
 % spheres, arcs, or small spehres), then the keys must get updated too.
 
 
-function [result_map] = createPostProcessingHashTablesShort(pt_clds_map, pt_mats_map, joint_12_flag, plot_flag)
+function [result_map] = createPostProcessingHashTablesShort_MkX(pt_clds_map, pt_mats_map, joint_12_flag, plot_flag, save_file_path)
 
 key_ = {'plane_1_param_1', 'plane_2_param_1', ...
     'portal_rotation_wrt_polaris', ...
@@ -136,7 +136,7 @@ small_origins_vec_wrt_portal = temp_vec(:,1:3);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 02/07/18
 [affine_dh_0_wrt_polaris, affine_dh_1_wrt_polaris, affine_base_wrt_polaris] = ...
-    defineBaseFrameAndDhFrame0And1FromArcs(pt_mats_map('J1Arc01'), pt_mats_map('J2Arc01'));
+    defineBaseFrameAndDhFrame0And1FromArcs(pt_mats_map('J1Arc01'), pt_mats_map('J2Arc01'), save_file_path);
 
 temp_u = small_sphere_origins_line_param.direction;
 temp_v = affine_dh_1_wrt_polaris(1:3,1);

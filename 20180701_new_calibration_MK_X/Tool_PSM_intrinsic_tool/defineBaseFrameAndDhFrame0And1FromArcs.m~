@@ -240,18 +240,11 @@ scatter3(O_1(1),O_1(2),O_1(3),'o','green');
     v0y_y=[vy_y;v0_y];
     plot3(v0y_y(:,1),v0y_y(:,2),v0y_y(:,3),'b');
 % End of Frame_1 frame
-savefig( strcat(save_file_path,'processed_arcs.fig'));
+savefig('processed_arcs.fig');
 hold off;
 
 
 %% Getting DH parameters
-
-fileID = fopen( strcat(save_file_path,'DH_parameters_recommendation.txt'), 'wt' );
-fprintf(fileID, 'The number is: %f ', 5);
-fclose(fileID);
-
-% The alpha is dist_lines is because the origins are defined to be on the
-% common norm.
 
 
 %%
