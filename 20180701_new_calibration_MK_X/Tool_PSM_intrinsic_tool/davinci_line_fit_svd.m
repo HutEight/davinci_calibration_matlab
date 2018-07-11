@@ -1,3 +1,5 @@
+% RN@HMS Prince of Wales
+
 function [line_params, rms] = davinci_line_fit_svd(pt_mat)
     
     avg = mean(pt_mat, 1);

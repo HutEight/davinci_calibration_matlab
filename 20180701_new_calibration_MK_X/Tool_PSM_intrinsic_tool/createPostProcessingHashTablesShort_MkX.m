@@ -138,13 +138,16 @@ small_origins_vec_wrt_portal = temp_vec(:,1:3);
 [affine_dh_0_wrt_polaris, affine_dh_1_wrt_polaris, affine_base_wrt_polaris] = ...
     defineBaseFrameAndDhFrame0And1FromArcs(pt_mats_map('J1Arc01'), pt_mats_map('J2Arc01'), save_file_path);
 
+[affine_dh_2_wrt_polaris] = ...
+    defineDhFrame02FromSmallSpheres(affine_dh_1_wrt_polaris, small_sphere_origins_line_param, save_file_path);
+
 temp_u = small_sphere_origins_line_param.direction;
 temp_v = affine_dh_1_wrt_polaris(1:3,1);
 
 theta_2_offset = atan2d(norm(cross(temp_u,temp_v)),dot(temp_u,temp_v)) 
 
 
-openfig('processed_arcs.fig');
+openfig(strcat(save_file_path,'processed_arcs.fig'));
 hold on;
     axis equal;
     scatter3(small_origin_1(1), small_origin_1(2), small_origin_1(3), 'filled');

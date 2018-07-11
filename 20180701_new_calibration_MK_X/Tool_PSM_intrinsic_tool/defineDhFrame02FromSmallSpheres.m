@@ -5,47 +5,89 @@
 
 
 function [affine_dh_2_wrt_polaris] = ...
-    defineDhFrame02FromSmallSpheres(affine_dh_1_wrt_polaris, small_sphere_origins_line_param)
+    defineDhFrame02FromSmallSpheres(affine_dh_1_wrt_polaris, small_sphere_origins_line_param, ...
+    save_file_path)
 
 
-%% Get a point on Small Spheres Line.
+%% Preparation
+% small_sphere_origins_line_param.p0
+    pt0 = small_sphere_origins_line_param.p0;
 
+    O_1 = affine_dh_1_wrt_polaris(1:3, 4);
+    x1_wrt_polaris = affine_dh_1_wrt_polaris(1:3, 1);
+    y1_wrt_polaris = affine_dh_1_wrt_polaris(1:3, 2);
+    z1_wrt_polaris = affine_dh_1_wrt_polaris(1:3, 3);
 
 
 %% Calculate the common norm of z1 and z2.
+    
+    z2_wrt_polaris = small_sphere_origins_line_param.direction;
+    z2_wrt_polaris = z2_wrt_polaris/norm(z2_wrt_polaris);
+
+    common_norm_j2_3 = cross(z1_wrt_polaris, z2_wrt_polaris);
+
+    dist_j2_3 = lines_dist(O_1, z1_wrt_polaris, ...
+            pt0, z2_wrt_polaris, 'dist_j2_3')
+
+    pt0 = pt0(:);    
+
+%% Acquire O_2 by interseting z2 and common norm.
+% The intersection pt on z_1 with common norm is pt1.
+% The known fixed point on z_2 is pt0.
+% We have 3 equations --
+%   pt1 - O1 = a1 * z1_vec
+%   O2 - pt0 = a2 * z2_vec
+%   O2 - pt1 = dist * common_norm_j2_3
+% Thus --
+% a2*z2_vec - a1*z1_vec = dist*common_norm_j2_3 +O1 - pt0
+
+    A = [z2_wrt_polaris(:) -z1_wrt_polaris(:)];
+    b = dist_j2_3*common_norm_j2_3 + O_1 - pt0;
+    b = b(:);
+    a = A \ b;
+    a1 = a(2);
+    a2 = a(1);
+    
+    pt1 = a1*z1_wrt_polaris + O_1;
+    O_2 = a2*z2_wrt_polaris + pt0;
+    
 
 
+%% Complete Frame_2 (O_2, y2) definition.
 
-%% Acquire O2 by interseting z2 and common norm.
+    x2_wrt_polaris = common_norm_j2_3;
+    y2_wrt_polaris = cross(z2_wrt_polaris, x2_wrt_polaris);
+    rot_mat_dh_2_wrt_polaris = [x2_wrt_polaris(:) y2_wrt_polaris(:) z2_wrt_polaris(:)];
 
-
-
-%% Complete Frame_2 (O_2, y2).
-
-
+    affine_dh_2_wrt_polaris = zeros(4,4);
+    affine_dh_2_wrt_polaris(4,4) = 1;
+    affine_dh_2_wrt_polaris(1:3,1:3) = rot_mat_dh_2_wrt_polaris;
+    affine_dh_2_wrt_polaris(1:3,4) = O_2(:);
+    
 
 %% Calculate d_2 (DH) by moving O_1 along z_1 to common norm (pay attention to its sign). 
 % Since it is z_1's norm, d equals the distance of O_1 to the norm. 
-
+% function [dist] = fcn_line_pt_dist(p0, direction, point)
+    d_2 = fcn_line_pt_dist(O_2, common_norm_j2_3, O_1)
 
 
 %% Calculate theta_2 by rotating about z_1 to align (moved) x_1 with x_2 (also the norm) direction.
 % The value should equal the angle between x_1 and x_2.
-
+    theta_2 = atan2(norm(cross(x1_wrt_polaris, x2_wrt_polaris)), dot(x1_wrt_polaris, x2_wrt_polaris))
 
 
 %% Calculate a_2.
 % a_2: the distance along the rotated x_1 between the (moved) O_1 to O_2.
 % It equals the length of the norm section between z_1 and z_2, or distance
 % between z_1 and z_2.
-
+    a_2 = dist_j2_3
 
 
 %% Calculate aplha_2.
 % alpha_2: rotates about current x_1 (after translation and rotation) to
 % put z_1 in z_2's orientation. 
 % Its value should equal the angle between z_1 and z_2. 
-
+    alpha_2 = atan2(norm(cross(z1_wrt_polaris, z2_wrt_polaris)), dot(z1_wrt_polaris, z2_wrt_polaris))
 
 
 %% Write DH parameters to file.
@@ -53,16 +95,147 @@ function [affine_dh_2_wrt_polaris] = ...
 
 
 
-%% Fitures.
+%% Figures.
+
+figure('Name', 'J2 and J3');
+hold on;
+axis equal;
+scatter3(O_1(1), O_1(2), O_1(3), 'filled', 'red');
+scatter3(O_2(1), O_2(2), O_2(3), 'filled', 'green');
+
+% Frame_1 frame
+    text(O_1(1),O_1(2),O_1(3),'  1');
+    scale = 0.1;
+    % Y axis
+    yx_0 = O_1(1);
+    yy_0 = O_1(2);
+    yz_0 = O_1(3);
+    yx_t = O_1(1) + y1_wrt_polaris(1)*scale;
+    yy_t = O_1(2) + y1_wrt_polaris(2)*scale;
+    yz_t = O_1(3) + y1_wrt_polaris(3)*scale;
+    v0_y= [yx_0 yy_0 yz_0];
+    vz_y= [yx_t yy_t yz_t];
+    v0z_y=[vz_y;v0_y];
+    plot3(v0z_y(:,1),v0z_y(:,2),v0z_y(:,3),'g');
+    % X axis
+    xx_0 = O_1(1);
+    xy_0 = O_1(2);
+    xz_0 = O_1(3);
+    xx_t = O_1(1) + x1_wrt_polaris(1)*scale;
+    xy_t = O_1(2) + x1_wrt_polaris(2)*scale;
+    xz_t = O_1(3) + x1_wrt_polaris(3)*scale;
+    v0_y= [xx_0 xy_0 xz_0];
+    vx_y= [xx_t xy_t xz_t];
+    v0x_y=[vx_y;v0_y];
+    plot3(v0x_y(:,1),v0x_y(:,2),v0x_y(:,3),'r');       
+    % Z axis
+    zx_0 = O_1(1);
+    zy_0 = O_1(2);
+    zz_0 = O_1(3);
+    zx_t = O_1(1) + z1_wrt_polaris(1)*scale;
+    zy_t = O_1(2) + z1_wrt_polaris(2)*scale;
+    zz_t = O_1(3) + z1_wrt_polaris(3)*scale;
+    v0_y= [zx_0 zy_0 zz_0];
+    vy_y= [zx_t zy_t zz_t];
+    v0y_y=[vy_y;v0_y];
+    plot3(v0y_y(:,1),v0y_y(:,2),v0y_y(:,3),'b');
+% End of Frame_1 frame
+
+% Frame_2 frame
+    text(O_2(1),O_2(2),O_2(3),'  2');
+    scale = 0.1;
+    % Y axis
+    yx_0 = O_2(1);
+    yy_0 = O_2(2);
+    yz_0 = O_2(3);
+    yx_t = O_2(1) + y2_wrt_polaris(1)*scale;
+    yy_t = O_2(2) + y2_wrt_polaris(2)*scale;
+    yz_t = O_2(3) + y2_wrt_polaris(3)*scale;
+    v0_y= [yx_0 yy_0 yz_0];
+    vz_y= [yx_t yy_t yz_t];
+    v0z_y=[vz_y;v0_y];
+    plot3(v0z_y(:,1),v0z_y(:,2),v0z_y(:,3),'g');
+    % X axis
+    xx_0 = O_2(1);
+    xy_0 = O_2(2);
+    xz_0 = O_2(3);
+    xx_t = O_2(1) + x2_wrt_polaris(1)*scale;
+    xy_t = O_2(2) + x2_wrt_polaris(2)*scale;
+    xz_t = O_2(3) + x2_wrt_polaris(3)*scale;
+    v0_y= [xx_0 xy_0 xz_0];
+    vx_y= [xx_t xy_t xz_t];
+    v0x_y=[vx_y;v0_y];
+    plot3(v0x_y(:,1),v0x_y(:,2),v0x_y(:,3),'r');       
+    % Z axis
+    zx_0 = O_2(1);
+    zy_0 = O_2(2);
+    zz_0 = O_2(3);
+    zx_t = O_2(1) + z2_wrt_polaris(1)*scale;
+    zy_t = O_2(2) + z2_wrt_polaris(2)*scale;
+    zz_t = O_2(3) + z2_wrt_polaris(3)*scale;
+    v0_y= [zx_0 zy_0 zz_0];
+    vy_y= [zx_t zy_t zz_t];
+    v0y_y=[vy_y;v0_y];
+    plot3(v0y_y(:,1),v0y_y(:,2),v0y_y(:,3),'b');
+% End of Frame_2 frame
+
+hold off;
 
 
+try 
+    openfig(strcat(save_file_path,'processed_arcs.fig'));
+    hold on; 
+    scatter3(O_2(1), O_2(2), O_2(3), 'filled', 'green');
+ % Frame_2 frame
+    text(O_2(1),O_2(2),O_2(3),'  2');
+    scale = 0.1;
+    % Y axis
+    yx_0 = O_2(1);
+    yy_0 = O_2(2);
+    yz_0 = O_2(3);
+    yx_t = O_2(1) + y2_wrt_polaris(1)*scale;
+    yy_t = O_2(2) + y2_wrt_polaris(2)*scale;
+    yz_t = O_2(3) + y2_wrt_polaris(3)*scale;
+    v0_y= [yx_0 yy_0 yz_0];
+    vz_y= [yx_t yy_t yz_t];
+    v0z_y=[vz_y;v0_y];
+    plot3(v0z_y(:,1),v0z_y(:,2),v0z_y(:,3),'g');
+    % X axis
+    xx_0 = O_2(1);
+    xy_0 = O_2(2);
+    xz_0 = O_2(3);
+    xx_t = O_2(1) + x2_wrt_polaris(1)*scale;
+    xy_t = O_2(2) + x2_wrt_polaris(2)*scale;
+    xz_t = O_2(3) + x2_wrt_polaris(3)*scale;
+    v0_y= [xx_0 xy_0 xz_0];
+    vx_y= [xx_t xy_t xz_t];
+    v0x_y=[vx_y;v0_y];
+    plot3(v0x_y(:,1),v0x_y(:,2),v0x_y(:,3),'r');       
+    % Z axis
+    zx_0 = O_2(1);
+    zy_0 = O_2(2);
+    zz_0 = O_2(3);
+    zx_t = O_2(1) + z2_wrt_polaris(1)*scale;
+    zy_t = O_2(2) + z2_wrt_polaris(2)*scale;
+    zz_t = O_2(3) + z2_wrt_polaris(3)*scale;
+    v0_y= [zx_0 zy_0 zz_0];
+    vy_y= [zx_t zy_t zz_t];
+    v0y_y=[vy_y;v0_y];
+    plot3(v0y_y(:,1),v0y_y(:,2),v0y_y(:,3),'b');
+% End of Frame_2 frame
+
+    hold off;
+    
+catch
+    warning('Could not find J1 J2 fig.');    
+end
 
 
 %% Save the Results.
 
 
 
-
+warning('');
 
 
 end

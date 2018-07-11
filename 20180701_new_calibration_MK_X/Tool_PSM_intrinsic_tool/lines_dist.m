@@ -5,6 +5,11 @@ function [dist] = lines_dist(a, b, c, d, fig_name)
 % line_1 = a (fixed point) + t*b
 % line_2 = c + t*d
 
+a = a(:);
+b = b(:);
+c = c(:);
+d = d(:);
+
 n = cross(b,d);
 n = (n/norm(n));
 
