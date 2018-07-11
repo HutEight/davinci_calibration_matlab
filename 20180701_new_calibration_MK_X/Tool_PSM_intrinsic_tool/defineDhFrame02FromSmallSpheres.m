@@ -101,10 +101,10 @@ figure('Name', 'J2 and J3');
 hold on;
 axis equal;
 scatter3(O_1(1), O_1(2), O_1(3), 'filled', 'red');
-scatter3(O_2(1), O_2(2), O_2(3), 'filled', 'green');
+scatter3(O_2(1), O_2(2), O_2(3), 'filled', 'blue');
 
 % Frame_1 frame
-    text(O_1(1),O_1(2),O_1(3),'  1');
+    text(O_1(1),O_1(2),O_1(3),'  1', 'Color', 'red');
     scale = 0.1;
     % Y axis
     yx_0 = O_1(1);
@@ -142,7 +142,7 @@ scatter3(O_2(1), O_2(2), O_2(3), 'filled', 'green');
 % End of Frame_1 frame
 
 % Frame_2 frame
-    text(O_2(1),O_2(2),O_2(3),'  2');
+    text(O_2(1),O_2(2),O_2(3),'      2');
     scale = 0.1;
     % Y axis
     yx_0 = O_2(1);
@@ -187,7 +187,7 @@ try
     hold on; 
     scatter3(O_2(1), O_2(2), O_2(3), 'filled', 'green');
  % Frame_2 frame
-    text(O_2(1),O_2(2),O_2(3),'  2');
+    text(O_2(1),O_2(2),O_2(3),'  2', 'Color', 'blue');
     scale = 0.1;
     % Y axis
     yx_0 = O_2(1);
