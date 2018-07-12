@@ -1,4 +1,12 @@
-function [pt_cld, pt_mat] = load_csv_data(file_path)
+% RN@HMS Prince of Wales
+% 12/07/18
+% Descriptions.
+% 
+% Notes.
+%
+
+
+function [pt_cld, pt_mat] = loadCsvFileToPointCloudAndMat(file_path)
 
 %% Loading Data
 csv = csvread(file_path);
