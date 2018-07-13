@@ -66,6 +66,14 @@ function [affine_dh_0_wrt_polaris, affine_dh_1_wrt_polaris, affine_base_wrt_pola
     
     common_norm_j1_2 = cross(j1_vec, j2_vec);
     
+    theta_1 = pi
+    
+    alpha_1 = - angle_j1_2
+    
+    a_1 = dist_j1_2
+    
+    d_1 = 0
+    
     % Adjust common_norm_j1_2 direction -- normally, it should be parallel
     % to Polaris x. Therefore its x should be positive.
 %     if common_norm_j1_2(1,1) < 0
@@ -246,10 +254,16 @@ savefig( strcat(save_file_path,'processed_arcs.fig'));
 hold off;
 
 
-%% Getting DH parameters
-
+%% Export DH parameters
+t = datetime('now')
 fileID = fopen( strcat(save_file_path,'DH_parameters_recommendation.txt'), 'wt' );
-fprintf(fileID, 'The number is: %f ', 5);
+fprintf(fileID, 'DH PARAMETER RECOMMENDATION\n');
+fprintf(fileID, '---\n');
+fprintf(fileID, 'theta_1: %f \n', theta_1);
+fprintf(fileID, 'alpha_1: %f \n', alpha_1);
+fprintf(fileID, 'a_1: %f \n', a_1);
+fprintf(fileID, 'd_1: %f \n', d_1);
+fprintf(fileID, '\n');
 fclose(fileID);
 
 % The alpha is dist_lines is because the origins are defined to be on the

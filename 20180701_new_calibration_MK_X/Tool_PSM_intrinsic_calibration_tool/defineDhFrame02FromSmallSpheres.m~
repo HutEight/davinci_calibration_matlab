@@ -90,9 +90,9 @@ function [affine_dh_2_wrt_polaris] = ...
 % The value should equal the angle between x_1 and x_2.
     theta_2 = atan2(norm(cross(x1_wrt_polaris, x2_wrt_polaris)), dot(x1_wrt_polaris, x2_wrt_polaris))
 
-    ang_diff_2 = atan2(norm(cross(y1_wrt_polaris, x2_wrt_polaris)), dot(y1_wrt_polaris, x2_wrt_polaris))
+    ang_diff_2 = atan2(norm(cross(O1_O2_vec, x2_wrt_polaris)), dot(O1_O2_vec, x2_wrt_polaris))
     if (ang_diff_2 > pi/2)
-       theta_2 = -theta_2; 
+       x2_wrt_polaris = -x2_wrt_polaris; 
     end 
 
 %% Calculate a_2.
@@ -107,11 +107,6 @@ function [affine_dh_2_wrt_polaris] = ...
 % put z_1 in z_2's orientation. 
 % Its value should equal the angle between z_1 and z_2. 
     alpha_2 = atan2(norm(cross(z1_wrt_polaris, z2_wrt_polaris)), dot(z1_wrt_polaris, z2_wrt_polaris))
-    
-    ang_diff_3 = atan2(norm(cross(y1_wrt_polaris, x2_wrt_polaris)), dot(y1_wrt_polaris, x2_wrt_polaris))
-    if (ang_diff_3 < pi/2)
-       alpha_2 = -alpha_2; 
-    end
 
 
 %% Write DH parameters to file.

@@ -1,0 +1,15 @@
+DH PARAMETER RECOMMENDATION
+---
+theta_1: 3.141593 
+alpha_1: -1.564253 
+a_1: 0.006129 
+d_1: 0.000000 
+
+theta_2: 1.574078 
+alpha_2: 1.563312 
+a_2: 0.001061 
+d_2: 0.003031 
+
+d_3: -0.009243 
+j3_scaling_factor: 1.011016 
+
