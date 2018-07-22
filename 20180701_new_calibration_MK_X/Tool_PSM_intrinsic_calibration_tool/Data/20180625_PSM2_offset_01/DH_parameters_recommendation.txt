@@ -1,1 +1,0 @@
-The number is: 5.000000 

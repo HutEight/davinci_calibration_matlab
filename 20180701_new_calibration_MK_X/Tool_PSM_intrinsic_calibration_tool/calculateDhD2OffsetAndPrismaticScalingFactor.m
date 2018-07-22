@@ -55,13 +55,14 @@ function [] = calculateDhD2OffsetAndPrismaticScalingFactor(small_sphere_origins_
     
     %% Recommendation for the Joint 3 scaling factor.
     
-    % actual_command = desired_command * j3_scaling_factor
-    j3_scaling_factor = cmd_increment/actual_small_spheres_increment_average
+    % actual_command = desired_command * j3_scale_factor
+    j3_scale_factor = cmd_increment/actual_small_spheres_increment_average
     
     fileID = fopen( strcat(save_file_path,'DH_parameters_recommendation.txt'), 'a' );
-
+     
+    fprintf(fileID, '# DH_2 TO DH_3 FRAME\n');
     fprintf(fileID, 'd_3: %f \n', d_3);
-    fprintf(fileID, 'j3_scaling_factor: %f \n', j3_scaling_factor);
+    fprintf(fileID, 'j3_scale_factor: %f \n', j3_scale_factor);
     fprintf(fileID, '\n');
     fclose(fileID);
 

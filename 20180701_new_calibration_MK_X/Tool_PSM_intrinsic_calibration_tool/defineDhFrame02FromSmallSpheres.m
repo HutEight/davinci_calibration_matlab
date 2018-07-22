@@ -260,6 +260,7 @@ end
 
 fileID = fopen( strcat(save_file_path,'DH_parameters_recommendation.txt'), 'a' );
 
+fprintf(fileID, '# DH_1 TO DH_2 FRAME\n');
 fprintf(fileID, 'theta_2: %f \n', theta_2);
 fprintf(fileID, 'alpha_2: %f \n', alpha_2);
 fprintf(fileID, 'a_2: %f \n', a_2);

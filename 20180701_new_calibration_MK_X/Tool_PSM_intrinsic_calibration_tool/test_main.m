@@ -15,10 +15,10 @@ close all
 clear all
 
 %% Load the affine_Md_wrt_polaris info
-% This is the calibration board marker in Polaris. Please make sure the
-% Polaris is never moved throughout the calibration process.
 
 % @ UPDATE CHECKPOINT 1/2
+% This is the calibration board marker in Polaris. Please make sure the
+% Polaris is never moved throughout the calibration process.
 % G_N_Md 
 affine_Md_wrt_polaris = [-0.9944528705503101, 0.02834320785855414, 0.1012924025903974, 0.008999999612569809;
  -0.01358415328427183, -0.9895530074479121, 0.1435281025804421, -0.08544000238180161;
@@ -29,7 +29,7 @@ affine_Md_wrt_polaris = [-0.9944528705503101, 0.02834320785855414, 0.10129240259
 
 % @ UPDATE CHECKPOINT 2/2
 % Update the path and flags accordingly
-csv_folder_1 = 'Data/20180712_PSM1_intrinsic_3/';
+csv_folder_1 = 'Data/20180625_PSM2_offset_01/';
 
 arm_index = 1;
 
