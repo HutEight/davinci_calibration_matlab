@@ -272,7 +272,7 @@ fclose(fileID);
 
 %% TODO
 
-warning('YOU MUST CHECK D_2 SIGN MANUALLY BY OBSERVING IMAGE OF J2 AND J3 FRAMES.');
+warning('YOU MUST CHECK A_2 (New Origin from Old x axis) AND D_2 (New Origin from Old z axis) SIGN MANUALLY BY OBSERVING IMAGE OF J2 AND J3 FRAMES.');
 
 
 end

@@ -5,7 +5,7 @@
 % Notes.
 %
 
-%% THERE ARE 2 UPDATE POINTS THAT YOU NEED TO CHECK EVERYTIME YOU RUN THIS PROGRAMME.
+%% THERE ARE 3 UPDATE POINTS THAT YOU NEED TO CHECK EVERYTIME YOU RUN THIS PROGRAMME.
 % Search for 'checkpoint' to locate them. 
 
 
@@ -16,7 +16,7 @@ clear all
 
 %% Load the affine_Md_wrt_polaris info
 
-% @ UPDATE CHECKPOINT 1/2
+% @ UPDATE CHECKPOINT 1/3
 % This is the calibration board marker in Polaris. Please make sure the
 % Polaris is never moved throughout the calibration process.
 % G_N_Md 
@@ -29,16 +29,19 @@ clear all
 % OR you may use the following function to get the G_N_md from the
 % quaternion printout on Polaris screen.
 
-affine_Md_wrt_polaris = convertQuaternionWithOriginTo4x4( -0.0137700000778,-0.127959996462,  -0.940900027752,...
-    0.0527999997139, 0.0837000012398, 0.994899988174, -0.0161000005901)
+affine_Md_wrt_polaris = convertQuaternionWithOriginTo4x4(-0.0130599997938, -0.101060003042, -0.892870008945,...
+    0.0498000010848, 0.0732000023127, 0.995800018311,  -0.0200999993831)
 
 %% Load and Process Data
 
-% @ UPDATE CHECKPOINT 2/2
+% @ UPDATE CHECKPOINT 2/3
 % Update the path and flags accordingly
-csv_folder_1 = 'Data/20180723_PSM1_instrinsic_2/';
+csv_folder_1 = 'Data/20180723_PSM2_instrinsic_2/';
 
-arm_index = 1;
+
+% @ UPDATE CHECKPOINT 2/3
+% Update the path and flags accordingly
+arm_index = 2;
 
 plot_flag = 1;
 
