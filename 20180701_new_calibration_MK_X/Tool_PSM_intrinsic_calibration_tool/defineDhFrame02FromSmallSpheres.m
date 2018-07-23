@@ -83,8 +83,9 @@ function [affine_dh_2_wrt_polaris] = ...
 %% Calculate d_2 (DH) by moving O_1 along z_1 to common norm (pay attention to its sign). 
 % Since it is z_1's norm, d equals the distance of O_1 to the norm. 
 % function [dist] = calculatePointLineDist(p0, direction, point)
-    d_2 = calculatePointLineDist(O_2, common_norm_j2_3, O_1)
-
+    d_2 = -calculatePointLineDist(O_2, common_norm_j2_3, O_1)
+% TODO currently it is negative because we check the image and decide
+% manually. This should be replaced by an automatic process.
 
 %% Calculate theta_2 by rotating about z_1 to align (moved) x_1 with x_2 (also the norm) direction.
 % The value should equal the angle between x_1 and x_2.
@@ -269,7 +270,9 @@ fprintf(fileID, '\n');
 fclose(fileID);
 
 
+%% TODO
 
+warning('YOU MUST CHECK D_2 SIGN MANUALLY BY OBSERVING IMAGE OF J2 AND J3 FRAMES.');
 
 
 end

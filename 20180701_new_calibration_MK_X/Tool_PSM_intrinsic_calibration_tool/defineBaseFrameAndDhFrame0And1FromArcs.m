@@ -34,6 +34,11 @@ function [affine_dh_0_wrt_polaris, affine_dh_1_wrt_polaris, affine_base_wrt_pola
         j1_vec = -j1_vec;
     end
     
+        
+    if (rms_j1_circle > 0.001)
+        warning('Excessive rms_j1_circle:%f',rms_j1_circle);
+    end
+    
 
 %% Joint 2 Params
   
@@ -56,6 +61,11 @@ function [affine_dh_0_wrt_polaris, affine_dh_1_wrt_polaris, affine_base_wrt_pola
     if j2_vec(1,2) < 0
         j2_vec = - j2_vec;
     end
+    
+    if (rms_j1_circle > 0.001)
+        warning('Excessive rms_j2_circle:%f',rms_j2_circle);
+    end
+    
 
 %% Calculate a1 and alpha_1 (from frame_0 to frame_1)
 

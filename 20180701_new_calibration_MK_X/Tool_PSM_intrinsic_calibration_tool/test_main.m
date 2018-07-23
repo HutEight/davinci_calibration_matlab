@@ -20,16 +20,23 @@ clear all
 % This is the calibration board marker in Polaris. Please make sure the
 % Polaris is never moved throughout the calibration process.
 % G_N_Md 
-affine_Md_wrt_polaris = [-0.9944528705503101, 0.02834320785855414, 0.1012924025903974, 0.008999999612569809;
- -0.01358415328427183, -0.9895530074479121, 0.1435281025804421, -0.08544000238180161;
- 0.1043022484599338, 0.1413559620924399, 0.9844488472983871, -0.8303300142288208;
- 0, 0, 0, 1];
+% affine_Md_wrt_polaris = [...
+%  -0.9944528705503101, 0.02834320785855414, 0.1012924025903974, 0.008999999612569809;
+%  -0.01358415328427183, -0.9895530074479121, 0.1435281025804421, -0.08544000238180161;
+%  0.1043022484599338, 0.1413559620924399, 0.9844488472983871, -0.8303300142288208;
+%  0, 0, 0, 1];
+
+% OR you may use the following function to get the G_N_md from the
+% quaternion printout on Polaris screen.
+
+affine_Md_wrt_polaris = convertQuaternionWithOriginTo4x4( -0.0137700000778,-0.127959996462,  -0.940900027752,...
+    0.0527999997139, 0.0837000012398, 0.994899988174, -0.0161000005901)
 
 %% Load and Process Data
 
 % @ UPDATE CHECKPOINT 2/2
 % Update the path and flags accordingly
-csv_folder_1 = 'Data/20180625_PSM2_offset_01/';
+csv_folder_1 = 'Data/20180723_PSM1_instrinsic_2/';
 
 arm_index = 1;
 

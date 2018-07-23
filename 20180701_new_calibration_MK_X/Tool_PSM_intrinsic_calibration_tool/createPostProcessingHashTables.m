@@ -37,6 +37,12 @@ key_ = {...
 
     % Small sphere centres line fitting
     [small_sphere_origins_line_param, small_sphere_origins_line_rms] = fitLineSvd(small_sphere_origins_vec);
+       
+
+    
+    if (small_sphere_origins_line_rms > 0.001)
+        warning('Excessive small_sphere_origins_line_rms:%f',small_sphere_origins_line_rms);
+    end
 
 
 
@@ -62,6 +68,20 @@ key_ = {...
 
     rms_Small_Spheres_vec = [rms_SmallSphere01; rms_SmallSphere02; rms_SmallSphere03;
         rms_SmallSphere04];
+    
+    if (rms_SmallSphere01 > 0.001)
+        warning('Excessive rms_SmallSphere01:%f',rms_SmallSphere01);
+    end    
+    if (rms_SmallSphere02 > 0.001)
+    warning('Excessive rms_SmallSphere02:%f',rms_SmallSphere02);
+    end    
+    if (rms_SmallSphere03 > 0.001)
+    warning('Excessive rms_SmallSphere03:%f',rms_SmallSphere03);
+    end    
+    if (rms_SmallSphere04 > 0.001)
+    warning('Excessive rms_SmallSphere04:%f',rms_SmallSphere04);
+    end    
+    
 
 %% Values
 

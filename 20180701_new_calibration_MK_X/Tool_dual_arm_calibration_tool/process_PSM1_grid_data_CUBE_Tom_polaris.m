@@ -200,6 +200,67 @@ end
 
 save(strcat(file_path,'psm1_pts_Polaris_cube.mat'), 'psm1_pts_Polaris_cube');
 
+%% Cube Properties
+% Added on 23/07/18 HMS Queen Elizabeth Task Force
+% This section analyse the straightness of all thouse lines (49 of them) in
+% the cube by their line fitting rms. It also tells the average distance
+% between 2 consecutive points, which should be 10 mm. 
+
+% Get the start-end point pairs of each rows of the cube. Rows are defined
+% according to the visit sequence.
+row_start_end = [1 1];
+row_count = 1;
+
+
+for i3 = 2:(n_pts2)
+    
+    dist = norm(psm1_pts_Polaris_cube(i3,:) - psm1_pts_Polaris_cube(i3-1,:) ); 
+    dist_from_last_pt(i3-1,:) = dist;
+    
+    if (dist > 0.02)
+        row_start_end(row_count,2) = i3-1;
+        row_start_end(row_count+1,1) = i3;
+        row_count = row_count + 1;
+    end
+    
+    if (i3==n_pts2)
+        row_start_end(row_count,2) = i3;
+    end
+    
+end
+
+% Then get the line fitting to see how the rms are for those rows.
+total_cube_dist = 0;
+for i4 = 1:row_count
+    
+    % From start to end inside a row
+    pt_n = 1;
+    total_row_dist = 0;
+    
+    for n = (row_start_end(i4,1)):(row_start_end(i4,2))
+        row_pts(pt_n,:) = psm1_pts_Polaris_cube(n,:);
+        
+        if (n < row_start_end(i4,2))
+            dist = norm(psm1_pts_Polaris_cube(n,:) - psm1_pts_Polaris_cube(n+1,:) );
+        end
+        total_row_dist = total_row_dist + dist;
+        total_cube_dist = total_cube_dist + dist;
+                 
+        pt_n = pt_n + 1;
+    end
+    
+    if (i4<=row_count)
+        ave_vertic_dist_row(i4,:) = total_row_dist/ ( row_start_end(i4,2) - row_start_end(i4,1) + 1);
+    end
+    
+    [row_pts_line_params, row_pts_rms] = fitLineSvd(row_pts);
+    
+    row_pts_rms_vec(i4,:) = row_pts_rms;
+    
+    
+end
+ave_vertic_dist = total_cube_dist/(n_pts2-1);
+
 
 
 %% Visualise the points
