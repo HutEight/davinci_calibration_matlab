@@ -83,9 +83,12 @@ function [affine_dh_2_wrt_polaris] = ...
 %% Calculate d_2 (DH) by moving O_1 along z_1 to common norm (pay attention to its sign). 
 % Since it is z_1's norm, d equals the distance of O_1 to the norm. 
 % function [dist] = calculatePointLineDist(p0, direction, point)
-    d_2 = -calculatePointLineDist(O_2, common_norm_j2_3, O_1)
-% TODO currently it is negative because we check the image and decide
-% manually. This should be replaced by an automatic process.
+    d_2 = calculatePointLineDist(O_2, common_norm_j2_3, O_1)
+    ang_diff_4 = atan2(norm(cross(O1_O2_vec, z1_wrt_polaris)), dot(O1_O2_vec, z1_wrt_polaris))
+    if (ang_diff_4 > pi/2)
+        d_2 = -d_2;
+    end
+    
 
 %% Calculate theta_2 by rotating about z_1 to align (moved) x_1 with x_2 (also the norm) direction.
 % The value should equal the angle between x_1 and x_2.
@@ -205,7 +208,7 @@ scatter3(O_2(1), O_2(2), O_2(3), 'filled', 'blue');
 % End of Frame_2 frame
 
 hold off;
-
+savefig( strcat(save_file_path,'J2_3.fig'));
 
 try 
     openfig(strcat(save_file_path,'processed_arcs.fig'));
