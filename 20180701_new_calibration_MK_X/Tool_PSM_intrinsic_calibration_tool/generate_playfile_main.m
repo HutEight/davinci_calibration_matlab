@@ -12,7 +12,7 @@
 %%
 
 % @ UPDATE CHECKPOINT 1/3
-csv_folder_1 = 'Data/20180723_PSM1_intrinsic_3/';
+csv_folder_1 = 'Data/20180725_PSM1_intrinsic_1/';
 arm_index = 1;
 
 
@@ -31,11 +31,15 @@ arm_index = 1;
 
 
 % @ UPDATE CHECKPOINT 3/3
-affine_Md_wrt_polaris = convertQuaternionWithOriginTo4x4(-0.00735000008717, -0.0836400017142, -0.861490011215,...
-     0.0515000000596, 0.0703999996185, 0.995999991894, -0.016799999401)
+affine_Md_wrt_polaris = convertQuaternionWithOriginTo4x4(-0.000669999979436,-0.103509999812, -0.775089979172,...
+      0.0520999990404, 0.089500002563, 0.994499981403,-0.0093999998644)
  
  
-affine_base_wrt_polaris
+affine_base_wrt_polaris = [...
+   -0.0062    0.1189   -0.9929   -0.2090;
+   -0.9987   -0.0515    0.0001   -0.0049;
+   -0.0511    0.9916    0.1191   -0.7907;
+         0         0         0    1.0000]
  
  
 %%
