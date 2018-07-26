@@ -94,7 +94,9 @@ function [affine_dh_2_wrt_polaris] = ...
 % The value should equal the angle between x_1 and x_2.
     theta_2 = atan2(norm(cross(x1_wrt_polaris, x2_wrt_polaris)), dot(x1_wrt_polaris, x2_wrt_polaris))
 
-    ang_diff_2 = atan2(norm(cross(y1_wrt_polaris, x2_wrt_polaris)), dot(y1_wrt_polaris, x2_wrt_polaris))
+    temp_vec_theta_2 = cross(x1_wrt_polaris, x2_wrt_polaris);
+    
+    ang_diff_2 = atan2(norm(cross(temp_vec_theta_2, z1_wrt_polaris)), dot(temp_vec_theta_2, z1_wrt_polaris))
     if (ang_diff_2 > pi/2)
        theta_2 = -theta_2; 
     end 
@@ -112,8 +114,10 @@ function [affine_dh_2_wrt_polaris] = ...
 % Its value should equal the angle between z_1 and z_2. 
     alpha_2 = atan2(norm(cross(z1_wrt_polaris, z2_wrt_polaris)), dot(z1_wrt_polaris, z2_wrt_polaris))
     
-    ang_diff_3 = atan2(norm(cross(y1_wrt_polaris, x2_wrt_polaris)), dot(y1_wrt_polaris, x2_wrt_polaris))
-    if (ang_diff_3 < pi/2)
+    temp_vec_alpha_2 = cross(z1_wrt_polaris, z2_wrt_polaris);
+    
+    ang_diff_3 = atan2(norm(cross(temp_vec_alpha_2, x2_wrt_polaris)), dot(temp_vec_alpha_2, x2_wrt_polaris))
+    if (ang_diff_3 > pi/2)
        alpha_2 = -alpha_2; 
     end
 
@@ -271,11 +275,6 @@ fprintf(fileID, 'a_2: %f \n', a_2);
 fprintf(fileID, 'd_2: %f \n', d_2);
 fprintf(fileID, '\n');
 fclose(fileID);
-
-
-%% TODO
-
-warning('YOU MUST CHECK A_2 (New Origin from Old x axis) AND D_2 (New Origin from Old z axis) SIGN MANUALLY BY OBSERVING IMAGE OF J2 AND J3 FRAMES.');
 
 
 end
