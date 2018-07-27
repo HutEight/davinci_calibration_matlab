@@ -132,11 +132,11 @@ function [affine_dh_2_wrt_polaris] = ...
 figure('Name', 'J2 and J3');
 hold on;
 axis equal;
-scatter3(O_1(1), O_1(2), O_1(3), 'filled', 'red');
+scatter3(O_1(1), O_1(2), O_1(3), 'filled', 'green');
 scatter3(O_2(1), O_2(2), O_2(3), 'filled', 'blue');
 
 % Frame_1 frame
-    text(O_1(1),O_1(2),O_1(3),'  1', 'Color', 'red');
+    text(O_1(1),O_1(2),O_1(3),'  1', 'Color', 'green');
     scale = 0.1;
     % Y axis
     yx_0 = O_1(1);
@@ -217,7 +217,7 @@ savefig( strcat(save_file_path,'J2_3.fig'));
 try 
     openfig(strcat(save_file_path,'processed_arcs.fig'));
     hold on; 
-    scatter3(O_2(1), O_2(2), O_2(3), 'filled', 'green');
+    scatter3(O_2(1), O_2(2), O_2(3), 'filled', 'blue');
  % Frame_2 frame
     text(O_2(1),O_2(2),O_2(3),'  2', 'Color', 'blue');
     scale = 0.1;
@@ -257,6 +257,7 @@ try
 % End of Frame_2 frame
 
     hold off;
+    savefig( strcat(save_file_path,'J1_2_3.fig'));
     
 catch
     warning('Could not find J1 J2 fig.');    
