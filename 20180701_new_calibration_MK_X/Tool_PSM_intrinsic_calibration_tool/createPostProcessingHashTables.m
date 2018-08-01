@@ -50,11 +50,13 @@ key_ = {...
 % The recommendation of DH parameter adjustments will be put into a text
 % file.
 
+    virtual_flag = 0;
+
     [affine_dh_0_wrt_polaris, affine_dh_1_wrt_polaris, affine_base_wrt_polaris] = ...
         defineBaseFrameAndDhFrame0And1FromArcs(pt_mats_map('J1Arc01'), pt_mats_map('J2Arc01'), save_file_path);
 
     [affine_dh_2_wrt_polaris] = ...
-        defineDhFrame02FromSmallSpheres(affine_dh_1_wrt_polaris, small_sphere_origins_line_param, save_file_path);
+        defineDhFrame02FromSmallSpheres(affine_dh_1_wrt_polaris, small_sphere_origins_line_param, save_file_path, virtual_flag);
 
     calculateDhD2OffsetAndPrismaticScalingFactor(small_sphere_origins_vec, affine_dh_2_wrt_polaris, save_file_path);
     
@@ -118,6 +120,9 @@ fclose(fileID);
 try 
     openfig(strcat(save_file_path,'J1_2_3.fig'));
     hold on; 
+    
+    scatter3(0, 0, 0, 'filled', 'black');
+    text(0, 0, 0,'  Polaris Origin', 'Color', 'black');
     
     scatter3(small_origin_1(1), small_origin_1(2), small_origin_1(3),'o','black');
     scatter3(small_origin_2(1), small_origin_2(2), small_origin_2(3),'o','black');

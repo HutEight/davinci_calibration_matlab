@@ -29,14 +29,14 @@ clear all
 % OR you may use the following function to get the G_N_md from the
 % quaternion printout on Polaris screen.
 
-affine_Md_wrt_polaris = convertQuaternionWithOriginTo4x4(-0.0179099999368, -0.05974999815233, -0.952310025692,...
-      0.0494000017643, 0.0529000014067, 0.997099995613,-0.0223999992013)
+affine_Md_wrt_polaris = convertQuaternionWithOriginTo4x4( -0.00536999991164, -0.105169996619, -0.828050017357,...
+       0.0511999987066, 0.0954999998212,0.993900001049, -0.0162000004202)
 
 %% Load and Process Data
 
 % @ UPDATE CHECKPOINT 2/3
 % Update the path and flags accordingly
-csv_folder_1 = 'Data/20180726_PSM1_intrinsic_5_j4_45deg/';
+csv_folder_1 = 'Data/20180730_PSM1_intrinsic_2_j4_0_deg/';
 
 % @ UPDATE CHECKPOINT 3/3
 % Update the path and flags accordingly

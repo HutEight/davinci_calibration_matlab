@@ -10,7 +10,55 @@ function [affine_dh_0_wrt_polaris, affine_dh_1_wrt_polaris, affine_base_wrt_pola
     = defineBaseFrameAndDhFrame0And1FromArcs(j1_arc_in_polairs_mat, ...
     j2_arc_in_polairs_mat, ...
     save_file_path)
+ 
+%% Get z0 and z1 direction reference
 
+ref = j1_arc_in_polairs_mat(1,4);
+
+t1 = (ref < j1_arc_in_polairs_mat(:,4)) &  (j1_arc_in_polairs_mat(:,4) < ref + 0.2);
+t2 = (ref + 0.2 < j1_arc_in_polairs_mat(:,4)) &  (j1_arc_in_polairs_mat(:,4) < ref + 0.4);
+t3 = (ref + 0.4 < j1_arc_in_polairs_mat(:,4)) &  (j1_arc_in_polairs_mat(:,4) < ref + 0.6);
+j1_x = j1_arc_in_polairs_mat(:,1);
+j1_y = j1_arc_in_polairs_mat(:,2);
+j1_z = j1_arc_in_polairs_mat(:,3);
+j1_pt1 = [j1_x(t1) j1_y(t1) j1_z(t1)];
+j1_pt1 = mean(j1_pt1);
+j1_pt2 = [j1_x(t2) j1_y(t2) j1_z(t2)];
+j1_pt2 = mean(j1_pt2);
+j1_pt3 = [j1_x(t3) j1_y(t3) j1_z(t3)];
+j1_pt3 = mean(j1_pt3);
+% Note that J1 starts with q=1.5, it then moves to q=-1.5, therefore the
+% first rotation is opposite its axis. 
+j1_vec_ref = - cross((j1_pt2 - j1_pt1),(j1_pt3 - j1_pt1));
+j1_vec_ref = j1_vec_ref/norm(j1_vec_ref)
+
+if isnan(j1_vec_ref)
+   warning('j1_vec_ref is NaA'); 
+end
+
+
+ref = j2_arc_in_polairs_mat(10,4);
+
+t1 = (ref < j2_arc_in_polairs_mat(:,4)) &  (j2_arc_in_polairs_mat(:,4) < ref + 0.2);
+t2 = (ref + 0.2 < j2_arc_in_polairs_mat(:,4)) &  (j2_arc_in_polairs_mat(:,4) < ref + 0.4);
+t3 = (ref + 0.4 < j2_arc_in_polairs_mat(:,4)) &  (j2_arc_in_polairs_mat(:,4) < ref + 0.6);
+j2_x = j2_arc_in_polairs_mat(:,1);
+j2_y = j2_arc_in_polairs_mat(:,2);
+j2_z = j2_arc_in_polairs_mat(:,3);
+j2_pt1 = [j2_x(t1) j2_y(t1) j2_z(t1)];
+j2_pt1 = mean(j2_pt1);
+j2_pt2 = [j2_x(t2) j2_y(t2) j2_z(t2)];
+j2_pt2 = mean(j2_pt2);
+j2_pt3 = [j2_x(t3) j2_y(t3) j2_z(t3)];
+j2_pt3 = mean(j2_pt3);
+% Note that J1 starts with q=1.5, it then moves to q=-1.5, therefore the
+% first rotation is opposite its axis. 
+j2_vec_ref = - cross((j2_pt2 - j2_pt1),(j2_pt3 - j2_pt1));
+j2_vec_ref = j2_vec_ref/norm(j2_vec_ref)
+
+if isnan(j2_vec_ref)
+   j2_vec_ref('j1_vec_ref is NaA'); 
+end
 
 %% Joint 1 Params
 
@@ -19,7 +67,7 @@ function [affine_dh_0_wrt_polaris, affine_dh_1_wrt_polaris, affine_base_wrt_pola
         fitCircleFmincon(j1_arc_in_polairs_mat)
     
     % Auxilary variables
-    radius_j1_circle = j1_arc_circle_params(1, 4);
+    radius_j1_circle = j1_arc_circle_params(1, 4)
     rms_j1_circle = j1_rms;
     j1_vec = j1_arc_plane_norm;
     j1_vec = j1_vec(:); % force into a column    
@@ -28,10 +76,10 @@ function [affine_dh_0_wrt_polaris, affine_dh_1_wrt_polaris, affine_base_wrt_pola
     % Origin of j1 circle
     origin_j1_circle = j1_arc_circle_params(1, 1:3);
     
-    % Adjust j1_vec direction -- normally, it should be roughly
-    % antiparallel to the Polaris z. Meaning its z should be negative.
-    if j1_vec(1,3) > 0
-        j1_vec = -j1_vec;
+    % Adjust j1_vec direction according to the j1_vec_ref
+    ang_diff_j1 = atan2(norm(cross(j1_vec, j1_vec_ref)), dot(j1_vec, j1_vec_ref))
+    if (ang_diff_j1 > pi/2)
+       j1_vec = -j1_vec; 
     end
     
         
@@ -56,13 +104,13 @@ function [affine_dh_0_wrt_polaris, affine_dh_1_wrt_polaris, affine_base_wrt_pola
     % Origin of DH frame 0, also the origin of the base frame.
     origin_j2_circle = j2_arc_circle_params(1, 1:3);
    
-    % Adjust j1_vec direction -- normally, it should be roughly
-    % parallel to the Polaris y. Meaning its y should be positive.
-    if j2_vec(1,2) < 0
-        j2_vec = - j2_vec;
+    % Adjust j2_vec direction according to the j2_vec_ref
+    ang_diff_j2 = atan2(norm(cross(j2_vec, j2_vec_ref)), dot(j2_vec, j2_vec_ref))
+    if (ang_diff_j2 > pi/2)
+       j2_vec = -j2_vec; 
     end
     
-    if (rms_j1_circle > 0.001)
+    if (rms_j2_circle > 0.001)
         warning('Excessive rms_j2_circle:%f',rms_j2_circle);
     end
     
@@ -123,11 +171,8 @@ function [affine_dh_0_wrt_polaris, affine_dh_1_wrt_polaris, affine_base_wrt_pola
 dh_0_z = j1_vec/norm(j1_vec);
 dh_0_x = common_norm_j1_2/norm(common_norm_j1_2);
 
-if dh_0_z(1,3) > 0
-    dh_0_z = -dh_0_z    
-end
-if dh_0_x(1,1) < 0
-    dh_0_x = -dh_0_x    
+if dh_0_x(3) < 0
+   warning('dh_0_x may point to the wrong direction');
 end
 
 dh_0_y = cross(dh_0_z, dh_0_x);
@@ -146,9 +191,6 @@ dh_1_x = O_1 - O_0;
 dh_1_x = dh_1_x/norm(dh_1_x)
 
 dh_1_z = j2_vec/norm(j2_vec);
-if dh_1_z(1,2) < 0
-    dh_1_z = - dh_1_z    
-end
 
 dh_1_y = cross(dh_1_z, dh_1_x);
 dh_1_y = dh_1_y/norm(dh_1_y)
@@ -169,7 +211,7 @@ rot_mat_base_wrt_polaris = [base_x(:) base_y(:) base_z(:)];
 affine_base_wrt_polaris = zeros(4,4);
 affine_base_wrt_polaris(4,4) = 1;
 affine_base_wrt_polaris(1:3,1:3) = rot_mat_base_wrt_polaris;
-affine_base_wrt_polaris(1:3,4) = O_1(:);
+affine_base_wrt_polaris(1:3,4) = O_0(:);
 
 
 

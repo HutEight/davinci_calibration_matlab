@@ -9,6 +9,8 @@
 
 function [sphere_para, residuals] = fitSphereLeastSquare(pt_mat)
 
+    pt_mat = pt_mat(:,1:3);
+
     sphere_pts = pt_mat;
 
     pc_sphere_rover = pointCloud([sphere_pts(:,1), sphere_pts(:,2), sphere_pts(:,3)]);

@@ -8,7 +8,7 @@
 
 function [affine_dh_2_wrt_polaris] = ...
     defineDhFrame02FromSmallSpheres(affine_dh_1_wrt_polaris, small_sphere_origins_line_param, ...
-    save_file_path)
+    save_file_path, virtual_flag)
 
 
 %% Preparation
@@ -25,8 +25,16 @@ function [affine_dh_2_wrt_polaris] = ...
     
     z2_wrt_polaris = small_sphere_origins_line_param.direction;
     % check if z2 point down
-    if z2_wrt_polaris(1) < 0
-       z2_wrt_polaris = -z2_wrt_polaris; 
+    if virtual_flag ~= 1
+        if z2_wrt_polaris(1) < 0
+           z2_wrt_polaris = -z2_wrt_polaris; 
+        end
+    else
+        % The simulation data use the Base frame as the Polaris frame,
+        % therefore the z2 should be pointing anti-parallel to base_z.
+        if z2_wrt_polaris(3) > 0
+           z2_wrt_polaris = -z2_wrt_polaris; 
+        end
     end
     
     z2_wrt_polaris = z2_wrt_polaris/norm(z2_wrt_polaris);

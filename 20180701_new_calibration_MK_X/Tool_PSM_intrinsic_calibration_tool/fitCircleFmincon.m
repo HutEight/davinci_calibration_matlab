@@ -16,6 +16,10 @@ function [circle_params, arc_plane_norm, fval, rms] = fitCircleFmincon(pt_mat)
 
 % TODO open toggle plotting
 
+%%
+
+pt_mat = pt_mat(:,1:3);
+
 %% Extracting 3 random pts from mat to find an initial circle in 3d space
 mat_size = size(pt_mat, 1);
 

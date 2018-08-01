@@ -20,10 +20,10 @@ function [] = calculateDhD2OffsetAndPrismaticScalingFactor(small_sphere_origins_
     sphere_origin_3 = small_sphere_origins_vec(3,:);
     sphere_origin_4 = small_sphere_origins_vec(4,:);
     
-    dist_pt_1_to_dh_2_origin = sqrt( (dh_2_origin(1)-sphere_origin_1(1))^2 + (dh_2_origin(2)-sphere_origin_1(2))^2 + (dh_2_origin(3)-sphere_origin_1(3))^2 );
-    dist_pt_2_to_dh_2_origin = sqrt( (dh_2_origin(1)-sphere_origin_2(1))^2 + (dh_2_origin(2)-sphere_origin_2(2))^2 + (dh_2_origin(3)-sphere_origin_2(3))^2 );
-    dist_pt_3_to_dh_2_origin = sqrt( (dh_2_origin(1)-sphere_origin_3(1))^2 + (dh_2_origin(2)-sphere_origin_3(2))^2 + (dh_2_origin(3)-sphere_origin_3(3))^2 );
-    dist_pt_4_to_dh_2_origin = sqrt( (dh_2_origin(1)-sphere_origin_4(1))^2 + (dh_2_origin(2)-sphere_origin_4(2))^2 + (dh_2_origin(3)-sphere_origin_4(3))^2 );
+    dist_pt_1_to_dh_2_origin = norm(dh_2_origin - sphere_origin_1(:));
+    dist_pt_2_to_dh_2_origin = norm(dh_2_origin - sphere_origin_2(:));
+    dist_pt_3_to_dh_2_origin = norm(dh_2_origin - sphere_origin_3(:));
+    dist_pt_4_to_dh_2_origin = norm(dh_2_origin - sphere_origin_4(:));
     
     distance_to_dh_2_origin_vec = [dist_pt_1_to_dh_2_origin cmd_j3_values(1); ...
         dist_pt_2_to_dh_2_origin cmd_j3_values(2); ...
@@ -45,6 +45,11 @@ function [] = calculateDhD2OffsetAndPrismaticScalingFactor(small_sphere_origins_
     k = temp(1);
     d = temp(2);
     
+    %
+     figure('Name', 'd_3 auxiliary');
+     scatter(cmd_j3_values, distance_to_dh_2_origin_vec(:,1));
+     axis([0 0.3 -0.1 0.3])
+     hold off;
     
     
     %% Recommendation of DH parameter d_3 and j3_scale_factor
@@ -76,18 +81,18 @@ function [] = calculateDhD2OffsetAndPrismaticScalingFactor(small_sphere_origins_
 %     d_3 = d_3(3)
 %     
 %     % Calculate the actual increments
-%     dist_pt_1_2 = dist_pt_2_to_dh_2_origin - dist_pt_1_to_dh_2_origin;
-%     dist_pt_2_3 = dist_pt_3_to_dh_2_origin - dist_pt_2_to_dh_2_origin;
-%     dist_pt_3_4 = dist_pt_4_to_dh_2_origin - dist_pt_3_to_dh_2_origin;
-%     
-%     actual_small_spheres_increment_vec = [dist_pt_1_2; dist_pt_2_3; dist_pt_3_4]
-%     
-%     actual_small_spheres_increment_average = mean(actual_small_spheres_increment_vec)
+    dist_pt_1_2 = dist_pt_2_to_dh_2_origin - dist_pt_1_to_dh_2_origin;
+    dist_pt_2_3 = dist_pt_3_to_dh_2_origin - dist_pt_2_to_dh_2_origin;
+    dist_pt_3_4 = dist_pt_4_to_dh_2_origin - dist_pt_3_to_dh_2_origin;
+    
+    actual_small_spheres_increment_vec = [dist_pt_1_2; dist_pt_2_3; dist_pt_3_4]
+    
+    actual_small_spheres_increment_average = mean(actual_small_spheres_increment_vec)
 %     
 %     %% Recommendation for the Joint 3 scaling factor.
 %     
 %     % actual_command = desired_command * j3_scale_factor
-%     j3_scale_factor = cmd_increment/actual_small_spheres_increment_average
+    j3_scale_factor_ref = actual_small_spheres_increment_average/cmd_increment
     
     
     %% 
