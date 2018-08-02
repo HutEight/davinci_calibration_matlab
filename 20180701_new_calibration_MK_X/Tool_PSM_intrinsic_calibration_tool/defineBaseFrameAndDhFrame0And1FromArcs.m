@@ -173,10 +173,11 @@ dh_0_x = common_norm_j1_2/norm(common_norm_j1_2);
 
 if dh_0_x(3) < 0
    warning('dh_0_x may point to the wrong direction');
+   dh_0_x(3)
 end
 
 dh_0_y = cross(dh_0_z, dh_0_x);
-dh_0_y = dh_0_y/norm(dh_0_y)
+dh_0_y = dh_0_y/norm(dh_0_y);
 
 rot_mat_dh_0_wrt_polaris = [dh_0_x(:) dh_0_y(:) dh_0_z(:)];
 affine_dh_0_wrt_polaris = zeros(4,4);

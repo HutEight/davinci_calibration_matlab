@@ -17,7 +17,7 @@ clear all
 
 %% Load and Process Data
 
-% @ UPDATE CHECKPOINT 2/3
+% @ UPDATE CHECKPOINT 1/1
 % Update the path and flags accordingly
 csv_folder_1 = 'Data/20180801_Sim_intrinsic/';
 
@@ -32,6 +32,7 @@ load(strcat(csv_folder_1,'small_sphere_02_mat.mat'), 'small_sphere_02_mat');
 load(strcat(csv_folder_1,'small_sphere_03_mat.mat'), 'small_sphere_03_mat');
 load(strcat(csv_folder_1,'small_sphere_04_mat.mat'), 'small_sphere_04_mat');
 
+% The syntax is different from the one works for real data.
 [result_map] = createPostProcessingHashTablesSimulation(j1_arc_mat, j2_arc_mat, small_sphere_01_mat, ...
     small_sphere_02_mat, small_sphere_03_mat, small_sphere_04_mat, ...
     plot_flag, csv_folder_1)

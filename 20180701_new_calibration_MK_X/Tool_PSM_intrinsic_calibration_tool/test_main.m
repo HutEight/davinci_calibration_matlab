@@ -19,6 +19,9 @@ clear all
 % @ UPDATE CHECKPOINT 1/3
 % This is the calibration board marker in Polaris. Please make sure the
 % Polaris is never moved throughout the calibration process.
+% If you don't need to generate a chequerboard playfile, do not update
+% this.
+
 % G_N_Md 
 % affine_Md_wrt_polaris = [...
 %  -0.9944528705503101, 0.02834320785855414, 0.1012924025903974, 0.008999999612569809;
@@ -36,7 +39,7 @@ affine_Md_wrt_polaris = convertQuaternionWithOriginTo4x4( -0.00536999991164, -0.
 
 % @ UPDATE CHECKPOINT 2/3
 % Update the path and flags accordingly
-csv_folder_1 = 'Data/20180730_PSM1_intrinsic_2_j4_0_deg/';
+csv_folder_1 = 'Data/20180801_PSM1_intrinsic_1_j4_0_deg/';
 
 % @ UPDATE CHECKPOINT 3/3
 % Update the path and flags accordingly

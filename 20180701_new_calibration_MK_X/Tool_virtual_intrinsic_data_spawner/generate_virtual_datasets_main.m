@@ -3,9 +3,12 @@
 % Descriptions.
 %
 % Notes.
-% 1. All the generated points are in Robot Base Frame. 
+% 1. All the generated points are in Robot Base Frame. Or you may think of
+% that the Polaris frame is overlapping the base frame. 
+% 2. The main programme to run the analysis of the generated data is in the
+% PSM_intrinsic_calibration_tool directory.
 
-%% THERE ARE 3 UPDATE POINTS THAT YOU NEED TO CHECK EVERYTIME YOU RUN THIS PROGRAMME.
+%% THERE ARE 2 UPDATE POINTS THAT YOU NEED TO CHECK EVERYTIME YOU RUN THIS PROGRAMME.
 % Search for 'checkpoint' to locate them. 
 
 
@@ -16,6 +19,8 @@ clear all
 
 
 %% User defined DH parameters.
+% @ UPDATE CHECKPOINT 1/2
+% Update the DH parameters.
 
 a_1 = 0.0053;
 % a_1 = 0.0;
@@ -33,6 +38,8 @@ j3_scale_factor = 0.9888;
 % theta_2 = -pi/2
 % alpha_2 = pi/2
 
+% @ UPDATE CHECKPOINT 2/2
+% Update save folder.
 save_file_path = "../Tool_PSM_intrinsic_calibration_tool/Data/20180801_Sim_intrinsic/";
 
 %% Initialisation
@@ -77,8 +84,10 @@ filename = strcat(save_file_path, 'j2_arc_mat.mat');
 save(filename, 'j2_arc_mat')
 
 %% Generate Small sphere data
+% Small sphere radius
 radius = 0.03;
 
+% O_3 is the origin of the DH frame_3 which is attached to the wrist bend.
 O_3 = [-d_2; -a_2; (a_1-d_3)]
 q_3 = 0.05;
 origin_1 = O_3 + [0; 0; -q_3*j3_scale_factor]
