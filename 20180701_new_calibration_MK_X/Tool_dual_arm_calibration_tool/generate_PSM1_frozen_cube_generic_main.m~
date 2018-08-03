@@ -16,13 +16,13 @@ clear all
 % Change these initial values
 % centre of the cube
 
-% @ UPDATE CHECKPOINT 1/6
+% @ UPDATE CHECKPOINT 1/7
 centre_x = -0.00302805656706;
 centre_y = 0.0417731450507;
 centre_z = -0.13409265241;
 
-% @ UPDATE CHECKPOINT 2/6
-data_seq = '01';
+% @ UPDATE CHECKPOINT 2/7
+data_seq = '02';
 
 t = datetime('now');
 formatOut = 'yyyymmdd';
@@ -33,22 +33,22 @@ folderName = strcat(DateString, '_', data_seq);
 
 mkdir(strcat(fileDir, folderName));
 
-% @ UPDATE CHECKPOINT 3/6 
-travel_speed = 0.06; % m/sec
+% @ UPDATE CHECKPOINT 3/7 
+travel_speed = 0.03; % m/sec
 
-% @ UPDATE CHECKPOINT 4/6 
+% @ UPDATE CHECKPOINT 4/7 
 vertex_dist = 0.03; % m
 
-% @ UPDATE CHECKPOINT 5/6 
+% @ UPDATE CHECKPOINT 5/7 
 cube_dimension = 3; % cube_dimension^3 points in total
 
 travel_time = vertex_dist/travel_speed; % From one point to another
 
-% @ UPDATE CHECKPOINT 6/6 
+% @ UPDATE CHECKPOINT 6/7 
 still_time = 5;
 
-% @ *OPTIONAL* UPDATE CHECKPOINT 1/1
-custom_file_affix = "spd_006";
+% @ UPDATE CHECKPOINT 7/7
+path_val_ = strcat(save_file_path, test_index, '_small_sphere.jsp');
 
 % ---
 
@@ -93,12 +93,8 @@ for i = 0:(cube_dimension-1)
             end             
                       
             playfile_mat(playfile_row_count,:) = ...
-                [point_ijk(1), point_ijk(2), point_ijk(3), 0,1,0, 0, 0, -1, -1,  0, 0, -0.05, 0,1,0, 0, 0, -1, 0, time];
-            playfile_row_count = playfile_row_count + 1;
+                [point_ijk(1) ]
             
-            playfile_mat(playfile_row_count,:) = ...
-                [point_ijk(1), point_ijk(2), point_ijk(3), 0,1,0, 0, 0, -1, -1,  0, 0, -0.05, 0,1,0, 0, 0, -1, 0, time + still_time];
-            playfile_row_count = playfile_row_count + 1;
             
             disp( strcat(num2str(point_ijk(1)), ',  ', num2str(point_ijk(2)), ',  ' , num2str(point_ijk(3)), ',0,1,0, 0, 0, -1, -1,       0, 0, -0.05, 0,1,0, 0, 0, -1, 0,',   num2str(time)));
             disp( strcat(num2str(point_ijk(1)), ',  ', num2str(point_ijk(2)), ',  ' , num2str(point_ijk(3)), ',0,1,0, 0, 0, -1, -1,       0, 0, -0.05, 0,1,0, 0, 0, -1, 0,',   num2str(time + still_time))); 
@@ -162,5 +158,3 @@ end
 
 save_file_name = strcat(fileDir, folderName, '/psm1_pts_generated_cube.mat');
 save(save_file_name, 'psm1_pts_generated_cube');
-playfile_name = strcat(fileDir, folderName, '/psm1_pts_generated_cube','_',custom_file_affix,'.psp');
-csvwrite(playfile_name,playfile_mat);

@@ -45,6 +45,7 @@ corner = [centre_x centre_y centre_z] - 4*increment*(cube_x + cube_y + cube_z); 
 
 time = 10;
 count = 1;
+playfile_row_count = 1;
 
 for i = 0:6 % 7x7x7 cube so 0 -> 6
     
@@ -53,6 +54,7 @@ for i = 0:6 % 7x7x7 cube so 0 -> 6
        for k = 0:6
            
           point = corner + i*increment*cube_x + j*increment*cube_y + k*increment*cube_z;
+
 
           disp( strcat(num2str(point(1)), ',  ', num2str(point(2)), ',  ' , num2str(point(3)), ',0,1,0, 0, 0, -1, -1,       0, 0, -0.05, 0,1,0, 0, 0, -1, 0,',   num2str(time)));
           disp( strcat(num2str(point(1)), ',  ', num2str(point(2)), ',  ' , num2str(point(3)), ',0,1,0, 0, 0, -1, -1,       0, 0, -0.05, 0,1,0, 0, 0, -1, 0,',   num2str(time + 2))); 
