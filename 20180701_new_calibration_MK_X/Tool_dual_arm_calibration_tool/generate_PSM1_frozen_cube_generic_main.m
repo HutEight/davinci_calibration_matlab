@@ -29,7 +29,7 @@ formatOut = 'yyyymmdd';
 DateString = datestr(t,formatOut);
 
 fileDir = 'Data/';
-folderName = strcat(DateString, '_', data_seq);
+folderName = strcat(DateString, '_generic_', data_seq);
 
 mkdir(strcat(fileDir, folderName));
 
@@ -100,8 +100,8 @@ for i = 0:(cube_dimension-1)
                 [point_ijk(1), point_ijk(2), point_ijk(3), 0,1,0, 0, 0, -1, -1,  0, 0, -0.05, 0,1,0, 0, 0, -1, 0, time + still_time];
             playfile_row_count = playfile_row_count + 1;
             
-            disp( strcat(num2str(point_ijk(1)), ',  ', num2str(point_ijk(2)), ',  ' , num2str(point_ijk(3)), ',0,1,0, 0, 0, -1, -1,       0, 0, -0.05, 0,1,0, 0, 0, -1, 0,',   num2str(time)));
-            disp( strcat(num2str(point_ijk(1)), ',  ', num2str(point_ijk(2)), ',  ' , num2str(point_ijk(3)), ',0,1,0, 0, 0, -1, -1,       0, 0, -0.05, 0,1,0, 0, 0, -1, 0,',   num2str(time + still_time))); 
+%             disp( strcat(num2str(point_ijk(1)), ',  ', num2str(point_ijk(2)), ',  ' , num2str(point_ijk(3)), ',0,1,0, 0, 0, -1, -1,       0, 0, -0.05, 0,1,0, 0, 0, -1, 0,',   num2str(time)));
+%             disp( strcat(num2str(point_ijk(1)), ',  ', num2str(point_ijk(2)), ',  ' , num2str(point_ijk(3)), ',0,1,0, 0, 0, -1, -1,       0, 0, -0.05, 0,1,0, 0, 0, -1, 0,',   num2str(time + still_time))); 
 
             time = time + still_time + travel_time;
             psm1_pts_generated_cube(count,:) = [point_ijk(1) point_ijk(2) point_ijk(3)];

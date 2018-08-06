@@ -28,9 +28,9 @@ clear all
 % @ UPDATE CHECKPOINT 1/3
 % Update this transform from you latest calibration result.
 affine_base_wrt_polaris = [... 
-    0.0047    0.1181   -0.9930   -0.2108;
-   -0.9990    0.0436    0.0005    0.0469;
-    0.0434    0.9920    0.1182   -0.8402;
+    0.8609    0.1077   -0.4972   -0.0849;
+   -0.5058    0.2866   -0.8137   -0.3041;
+    0.0549    0.9520    0.3012   -0.7916;
          0         0         0    1.0000];
      
 % @ UPDATE CHECKPOINT 2/3
@@ -45,16 +45,15 @@ file_path = 'Data/20180801_PSM1_intrinsic_1_quliaty_stray_marker/';
 
 % The Centres (targets) wrt base frame.
 % ---
-wrist_pt_1 = [0.0268252 0.0175642  -0.14112 1];
-wrist_pt_2 = [-0.00844263   0.0175283   -0.140923 1];
-wrist_pt_3 = [0.0269933 0.0533732 -0.142126 1];
-wrist_pt_4 = [-0.00852877   0.0532858   -0.141967 1];
-wrist_pt_5 = [0.0274391 0.0180221 -0.180974 1];
-wrist_pt_6 = [-0.00874929   0.0180031   -0.180845 1];
-wrist_pt_7 = [0.0275624 0.0545145  -0.18175 1];
-wrist_pt_8 = [-0.0087818  0.0544665  -0.181643 1];
+wrist_pt_1 = [0.0266812 0.0176937 -0.141129 1];
+wrist_pt_2 = [-0.00858658   0.0176598   -0.140896 1];
+wrist_pt_3 = [0.0268522 0.0534908 -0.142107 1];
+wrist_pt_4 = [-0.00866278   0.0534048   -0.141913 1];
+wrist_pt_5 = [ 0.027323 0.0181274  -0.18098 1];
+wrist_pt_6 = [-0.00886533   0.0181094   -0.180828 1];
+wrist_pt_7 = [0.0274163 0.0546217 -0.181647 1];
+wrist_pt_8 = [-0.00890646   0.0545738   -0.181512 1];
 % ---
-
 
 
 
@@ -79,6 +78,7 @@ wrist_pt_8_wrt_polaris = wrist_pt_8_wrt_polaris(1:3,1);
 % The small spheres collected by the Polaris
 
 % If you are using the standard marker use the following --
+% ----
 % [pt_cld_1, pt_mat_1] = loadCsvFileToPointCloudAndMat(strcat(file_path, '1_small_sphere.csv'));
 % [small_sphere_param_1, small_residuals_1] = fitSphereLeastSquare(pt_mat_1);
 %  small_origin_1 = small_sphere_param_1(:,1:3);
@@ -103,8 +103,9 @@ wrist_pt_8_wrt_polaris = wrist_pt_8_wrt_polaris(1:3,1);
 %  [pt_cld_8, pt_mat_8] = loadCsvFileToPointCloudAndMat(strcat(file_path, '8_small_sphere.csv'));
 % [small_sphere_param_8, small_residuals_8] = fitSphereLeastSquare(pt_mat_8);
 %  small_origin_8 = small_sphere_param_8(:,1:3);
- 
+%  
  % If you are using stray marker use the following
+ % ----
  [pt_cld_1, pt_mat_1] = loadStrayMarkerCsvFileToPointCloudAndMat(strcat(file_path, '1_small_sphere.csv'));
 [small_sphere_param_1, small_residuals_1] = fitSphereLeastSquare(pt_mat_1);
  small_origin_1 = small_sphere_param_1(:,1:3);
@@ -131,37 +132,112 @@ wrist_pt_8_wrt_polaris = wrist_pt_8_wrt_polaris(1:3,1);
  small_origin_8 = small_sphere_param_8(:,1:3);
  
  
+
+small_sphere_r = [small_sphere_param_1(4);
+    small_sphere_param_2(4);
+    small_sphere_param_3(4);
+    small_sphere_param_4(4);
+    small_sphere_param_5(4);
+    small_sphere_param_6(4);
+    small_sphere_param_7(4);
+    small_sphere_param_8(4);];
+
+
+
+ small_origin_1 = small_origin_1(:);
+ small_origin_1 = [small_origin_1; 1];
+ actual_wrist_pt_1_wrt_base = inv(affine_base_wrt_polaris)*small_origin_1;
+ actual_wrist_pt_1_wrt_base = actual_wrist_pt_1_wrt_base(1:3,1);
+ 
+ small_origin_2 = small_origin_2(:);
+ small_origin_2 = [small_origin_2; 1];
+ actual_wrist_pt_2_wrt_base = inv(affine_base_wrt_polaris)*small_origin_2;
+ actual_wrist_pt_2_wrt_base = actual_wrist_pt_2_wrt_base(1:3,1);
+ 
+ small_origin_3 = small_origin_3(:);
+ small_origin_3 = [small_origin_3; 1];
+ actual_wrist_pt_3_wrt_base = inv(affine_base_wrt_polaris)*small_origin_3;
+ actual_wrist_pt_3_wrt_base = actual_wrist_pt_3_wrt_base(1:3,1);
+ 
+ small_origin_4 = small_origin_4(:);
+ small_origin_4 = [small_origin_4; 1];
+ actual_wrist_pt_4_wrt_base = inv(affine_base_wrt_polaris)*small_origin_4;
+ actual_wrist_pt_4_wrt_base = actual_wrist_pt_4_wrt_base(1:3,1);
+ 
+ small_origin_5 = small_origin_5(:);
+ small_origin_5 = [small_origin_5; 1];
+ actual_wrist_pt_5_wrt_base = inv(affine_base_wrt_polaris)*small_origin_5;
+ actual_wrist_pt_5_wrt_base = actual_wrist_pt_5_wrt_base(1:3,1);
+ 
+ small_origin_6 = small_origin_6(:);
+ small_origin_6 = [small_origin_6; 1];
+ actual_wrist_pt_6_wrt_base = inv(affine_base_wrt_polaris)*small_origin_6;
+ actual_wrist_pt_6_wrt_base = actual_wrist_pt_6_wrt_base(1:3,1);
+ 
+ small_origin_7 = small_origin_7(:);
+ small_origin_7 = [small_origin_7; 1];
+ actual_wrist_pt_7_wrt_base = inv(affine_base_wrt_polaris)*small_origin_7;
+ actual_wrist_pt_7_wrt_base = actual_wrist_pt_7_wrt_base(1:3,1);
+ 
+ small_origin_8 = small_origin_8(:);
+ small_origin_8 = [small_origin_8; 1];
+ actual_wrist_pt_8_wrt_base = inv(affine_base_wrt_polaris)*small_origin_8;
+ actual_wrist_pt_8_wrt_base = actual_wrist_pt_8_wrt_base(1:3,1);
  
  
  
+sphere_rms(1,:) = calculateSphereRms(pt_mat_1, small_origin_1, small_sphere_param_1(4));
+sphere_rms(2,:) = calculateSphereRms(pt_mat_2, small_origin_2, small_sphere_param_2(4));
+sphere_rms(3,:) = calculateSphereRms(pt_mat_3, small_origin_3, small_sphere_param_3(4));
+sphere_rms(4,:) = calculateSphereRms(pt_mat_4, small_origin_4, small_sphere_param_4(4));
+sphere_rms(5,:) = calculateSphereRms(pt_mat_5, small_origin_5, small_sphere_param_5(4));
+sphere_rms(6,:) = calculateSphereRms(pt_mat_6, small_origin_6, small_sphere_param_6(4));
+sphere_rms(7,:) = calculateSphereRms(pt_mat_7, small_origin_7, small_sphere_param_7(4));
+sphere_rms(8,:) = calculateSphereRms(pt_mat_8, small_origin_8, small_sphere_param_8(4));
+
+
  
- 
- 
- 
- 
-[rms_1] = calculateSphereRms(pt_mat_1, small_origin_1, small_sphere_param_1(4))
- 
+wrist_pt_1 = wrist_pt_1(:);
+wrist_pt_1 = wrist_pt_1(1:3,:);
+wrist_pt_2 = wrist_pt_2(:);
+wrist_pt_2 = wrist_pt_2(1:3,:);
+wrist_pt_3 = wrist_pt_3(:);
+wrist_pt_3 = wrist_pt_3(1:3,:);
+wrist_pt_4 = wrist_pt_4(:);
+wrist_pt_4 = wrist_pt_4(1:3,:);
+wrist_pt_5 = wrist_pt_5(:);
+wrist_pt_5 = wrist_pt_5(1:3,:);
+wrist_pt_6 = wrist_pt_6(:);
+wrist_pt_6 = wrist_pt_6(1:3,:);
+wrist_pt_7 = wrist_pt_7(:);
+wrist_pt_7 = wrist_pt_7(1:3,:);
+wrist_pt_8 = wrist_pt_8(:);
+wrist_pt_8 = wrist_pt_8(1:3,:);
  
 % Dist vec
 
-dist_vec(1) = norm(small_origin_1(:) - wrist_pt_1_wrt_polaris);
-dist_vec(2) = norm(small_origin_2(:) - wrist_pt_2_wrt_polaris);
-dist_vec(3) = norm(small_origin_3(:) - wrist_pt_3_wrt_polaris);
-dist_vec(4) = norm(small_origin_4(:) - wrist_pt_4_wrt_polaris);
-dist_vec(5) = norm(small_origin_5(:) - wrist_pt_5_wrt_polaris);
-dist_vec(6) = norm(small_origin_6(:) - wrist_pt_6_wrt_polaris);
-dist_vec(7) = norm(small_origin_7(:) - wrist_pt_7_wrt_polaris);
-dist_vec(8) = norm(small_origin_8(:) - wrist_pt_8_wrt_polaris);
+dist_vec(1) = norm(actual_wrist_pt_1_wrt_base(:) - wrist_pt_1);
+dist_vec(2) = norm(actual_wrist_pt_2_wrt_base(:) - wrist_pt_2);
+dist_vec(3) = norm(actual_wrist_pt_3_wrt_base(:) - wrist_pt_3);
+dist_vec(4) = norm(actual_wrist_pt_4_wrt_base(:) - wrist_pt_4);
+dist_vec(5) = norm(actual_wrist_pt_5_wrt_base(:) - wrist_pt_5);
+dist_vec(6) = norm(actual_wrist_pt_6_wrt_base(:) - wrist_pt_6);
+dist_vec(7) = norm(actual_wrist_pt_7_wrt_base(:) - wrist_pt_7);
+dist_vec(8) = norm(actual_wrist_pt_8_wrt_base(:) - wrist_pt_8);
 
 %
-diff_vec(1,:) = small_origin_1(:) - wrist_pt_1_wrt_polaris;
-diff_vec(2,:) = small_origin_2(:) - wrist_pt_2_wrt_polaris;
-diff_vec(3,:) = small_origin_3(:) - wrist_pt_3_wrt_polaris;
-diff_vec(4,:) = small_origin_4(:) - wrist_pt_4_wrt_polaris;
-diff_vec(5,:) = small_origin_5(:) - wrist_pt_5_wrt_polaris;
-diff_vec(6,:) = small_origin_6(:) - wrist_pt_6_wrt_polaris;
-diff_vec(7,:) = small_origin_7(:) - wrist_pt_7_wrt_polaris;
-diff_vec(8,:) = small_origin_8(:) - wrist_pt_8_wrt_polaris;
+diff_vec(1,:) = actual_wrist_pt_1_wrt_base(:) - wrist_pt_1;
+diff_vec(2,:) = actual_wrist_pt_2_wrt_base(:) - wrist_pt_2;
+diff_vec(3,:) = actual_wrist_pt_3_wrt_base(:) - wrist_pt_3;
+diff_vec(4,:) = actual_wrist_pt_4_wrt_base(:) - wrist_pt_4;
+diff_vec(5,:) = actual_wrist_pt_5_wrt_base(:) - wrist_pt_5;
+diff_vec(6,:) = actual_wrist_pt_6_wrt_base(:) - wrist_pt_6;
+diff_vec(7,:) = actual_wrist_pt_7_wrt_base(:) - wrist_pt_7;
+diff_vec(8,:) = actual_wrist_pt_8_wrt_base(:) - wrist_pt_8;
+
+sphere_rms
+
+small_sphere_r
 
 dist_vec
 

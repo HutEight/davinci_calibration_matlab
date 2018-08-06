@@ -1,0 +1,1 @@
+The 03_green_j1_arc_01.csv was missing when frist being collected. Therefore we run a whole new collection (20180805_PSM1_intrinsic_2_j4_0_deg) and use its 03_green_j1_arc_01 file here as well. These 2 sets of data should look very identical, or is it? This is what we are going to compare.

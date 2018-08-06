@@ -18,7 +18,7 @@ centre_y = 0.0417731450507;
 centre_z = -0.13409265241;
 
 % @ UPDATE CHECKPOINT 2/2
-data_seq = '02';
+data_seq = '01';
 
 t = datetime('now');
 formatOut = 'yyyymmdd';

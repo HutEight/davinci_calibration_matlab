@@ -12,7 +12,7 @@ clear all
 
 %%
 % @ UPDATE CHECKPOINT 1/1
-file_path = 'Data/20180801_01/';
+file_path = 'Data/20180805_01_psm1_adj_dh/';
 
 file_name = 'green_frozen.csv';
 csv = csvread(strcat(file_path, file_name));
@@ -169,7 +169,7 @@ hold off;
 %% 
 
 % fill in start time (second) Needs adjustment each time
-time_0 = 10; % Use 12.5 for some reason... Not 10
+time_0 = 13.5; % Use 12.5 for some reason... Not 10
 time_t = time_0 + 1.5; % take 1 sec of samples equvilent of 20 pts
 peroid = 4; % 2 + 2 seconds
 

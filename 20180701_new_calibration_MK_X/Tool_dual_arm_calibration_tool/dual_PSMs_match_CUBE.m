@@ -10,7 +10,7 @@ clear all
 
 %%
 % @ UPDATE CHECKPOINT 1/1
-data_folder = 'Data/20180702_02/';
+data_folder = 'Data/20180805_01_generic_dh/';
 
 load(strcat(data_folder, 'psm1_pts_generated_cube.mat'))
 % pts_generated
@@ -24,6 +24,18 @@ load(strcat(data_folder, 'psm2_pts_Polaris_cube.mat'))
 n = 7*7*7; % number of points
 
 n = size(psm1_pts_Polaris_cube,1);
+
+%% Assign the Bead centre to tip transform
+% Added on 06/08/18
+% Because it is possible that the centre of the bead mounted on the gripper
+% tip does not reflect the tip, what we read from the Polaris is actually
+% bead_centre_wrt_Polaris. It is loaded as 'psm_pts_Polaris_cube'. We need
+% to assgin the transform from tip to centre before we apply the rigid
+% transform function.
+
+
+
+
 
 %% Finding the PMS1-POLARIS tf
 % may need to inverse psm1_pts_generated_cube
@@ -76,6 +88,7 @@ scatter3(psm1_err_pts(:,1), psm1_err_pts(:,2), psm1_err_pts(:,3), 'filled','cyan
 scatter3(psm1_pts_generated_2(:,1), psm1_pts_generated_2(:,2), psm1_pts_generated_2(:,3),'o','red');
 axis equal;
 hold off;
+savefig(strcat(data_folder, 'PMS1_pts.fig'))
 
 figure('Name', 'Distribution of Point matching errors');
 histfit(psm1_err_mat);
@@ -90,6 +103,7 @@ line([psm1_Med, psm1_Med], ylim, 'LineWidth', 2, 'Color', 'r');
 txt_mean = strcat('\leftarrow Mean:',num2str(psm1_Mean));
 text(psm1_Mean+0.00001, 30, txt_mean);
 line([psm1_Mean, psm1_Mean], ylim, 'LineWidth', 2, 'Color', 'c');
+savefig(strcat(data_folder, 'PSM1_POISSON.fig'))
 hold off;
 
 
@@ -144,10 +158,12 @@ scatter3(psm2_err_pts(:,1), psm2_err_pts(:,2), psm2_err_pts(:,3), 'filled','cyan
 scatter3(psm2_pts_generated_2(:,1), psm2_pts_generated_2(:,2), psm2_pts_generated_2(:,3),'o','red');
 axis equal;
 hold off;
+savefig(strcat(data_folder, 'PMS2_pts.fig'))
 
 figure('Name', 'Distribution of Point matching errors');
 histfit(psm2_err_mat);
 hold off;
+
 
 figure('Name', 'Distribution of Point matching errors POISSON');
 histfit(psm2_err_mat, 20, 'poisson');
@@ -158,7 +174,9 @@ line([psm2_Med, psm2_Med], ylim, 'LineWidth', 2, 'Color', 'r');
 txt_mean = strcat('\leftarrow Mean:',num2str(psm2_Mean));
 text(psm2_Mean+0.00001, 30, txt_mean);
 line([psm2_Mean, psm2_Mean], ylim, 'LineWidth', 2, 'Color', 'c');
+savefig(strcat(data_folder, 'PSM2_POISSON.fig'))
 hold off;
+
 
 
 %% PSM1 to PSM2

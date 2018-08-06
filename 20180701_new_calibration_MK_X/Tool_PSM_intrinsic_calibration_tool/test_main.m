@@ -39,7 +39,7 @@ affine_Md_wrt_polaris = convertQuaternionWithOriginTo4x4( -0.00536999991164, -0.
 
 % @ UPDATE CHECKPOINT 2/3
 % Update the path and flags accordingly
-csv_folder_1 = 'Data/20180801_PSM1_intrinsic_1_j4_0_deg/';
+csv_folder_1 = 'Data/20180805_PSM1_intrinsic_2_j4_0_deg/';
 
 % @ UPDATE CHECKPOINT 3/3
 % Update the path and flags accordingly
