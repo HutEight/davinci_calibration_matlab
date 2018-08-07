@@ -5,6 +5,11 @@
 % Notes.
 %
 
+%% THERE ARE 1 UPDATE POINT THAT YOU NEED TO CHECK EVERYTIME YOU RUN THIS PROGRAMME.
+% AND THERE ARE 3 OPTIONAL CHECK POINTS WHERE YOU CAN MAKE CHANGES TO
+% THRESHOLDS.
+% Search for 'checkpoint' to locate them. 
+
 
 %%
 clc
@@ -12,10 +17,10 @@ close all
 clear all
 
 
-%%
+%% Initialisation
+
 % @ UPDATE CHECKPOINT 1/1
 file_path = 'Data/20180807_cam_fwd_kin/';
-
 file_name = 'first_detection.csv';
 
 csv = csvread(strcat(file_path, file_name));
@@ -27,7 +32,8 @@ data_size = size(base_frame_pts, 1);
 
 
 
-%% Cluster cam_frame_pts to get rid of bad data points (FAILED)
+%% Cluster cam_frame_pts to get rid of bad data points (DID NOT WORK)
+
 % n_cluster = 2;
 % [centers,U] = fcm(cam_frame_pts, n_cluster);
 % 
@@ -58,13 +64,19 @@ data_size = size(base_frame_pts, 1);
 % hold off
 
 %% Take some sample points from both set and establish a coarse transform
+% STEP ONE of Data Filtering
+
 % To make sure that cam sample points are valid, we need to calulcate the
 % distance between those sample points to make sure they agree with the
 % base frame sample points regarding dimension.
 
 verified = 0;
 trial_count = 0;
+
+% @ OPTIONAL UPDATE CHECKPOINT 1/3
 sample_size = 16;
+
+
 while (verified == 0)
     
     index_sample = rand(sample_size,1);
@@ -93,6 +105,7 @@ while (verified == 0)
     err = sum(err(:));
     rmse = sqrt(err/sample_size);
     
+    % @ OPTIONAL UPDATE CHECKPOINT 2/3
     if (rmse < 0.005)
         disp('Coarse Transform Established');
         rmse
@@ -104,6 +117,8 @@ while (verified == 0)
         coarse_affine_base_wrt_cam(4, :) = [0 0 0 1];
         
         coarse_affine_base_wrt_cam
+        
+        % Plots
         
         figure('name', 'Sample Points for Coarse Transform I (Camera Pt samples and converted Base Pt Samples)')
         scatter3(cam_pts_filtered_converted_from_base(:,1),cam_pts_filtered_converted_from_base(:,2),cam_pts_filtered_converted_from_base(:,3));
@@ -131,19 +146,24 @@ while (verified == 0)
 end
 
 %% Use the Coarse Transform to filter out the invalid/bad camera points
+% STEP TWO of Data Filtering
 
 % Make all Base frame points converted to cam frame
 cam_frame_pts_converted_from_base = (coarse_affine_base_wrt_cam(1:3,1:3)*base_frame_pts') ...
     + repmat(coarse_affine_base_wrt_cam(1:3,4), 1 ,data_size);
 cam_frame_pts_converted_from_base = transpose(cam_frame_pts_converted_from_base);
 
-% Calculate the correspoinding points dist
+% Calculate the correspoinding points' dist
 
 diff_vec = cam_frame_pts_converted_from_base - cam_frame_pts;
 dist_vec = vecnorm(transpose(diff_vec));
 dist_vec = dist_vec(:);
 
-% Get rid of those with too much error 
+
+% @ OPTIONAL UPDATE CHECKPOINT 3/3
+% Get rid of those with too much error -- Any pair with the internal
+% distance more than this value would be regarded as bad points and got
+% removed. 
 err_tolerance = 0.02;
 
 mask = (dist_vec < err_tolerance);
@@ -168,12 +188,18 @@ scatter3(base_frame_pts(:,1),base_frame_pts(:,2),base_frame_pts(:,3), '.');
 hold on;
 scatter3(base_frame_pts_filtered(:,1),base_frame_pts_filtered(:,2),base_frame_pts_filtered(:,3), 'filled', 'red');
 axis equal;
+savefig(strcat(file_path, 'Base_Frame_Points_Post_Filtering.fig'))
 hold off;   
 
 figure('name', 'Data Filter II (Cam Frame Points)')
 scatter3(cam_frame_pts(:,1),cam_frame_pts(:,2),cam_frame_pts(:,3), '.');
 hold on;
 scatter3(cam_frame_pts_filtered(:,1),cam_frame_pts_filtered(:,2),cam_frame_pts_filtered(:,3), 'filled', 'red');
+hold off;   
+
+figure('name', 'Data Filter III (Cam Frame Points Post Filtering)')
+scatter3(cam_frame_pts_filtered(:,1),cam_frame_pts_filtered(:,2),cam_frame_pts_filtered(:,3), '.');
+savefig(strcat(file_path, 'Cam_Frame_Points_Post_Filtering.fig'))
 hold off;   
 
 
@@ -210,6 +236,7 @@ figure('name', 'Base to Cam Transform')
 scatter3(cam_pts_filtered_converted_from_base(:,1),cam_pts_filtered_converted_from_base(:,2),cam_pts_filtered_converted_from_base(:,3), 'filled');
 hold on;
 scatter3(cam_frame_pts_filtered(:,1),cam_frame_pts_filtered(:,2),cam_frame_pts_filtered(:,3), '+', 'red');
+savefig(strcat(file_path, 'Base_to_Cam_transform.fig'))
 hold off;   
 
 %% Statistic
@@ -225,5 +252,32 @@ line([err_Med, err_Med], ylim, 'LineWidth', 2, 'Color', 'r');
 txt_mean = strcat('\leftarrow Mean:',num2str(err_Mean));
 text(err_Mean+0.00001, 50, txt_mean);
 line([err_Mean, err_Mean], ylim, 'LineWidth', 2, 'Color', 'c');
-% savefig(strcat(data_folder, 'PSM1_POISSON.fig'))
+savefig(strcat(file_path, 'Error_distribution.fig'))
 hold off;
+
+%% Save Results
+t = datetime('now')
+fileID = fopen( strcat(file_path,'Points_Matching_Summary.txt'), 'wt' );
+fprintf(fileID, 'Points Matching Summary\n');
+fprintf(fileID, strcat('Created AT: ', datestr(datetime)) );
+fprintf(fileID, '\n');
+fprintf(fileID, '---\n');
+fprintf(fileID, '1. affine_base_wrt_camera: \n');
+fprintf(fileID, '%f %f %f %f \n', final_affine_base_wrt_cam(1,1), final_affine_base_wrt_cam(1,2), ...
+    final_affine_base_wrt_cam(1,3), final_affine_base_wrt_cam(1,4) );
+fprintf(fileID, '%f %f %f %f \n', final_affine_base_wrt_cam(2,1), final_affine_base_wrt_cam(2,2), ...
+    final_affine_base_wrt_cam(2,3), final_affine_base_wrt_cam(2,4) );
+fprintf(fileID, '%f %f %f %f \n', final_affine_base_wrt_cam(3,1), final_affine_base_wrt_cam(3,2), ...
+    final_affine_base_wrt_cam(3,3), final_affine_base_wrt_cam(3,4) );
+fprintf(fileID, '%f %f %f %f \n', final_affine_base_wrt_cam(4,1), final_affine_base_wrt_cam(4,2), ...
+    final_affine_base_wrt_cam(4,3), final_affine_base_wrt_cam(4,4) );
+fprintf(fileID, '\n');
+
+fprintf(fileID, '2 Fitting rms: %f \n', final_rmse);
+fprintf(fileID, '\n');
+
+fprintf(fileID, '3. Total Point Nummber: %d \n', data_size);
+fprintf(fileID, '   Total Valid Point Number: %d \n', filtered_data_size);
+fprintf(fileID, '   --Ratio: %f \n', valid_pt_ratio);
+
+fclose(fileID);

@@ -1,0 +1,14 @@
+Points Matching Summary
+Created AT:07-Aug-2018 15:36:35
+---
+1. affine_base_wrt_camera: 
+0.021374 0.771899 -0.635386 -0.086789 
+0.120017 0.628955 0.768122 0.068220 
+0.992542 -0.092675 -0.079198 0.130693 
+0.000000 0.000000 0.000000 1.000000 
+
+2 Fitting rms: 0.005781 
+
+3. Total Point Nummber: 1721 
+   Total Valid Point Number: 926 
+   --Ratio: 0.538059 
