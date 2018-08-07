@@ -1,5 +1,27 @@
 % RN@HMS Queen Elizabeth
-% 10/04/18
+% 06/08/18
+
+% Note
+
+% The idea of using the rigid transform to find the transform between the
+% Polaris and the robot base frame is through solving the equation --
+% tip_wrt_base = polaris_wrt_base x tip_wrt_polaris
+% @tip_wrt_base is an assigned pts mat
+% @tip_wrt_pilaris is actual pts read from the Polaris 
+% And using the rigid transform function we can get the desired @polaris_wrt_base
+% In realalty however, we expect there is tiny offset from the tip to the
+% marker (stray marker centroid). Therefore we need to use the 
+% marker_wrt_base (assigned) = polaris_wrt_base x marker_wrt_polaris (read
+% from the sensor).
+% To get marker_wrt_base, we are putting a static transform between the tip
+% and the marker centroid. As we experimented to get the radius of the
+% stray marker small sphere, we found out the rms of such a fitting is 0.5
+% mm, which is not accurate enough to get a good approximate. We therefore
+% would have to try manually what should be the best transfrom between the
+% marker and the tip, as we are able to get a realitively accurate
+% base_polaris transfrom from the Robot intrinsic calibration process. We
+% then compare which tip_marker_centroid transform yields the closet
+% base_polaris transform to the one we got from the DH calibration data.
 
 %% THERE ARE 1 UPDATE POINT1 THAT YOU NEED TO CHECK EVERYTIME YOU RUN THIS PROGRAMME.
 % Search for 'checkpoint' to locate them. 
@@ -10,7 +32,7 @@ clear all
 
 %%
 % @ UPDATE CHECKPOINT 1/1
-data_folder = 'Data/20180805_01_generic_dh/';
+data_folder = 'Data/20180805_01_psm1_adj_dh/';
 
 load(strcat(data_folder, 'psm1_pts_generated_cube.mat'))
 % pts_generated
@@ -25,24 +47,32 @@ n = 7*7*7; % number of points
 
 n = size(psm1_pts_Polaris_cube,1);
 
-%% Assign the Bead centre to tip transform
-% Added on 06/08/18
-% Because it is possible that the centre of the bead mounted on the gripper
-% tip does not reflect the tip, what we read from the Polaris is actually
-% bead_centre_wrt_Polaris,
+
+%%
+
+tip_to_marker_offset = 0.001;
+
+for i = 1 : n
+    
+   direction = psm1_pts_generated_cube(i,:)/norm(psm1_pts_generated_cube(i,:));
+   
+   marker_wrt_base(i,:) = psm1_pts_generated_cube(i,:) + direction*tip_to_marker_offset;
+    
+end
+
 
 
 
 %% Finding the PMS1-POLARIS tf
 % may need to inverse psm1_pts_generated_cube
 % rigid_transform_3D(target, source)
-[psm1_ret_R, psm1_ret_t] = rigid_transform_3D(psm1_pts_generated_cube, psm1_pts_Polaris_cube);
+[psm1_ret_R, psm1_ret_t] = rigid_transform_3D(marker_wrt_base, psm1_pts_Polaris_cube);
 % Getting PSM1 base wrt Polaris tf
 
 % error analysis
 % Transforming PSM1 base pt into Polaris frame pt
 % psm1_ret_R, psm1_ret_t: PSM1 wrt Polaris
-psm1_pts_generated_2 = (psm1_ret_R*psm1_pts_generated_cube') + repmat(psm1_ret_t, 1 ,n);
+psm1_pts_generated_2 = (psm1_ret_R*marker_wrt_base') + repmat(psm1_ret_t, 1 ,n);
 psm1_pts_generated_2 = psm1_pts_generated_2';
 
 % Comparing them in the Polaris frame
@@ -214,3 +244,5 @@ save(strcat(data_folder, 'affine_psm2_wrt_psm1.mat'), 'affine_psm2_wrt_psm1');
 save(strcat(data_folder, 'affine_psm1_wrt_polaris.mat'), 'affine_psm1_wrt_polaris');
 save(strcat(data_folder, 'affine_psm2_wrt_polaris.mat'), 'affine_psm2_wrt_polaris');
 
+
+affine_psm1_wrt_polaris

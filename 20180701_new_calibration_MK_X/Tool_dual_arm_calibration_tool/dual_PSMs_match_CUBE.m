@@ -25,16 +25,6 @@ n = 7*7*7; % number of points
 
 n = size(psm1_pts_Polaris_cube,1);
 
-%% Assign the Bead centre to tip transform
-% Added on 06/08/18
-% Because it is possible that the centre of the bead mounted on the gripper
-% tip does not reflect the tip, what we read from the Polaris is actually
-% bead_centre_wrt_Polaris. It is loaded as 'psm_pts_Polaris_cube'. We need
-% to assgin the transform from tip to centre before we apply the rigid
-% transform function.
-
-
-
 
 
 %% Finding the PMS1-POLARIS tf

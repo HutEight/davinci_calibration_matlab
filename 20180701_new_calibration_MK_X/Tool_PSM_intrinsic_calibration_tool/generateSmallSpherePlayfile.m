@@ -23,37 +23,79 @@ dt1 = 8;
 dt2 = 2;
 tta = 0;
 
-while (j4 <= 1.5)
-    % go to first point
-    tta = tta + dt1;
-    playfile_mat(i,:) = [j1, j2, j3, j4, j5, 0,	0.139,		0,0,0,0,0,0,0,  tta];
-    i = i + 1;
-    % stay for 2 sec
-    tta = tta + dt2;
-    playfile_mat(i,:) = [j1, j2, j3, j4, j5, 0,	0.139,		0,0,0,0,0,0,0,  tta];
-    i = i + 1;
-    % rotate j4
-    j4 = j4 + 0.2;
-    tta = tta + dt2;
-    playfile_mat(i,:) = [j1, j2, j3, j4, j5, 0,	0.139,		0,0,0,0,0,0,0,  tta];
-    i = i + 1;
-    % rotate j5
-    j5 = - j5;
-    tta = tta + dt1;
-    playfile_mat(i,:) = [j1, j2, j3, j4, j5, 0,	0.139,		0,0,0,0,0,0,0,  tta];
-    i = i + 1;
-    % stay for 2 sec
-    tta = tta + dt2;
-    playfile_mat(i,:) = [j1, j2, j3, j4, j5, 0,	0.139,		0,0,0,0,0,0,0,  tta];
-    i = i + 1;
-    % rotate j4
-    j4 = j4 + 0.2;
-    tta = tta + dt2;
-    playfile_mat(i,:) = [j1, j2, j3, j4, j5, 0,	0.139,		0,0,0,0,0,0,0,  tta];
-    % rotate j5
-    j5 = - j5;
+if (arm_index == 1)
 
+    while (j4 <= 1.5)
+        % go to first point
+        tta = tta + dt1;
+        playfile_mat(i,:) = [j1, j2, j3, j4, j5, 0,	0.139,		0,0,0,0,0,0,0,  tta];
+        i = i + 1;
+        % stay for 2 sec
+        tta = tta + dt2;
+        playfile_mat(i,:) = [j1, j2, j3, j4, j5, 0,	0.139,		0,0,0,0,0,0,0,  tta];
+        i = i + 1;
+        % rotate j4
+        j4 = j4 + 0.2;
+        tta = tta + dt2;
+        playfile_mat(i,:) = [j1, j2, j3, j4, j5, 0,	0.139,		0,0,0,0,0,0,0,  tta];
+        i = i + 1;
+        % rotate j5
+        j5 = - j5;
+        tta = tta + dt1;
+        playfile_mat(i,:) = [j1, j2, j3, j4, j5, 0,	0.139,		0,0,0,0,0,0,0,  tta];
+        i = i + 1;
+        % stay for 2 sec
+        tta = tta + dt2;
+        playfile_mat(i,:) = [j1, j2, j3, j4, j5, 0,	0.139,		0,0,0,0,0,0,0,  tta];
+        i = i + 1;
+        % rotate j4
+        j4 = j4 + 0.2;
+        tta = tta + dt2;
+        playfile_mat(i,:) = [j1, j2, j3, j4, j5, 0,	0.139,		0,0,0,0,0,0,0,  tta];
+        % rotate j5
+        j5 = - j5;
+
+    end
+
+elseif (arm_index==2)
+    
+    while (j4 <= 1.5)
+        % go to first point
+        tta = tta + dt1;
+        playfile_mat(i,:) = [0,0,0,0,0,0,0,    j1, j2, j3, j4, j5, 0,	0.139,		  tta];
+        i = i + 1;
+        % stay for 2 sec
+        tta = tta + dt2;
+        playfile_mat(i,:) = [0,0,0,0,0,0,0,    j1, j2, j3, j4, j5, 0,	0.139,		  tta];
+        i = i + 1;
+        % rotate j4
+        j4 = j4 + 0.2;
+        tta = tta + dt2;
+        playfile_mat(i,:) = [0,0,0,0,0,0,0,    j1, j2, j3, j4, j5, 0,	0.139,		  tta];
+        i = i + 1;
+        % rotate j5
+        j5 = - j5;
+        tta = tta + dt1;
+        playfile_mat(i,:) = [0,0,0,0,0,0,0,    j1, j2, j3, j4, j5, 0,	0.139,		  tta];
+        i = i + 1;
+        % stay for 2 sec
+        tta = tta + dt2;
+        playfile_mat(i,:) = [0,0,0,0,0,0,0,    j1, j2, j3, j4, j5, 0,	0.139,		  tta];
+        i = i + 1;
+        % rotate j4
+        j4 = j4 + 0.2;
+        tta = tta + dt2;
+        playfile_mat(i,:) = [0,0,0,0,0,0,0,    j1, j2, j3, j4, j5, 0,	0.139,		  tta];
+        % rotate j5
+        j5 = - j5;
+
+    end    
+    
+    
 end
+
+
+
 csvwrite(path_val_,playfile_mat);
 
 
