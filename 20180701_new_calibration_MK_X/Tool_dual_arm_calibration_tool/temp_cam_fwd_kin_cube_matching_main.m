@@ -20,8 +20,8 @@ clear all
 %% Initialisation
 
 % @ UPDATE CHECKPOINT 1/1
-file_path = 'Data/20180807_cam_fwd_kin/';
-file_name = 'first_detection.csv';
+file_path = 'Data/20180809_cam_fwd_kin/';
+file_name = 'no_sticky.csv';
 
 csv = csvread(strcat(file_path, file_name));
 

@@ -4,6 +4,22 @@
 %
 % Notes.
 
+% Steps to run the quality test
+% 1. You should get the DH paramters from the Intrinsic Calibration. Update
+% the Kinematic package with the latest DH parameters.
+% 2. Use this programme to get you a playfile that would always ask the
+% robot to going to the following joint states.
+% 3. Then you should run the psm_intrinsic_calibration_auxiliary.cpp which
+% would give you the wrist points in Cartesian space.
+% 4. Then you run the data collection programme on the machine which would
+% give you their small sphere point clouds.
+% 5. Finally you load the .csv files in the calibration_quality_main.m with
+% the pasted calculated wrist points from the
+% psm_intrinsic_calibration_auxiliary.cpp. You should be able to measure
+% the difference.
+
+%% THERE ARE 1 UPDATE POINT1 THAT YOU NEED TO CHECK EVERYTIME YOU RUN THIS PROGRAMME.
+% Search for 'checkpoint' to locate it. 
 
 %%
 clc
@@ -12,73 +28,76 @@ clear all
 
 %% Generate Small Sphere Playfiles
 
-save_file_path = 'Qulaity_test_small_spheres_playfiles_PSM2/';
-j1 = 0.177442;
-j2 = -0.132006;
-j3 = 0.160757;
+% @ UPDATE CHECKPOINT 1/1
+save_file_path = 'Data/20180809_PSM2_intrinsic_1_quality/';
+
+
+j1 = 0.177;
+j2 = -0.132;
+j3 = 0.160;
 arm_index = 2;
 test_index = '1';
 
 generateSmallSpherePlayfile(j1, j2, j3, arm_index, test_index, save_file_path);
 
 
-j1 = -0.0705975;
-j2 = -0.133879;
-j3 = 0.15827;
+j1 = -0.070;
+j2 = -0.133;
+j3 = 0.158;
 arm_index = 2;
 test_index = '2';
 
 generateSmallSpherePlayfile(j1, j2, j3, arm_index, test_index, save_file_path);
 
 
-j1 = 0.179779;
-j2 = -0.355985;
-j3 = 0.170062 ;
+j1 = 0.179;
+j2 = -0.355;
+j3 = 0.170 ;
 arm_index = 2;
 test_index = '3';
 
 generateSmallSpherePlayfile(j1, j2, j3, arm_index, test_index, save_file_path);
 
 
-j1 = -0.0682173;
-j2 = -0.360812;
-j3 = 0.167706;
+j1 = -0.068;
+j2 = -0.360;
+j3 = 0.167;
 arm_index = 2;
 test_index = '4';
 
 generateSmallSpherePlayfile(j1, j2, j3, arm_index, test_index, save_file_path);
 
 
-j1 = 0.144435;
-j2 = -0.10812;
-j3 = 0.200429;
+j1 = 0.144;
+j2 = -0.108;
+j3 = 0.200;
 arm_index = 2;
 test_index = '5';
 
 generateSmallSpherePlayfile(j1, j2, j3, arm_index, test_index, save_file_path);
 
 
-j1 = -0.0545546;
-j2 = -0.109107;
-j3 = 0.198428;
+j1 = -0.054;
+j2 = -0.109;
+j3 = 0.198;
 arm_index = 2;
 test_index = '6';
 
 generateSmallSpherePlayfile(j1, j2, j3, arm_index, test_index, save_file_path);
 
 
-j1 = 0.146338;
-j2 = -0.293052;
-j3 = 0.20814;
+j1 = 0.146;
+j2 = -0.293;
+j3 = 0.208;
 arm_index = 2;
 test_index = '7';
 
 generateSmallSpherePlayfile(j1, j2, j3, arm_index, test_index, save_file_path);
 
 
-j1 = -0.052625;
-j2 = -0.295687;
-j3 = 0.20621;
+j1 = -0.052;
+j2 = -0.295;
+j3 = 0.206;
 arm_index = 2;
 test_index = '8';
 

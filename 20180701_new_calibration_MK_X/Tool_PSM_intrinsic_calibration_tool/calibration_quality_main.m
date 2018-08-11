@@ -6,13 +6,16 @@
 % There are 8 quality test small spheres which correspond to 8 different
 % combination of J1, 2, and 3 values. 
 % After a calibration analysis, you should get a new set of DH params. This
-% would change the forward kinematic result, hence chagne to wrist point
+% would change the forward kinematic result, hence change the wrist point
 % represented in the Cartesian space (robot base frame). 
 % Therefore you should re-run the auxiliary code in the da Vinci Kinematic
 % package to  get the new wrist points (in robot base frame).
 % You should also read the new affine_base_wrt_polaris.
 % Then this programme is going to calculate the difference between the
 % forward kinematic result and the reading from the Polaris.
+%
+% Also look at the calibration_quality_small_spheres_generation_main.m for
+% more information.
 
 
 %% THERE ARE 3 UPDATE POINTS THAT YOU NEED TO CHECK EVERYTIME YOU RUN THIS PROGRAMME.
@@ -28,14 +31,14 @@ clear all
 % @ UPDATE CHECKPOINT 1/3
 % Update this transform from you latest calibration result.
 affine_base_wrt_polaris = [... 
--0.662071 0.080844 -0.745068 -0.147556 ;
--0.717635 0.218163 0.661366 0.039457 ;
-0.216014 0.972558 -0.086422 -0.853921 ;
+0.052927 -0.007706 -0.998569 -0.066479 ;
+-0.997794 0.039726 -0.053192 0.003664 ;
+0.040079 0.999181 -0.005586 -0.881258 ;
 0.000000 0.000000 0.000000 1.000000 ];
      
 % @ UPDATE CHECKPOINT 2/3
 % This is the directory of the quality test small spheres csv files. 
-file_path = 'Data/20180806_PSM2_intrinsic_2_quality/';
+file_path = 'Data/20180809_PSM2_intrinsic_1_quality/';
 
 
 % @ UPDATE CHECKPOINT 3/3
@@ -45,15 +48,16 @@ file_path = 'Data/20180806_PSM2_intrinsic_2_quality/';
 
 % The Centres (targets) wrt base frame.
 % ---
-wrist_pt_1 = [0.0263421 0.0177649 -0.141183 1];
-wrist_pt_2 = [-0.00893366   0.0177316   -0.140864 1];
-wrist_pt_3 = [0.0265316 0.0535058  -0.14216 1];
-wrist_pt_4 = [-0.00899109    0.053419   -0.141886 1];
-wrist_pt_5 = [0.0270481 0.0181897 -0.181014 1];
-wrist_pt_6 = [-0.00914424   0.0181722   -0.180806 1];
-wrist_pt_7 = [0.0271511 0.0546453 -0.181678 1];
-wrist_pt_8 = [-0.00917509   0.0545972   -0.181491 1];
+wrist_pt_1 = [0.0248585 0.0167289 -0.142448 1];
+wrist_pt_2 = [-0.0105949  0.0166581  -0.142223 1];
+wrist_pt_3 = [0.0253588 0.0523765 -0.144366 1];
+wrist_pt_4 = [-0.0105133  0.0521436  -0.143126 1];
+wrist_pt_5 = [0.0260552 0.0165619 -0.182538 1];
+wrist_pt_6 = [-0.0102637  0.0165782  -0.182112 1];
+wrist_pt_7 = [0.0264681 0.0530215 -0.183861 1];
+wrist_pt_8 = [-0.0101208   0.052867  -0.183466 1];
 % ---
+
 
 
 
@@ -78,7 +82,7 @@ wrist_pt_8_wrt_polaris = wrist_pt_8_wrt_polaris(1:3,1);
 
 % The small spheres collected by the Polaris
 
-% If you are using the standard marker use the following --
+% If you are using a standard marker use the following --
 % ----
 [pt_cld_1, pt_mat_1] = loadCsvFileToPointCloudAndMat(strcat(file_path, '1_small_sphere.csv'));
 [small_sphere_param_1, small_residuals_1] = fitSphereLeastSquare(pt_mat_1);
