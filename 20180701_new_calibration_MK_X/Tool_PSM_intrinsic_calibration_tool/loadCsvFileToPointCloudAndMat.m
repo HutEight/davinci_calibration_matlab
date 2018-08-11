@@ -21,8 +21,8 @@ raw_points = [seq, raw_pose_x, raw_pose_y, raw_pose_z];
 raw_size = size(raw_points,1);
 
 %% Applying Mask and Removing NANs
-mask_begin = 11;
-mask_end = raw_points(raw_size, 1) - 15;
+mask_begin = 11; % CAUTION: Currently any changes to this would affect the result of intrinsic calibration's arc fitting. Recommend 11.
+mask_end = raw_points(raw_size, 1) - 10;
 mask = (raw_points(:,1) > mask_begin & raw_points(:,1) < mask_end);
 
 pt_mat_0 = [seq(mask), raw_pose_x(mask), raw_pose_y(mask), raw_pose_z(mask)];
@@ -70,13 +70,13 @@ end
 
 %% Checking the Masked data
 % Only use this section when you need to config your mask settings
-    figure('Name', 'CONFIG - Masked Data x');
-    plot(raw_points(:,1), raw_points(:,2));
-    hold on;
-    plot(pt_mat(:,4), pt_mat(:,1), '.');
-    xlabel('Time (sec)');
-    ylabel('X-Displacement (m)');
-    hold off;
+%     figure('Name', 'CONFIG - Masked Data x');
+%     plot(raw_points(:,1), raw_points(:,2));
+%     hold on;
+%     plot(pt_mat(:,4), pt_mat(:,1), '.');
+%     xlabel('Time (sec)');
+%     ylabel('X-Displacement (m)');
+%     hold off;
     
 %     figure('Name', 'CONFIG - Masked Data y');
 %     plot(raw_points(:,1), raw_points(:,3));

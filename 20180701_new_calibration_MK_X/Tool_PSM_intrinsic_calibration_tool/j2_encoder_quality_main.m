@@ -3,7 +3,17 @@
 % Description.
 %
 % Notes.
-%
+% 1. This can potential be useful for all similar test with joints.
+% 2. This is currently a saperate test from the PSM intrinsic calibration
+% test, which yields DH parameters plus a Joint 3 scale factor. Due to the
+% Polaris would be placed sideway to collect the J2 scale factor data, the
+% test change the Polaris to Base transform. It is recommended that one
+% should do the J2 Scale factor test first, then proceed with the rest of
+% the intrinsic calibration. Because of this sequence, we should add the
+% recommendation for the J2 scale factor into the yaml file from the code
+% of the Intrinsic calibration. And the da Vinci Kinematic package would
+% then read from the same yaml to load all the necessary parameters. Or you
+% can do it mannlly for the time being. 
 
 
 %%
@@ -105,7 +115,7 @@ pt_val_average = pt_val_total./pt_count_mat;
 
 
 
-figure
+figure('name','Mask Review')
 plot(pt_mat_pts(:,4),pt_mat_pts(:,1),'.');
 hold on;
 plot(fixed_pts_mat(:,4),fixed_pts_mat(:,1),'.');
@@ -116,16 +126,130 @@ hold off;
 % Circle and Plane fitting
 [j2_arc_circle_params, j2_arc_plane_norm, j2_fval, j2_rms] =...
     fitCircleFmincon(pt_mat_arc)
+
+arc_origin = [j2_arc_circle_params(:,1) j2_arc_circle_params(:,2) j2_arc_circle_params(:,3)];
     
-figure
+figure('name','Fixed Points')
 scatter3(pt_mat_pts(:,1),pt_mat_pts(:,2),pt_mat_pts(:,3), '.');
 hold on;
 scatter3(fixed_pts_mat(:,1),fixed_pts_mat(:,2),fixed_pts_mat(:,3), 'filled', 'red');
 scatter3(pt_val_average(:,1),pt_val_average(:,2),pt_val_average(:,3), 'O', 'blue');
 scatter3(j2_arc_circle_params(:,1),j2_arc_circle_params(:,2),j2_arc_circle_params(:,3), '+', 'black')
+text(j2_arc_circle_params(:,1),j2_arc_circle_params(:,2),j2_arc_circle_params(:,3),'  Arc Origin','Color', 'black');
+for n = 1:(fixed_pt_count)
+   
+    text(pt_val_average(n,1)+0.01,pt_val_average(n,2)+0.01,pt_val_average(n,3)+0.01,strcat('  ', int2str(n)),'Color', 'red');
+    
+end
+% Polaris Frame
+    text(0.01,0.01,0.01,'Polaris Origin','Color', 'red');
+    scale = 0.1;
+    % Y axis
+    yx_0 = 0;
+    yy_0 = 0;
+    yz_0 = 0;
+    yx_t = 0*scale;
+    yy_t = 1*scale;
+    yz_t = 0*scale;
+    v0_y= [yx_0 yy_0 yz_0];
+    vz_y= [yx_t yy_t yz_t];
+    v0z_y=[vz_y;v0_y];
+    plot3(v0z_y(:,1),v0z_y(:,2),v0z_y(:,3),'g');
+    % X axis
+    xx_0 = 0;
+    xy_0 = 0;
+    xz_0 = 0;
+    xx_t = 1*scale;
+    xy_t = 0*scale;
+    xz_t = 0*scale;
+    v0_y= [xx_0 xy_0 xz_0];
+    vx_y= [xx_t xy_t xz_t];
+    v0x_y=[vx_y;v0_y];
+    plot3(v0x_y(:,1),v0x_y(:,2),v0x_y(:,3),'r');       
+    % Z axis
+    zx_0 = 0;
+    zy_0 = 0;
+    zz_0 = 0;
+    zx_t = 0*scale;
+    zy_t = 0*scale;
+    zz_t = 1*scale;
+    v0_y= [zx_0 zy_0 zz_0];
+    vy_y= [zx_t zy_t zz_t];
+    v0y_y=[vy_y;v0_y];
+    plot3(v0y_y(:,1),v0y_y(:,2),v0y_y(:,3),'b');
+
+
 axis equal;
 hold off;
 
+%% Get Vectors from Arc Origin to Fixed Points
+
+arc_vec = pt_val_average - repmat(arc_origin, fixed_pt_count, 1);
 
 
+%% Get angles between them
+
+angles = [];
+for n = 1:(fixed_pt_count-1)
+   
+    a = arc_vec(n,:);
+    b = arc_vec(n+1,:);
+    angles(n,:) = atan2(norm(cross(a,b)), dot(a,b));
+    
+end
+
+angles
+
+angles_ratio = angles/0.2;
+for n = 1:fixed_pt_count
+    angles_ratio(n,2) = n;
+end
+
+figure('name', 'Ratio Plot')
+plot(angles_ratio(1:fixed_pt_count-1,2),angles_ratio(1:fixed_pt_count-1,1))
+
+angles_ratio
+
+%% Extra Figure(s)
+
+figure('name','Fixed Points II')
+scatter3(pt_mat_pts(:,1),pt_mat_pts(:,2),pt_mat_pts(:,3), '.');
+hold on;
+scatter3(fixed_pts_mat(:,1),fixed_pts_mat(:,2),fixed_pts_mat(:,3), 'filled', 'red');
+scatter3(pt_val_average(:,1),pt_val_average(:,2),pt_val_average(:,3), 'O', 'blue');
+scatter3(j2_arc_circle_params(:,1),j2_arc_circle_params(:,2),j2_arc_circle_params(:,3), '+', 'black')
+text(j2_arc_circle_params(:,1),j2_arc_circle_params(:,2),j2_arc_circle_params(:,3),'  Arc Origin','Color', 'black');
+for n = 1:(fixed_pt_count)
+   
+    text(pt_val_average(n,1)+0.01,pt_val_average(n,2)+0.01,pt_val_average(n,3)+0.01,strcat('  ', int2str(n)),'Color', 'red');
+    if n < 9
+        text(pt_val_average(n,1)-0.01,pt_val_average(n,2)-0.01,pt_val_average(n,3)-0.01,strcat('  Actual:', num2str(angles(n,1))),...
+            'Color', 'black');
+        text(pt_val_average(n,1)-0.005,pt_val_average(n,2)-0.01,pt_val_average(n,3)-0.01,strcat('  Ratio:', num2str(angles_ratio(n,1))),...
+            'Color', 'black');
+    end
+    
+end
+% Polaris Frame
+
+    scale = 0.1;
+    % Y axis
+
+    % X axis
+    xx_0 = j2_arc_circle_params(:,1);
+    xy_0 = j2_arc_circle_params(:,2);
+    xz_0 = j2_arc_circle_params(:,3);
+    xx_t = xx_0+1*scale;
+    xy_t = xy_0+0*scale;
+    xz_t = xz_0+0*scale;
+    v0_y= [xx_0 xy_0 xz_0];
+    vx_y= [xx_t xy_t xz_t];
+    v0x_y=[vx_y;v0_y];
+    plot3(v0x_y(:,1),v0x_y(:,2),v0x_y(:,3),'r');       
+    % Z axis
+
+    text(xx_t+0.01,xy_t+0.01,xz_t+0.01,'Polaris X axis','Color', 'red');
+
+axis equal;
+hold off;
 

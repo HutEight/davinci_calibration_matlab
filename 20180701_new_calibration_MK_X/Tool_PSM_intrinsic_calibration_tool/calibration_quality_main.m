@@ -47,7 +47,7 @@ file_path = 'Data/20180809_PSM2_intrinsic_1_quality/';
 % new wrist points. 
 
 % The Centres (targets) wrt base frame.
-% ---
+% --- without J2 scale factor
 wrist_pt_1 = [0.0248585 0.0167289 -0.142448 1];
 wrist_pt_2 = [-0.0105949  0.0166581  -0.142223 1];
 wrist_pt_3 = [0.0253588 0.0523765 -0.144366 1];
@@ -58,7 +58,16 @@ wrist_pt_7 = [0.0264681 0.0530215 -0.183861 1];
 wrist_pt_8 = [-0.0101208   0.052867  -0.183466 1];
 % ---
 
-
+% % --- With J2 scale factor
+% wrist_pt_1 = [0.0248715 0.0162037 -0.142505 1];
+% wrist_pt_2 = [-0.0105962   0.016136  -0.142282 1];
+% wrist_pt_3 = [0.0254538 0.0509432 -0.144848 1];
+% wrist_pt_4 = [-0.0105395  0.0507196  -0.143622 1];
+% wrist_pt_5 = [0.0260648 0.0160171 -0.182585 1];
+% wrist_pt_6 = [-0.0102634  0.0160341  -0.182159 1];
+% wrist_pt_7 = [0.0265357 0.0515311 -0.184266 1];
+% wrist_pt_8 = [-0.0101344  0.0513824  -0.183878 1];
+% % ---
 
 
 
@@ -84,28 +93,30 @@ wrist_pt_8_wrt_polaris = wrist_pt_8_wrt_polaris(1:3,1);
 
 % If you are using a standard marker use the following --
 % ----
-[pt_cld_1, pt_mat_1] = loadCsvFileToPointCloudAndMat(strcat(file_path, '1_small_sphere.csv'));
+remove_static_flag = 1;
+
+[pt_cld_1, pt_mat_1] = loadCsvFileToPointCloudAndMat(strcat(file_path, '1_small_sphere.csv'), remove_static_flag);
 [small_sphere_param_1, small_residuals_1] = fitSphereLeastSquare(pt_mat_1);
  small_origin_1 = small_sphere_param_1(:,1:3);
-[pt_cld_2, pt_mat_2] = loadCsvFileToPointCloudAndMat(strcat(file_path, '2_small_sphere.csv'));
+[pt_cld_2, pt_mat_2] = loadCsvFileToPointCloudAndMat(strcat(file_path, '2_small_sphere.csv'), remove_static_flag);
 [small_sphere_param_2, small_residuals_2] = fitSphereLeastSquare(pt_mat_2);
  small_origin_2 = small_sphere_param_2(:,1:3);
- [pt_cld_3, pt_mat_3] = loadCsvFileToPointCloudAndMat(strcat(file_path, '3_small_sphere.csv'));
+ [pt_cld_3, pt_mat_3] = loadCsvFileToPointCloudAndMat(strcat(file_path, '3_small_sphere.csv'), remove_static_flag);
 [small_sphere_param_3, small_residuals_3] = fitSphereLeastSquare(pt_mat_3);
  small_origin_3 = small_sphere_param_3(:,1:3);
- [pt_cld_4, pt_mat_4] = loadCsvFileToPointCloudAndMat(strcat(file_path, '4_small_sphere.csv'));
+ [pt_cld_4, pt_mat_4] = loadCsvFileToPointCloudAndMat(strcat(file_path, '4_small_sphere.csv'), remove_static_flag);
 [small_sphere_param_4, small_residuals_4] = fitSphereLeastSquare(pt_mat_4);
  small_origin_4 = small_sphere_param_4(:,1:3);
- [pt_cld_5, pt_mat_5] = loadCsvFileToPointCloudAndMat(strcat(file_path, '5_small_sphere.csv'));
+ [pt_cld_5, pt_mat_5] = loadCsvFileToPointCloudAndMat(strcat(file_path, '5_small_sphere.csv'), remove_static_flag);
 [small_sphere_param_5, small_residuals_5] = fitSphereLeastSquare(pt_mat_5);
  small_origin_5 = small_sphere_param_5(:,1:3);
- [pt_cld_6, pt_mat_6] = loadCsvFileToPointCloudAndMat(strcat(file_path, '6_small_sphere.csv'));
+ [pt_cld_6, pt_mat_6] = loadCsvFileToPointCloudAndMat(strcat(file_path, '6_small_sphere.csv'), remove_static_flag);
 [small_sphere_param_6, small_residuals_6] = fitSphereLeastSquare(pt_mat_6);
  small_origin_6 = small_sphere_param_6(:,1:3);
- [pt_cld_7, pt_mat_7] = loadCsvFileToPointCloudAndMat(strcat(file_path, '7_small_sphere.csv'));
+ [pt_cld_7, pt_mat_7] = loadCsvFileToPointCloudAndMat(strcat(file_path, '7_small_sphere.csv'), remove_static_flag);
 [small_sphere_param_7, small_residuals_7] = fitSphereLeastSquare(pt_mat_7);
  small_origin_7 = small_sphere_param_7(:,1:3);
- [pt_cld_8, pt_mat_8] = loadCsvFileToPointCloudAndMat(strcat(file_path, '8_small_sphere.csv'));
+ [pt_cld_8, pt_mat_8] = loadCsvFileToPointCloudAndMat(strcat(file_path, '8_small_sphere.csv'), remove_static_flag);
 [small_sphere_param_8, small_residuals_8] = fitSphereLeastSquare(pt_mat_8);
  small_origin_8 = small_sphere_param_8(:,1:3);
 %  
