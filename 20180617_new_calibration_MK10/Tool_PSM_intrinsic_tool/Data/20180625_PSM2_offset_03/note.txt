@@ -1,1 +1,0 @@
-This passive joint is bent so that the z_base is point abot 40 degrees from gravity.
