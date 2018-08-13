@@ -25,14 +25,22 @@ clear all
 %% Initialise
 
 
-% @ UPDATE CHECKPOINT 2/3
+% @ UPDATE CHECKPOINT 1/2
 % Update the path and flags accordingly
-csv_folder = 'Data/20180809_PSM2_j2_encoder_test/';
+csv_folder = 'Data/20180813_PSM1_intrinsic_2_j2_encoder_a/';
+
+% @ UPDATE CHECKPOINT 2/2
+test_joint_index = 2;
 
 
-arc_file = strcat(csv_folder,'02_j2_arc.csv');
-pts_file = strcat(csv_folder,'03_j2_still_samples_j4_90_deg.csv');
 
+if (test_joint_index == 1)
+    arc_file = strcat(csv_folder,'02_j1_arc.csv');
+    pts_file = strcat(csv_folder,'03_j1_still_samples_j4_0_deg.csv');
+elseif (test_joint_index == 2)
+    arc_file = strcat(csv_folder,'02_j2_arc.csv');
+    pts_file = strcat(csv_folder,'03_j2_still_samples_j4_90_deg.csv');
+end
 
 remove_static_flag = 1;
 [pt_cld_arc, pt_mat_arc] = loadCsvFileToPointCloudAndMat(arc_file,remove_static_flag);
@@ -80,7 +88,8 @@ fixed_pts_mat = pt_mat_pts(to_save,:);
 
 fixed_pts_section_begin_and_end_time = [section_begin_time section_end_time];
 mid_time = mean(fixed_pts_section_begin_and_end_time,2);
-fixed_pts_section_begin_and_end_time = [(mid_time-3.5) (mid_time+3.5)];
+% Change the window size here
+fixed_pts_section_begin_and_end_time = [(mid_time-3) (mid_time+3)];
 
 pt_val_total = zeros(fixed_pt_count,3);
 pt_count_mat = zeros(fixed_pt_count,1);
@@ -222,7 +231,7 @@ text(j2_arc_circle_params(:,1),j2_arc_circle_params(:,2),j2_arc_circle_params(:,
 for n = 1:(fixed_pt_count)
    
     text(pt_val_average(n,1)+0.01,pt_val_average(n,2)+0.01,pt_val_average(n,3)+0.01,strcat('  ', int2str(n)),'Color', 'red');
-    if n < 9
+    if n < fixed_pt_count
         text(pt_val_average(n,1)-0.01,pt_val_average(n,2)-0.01,pt_val_average(n,3)-0.01,strcat('  Actual:', num2str(angles(n,1))),...
             'Color', 'black');
         text(pt_val_average(n,1)-0.005,pt_val_average(n,2)-0.01,pt_val_average(n,3)-0.01,strcat('  Ratio:', num2str(angles_ratio(n,1))),...
@@ -253,3 +262,4 @@ end
 axis equal;
 hold off;
 
+mean(angles)/0.2

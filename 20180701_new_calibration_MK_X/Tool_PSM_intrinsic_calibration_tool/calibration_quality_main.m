@@ -31,14 +31,14 @@ clear all
 % @ UPDATE CHECKPOINT 1/3
 % Update this transform from you latest calibration result.
 affine_base_wrt_polaris = [... 
-0.052927 -0.007706 -0.998569 -0.066479 ;
--0.997794 0.039726 -0.053192 0.003664 ;
-0.040079 0.999181 -0.005586 -0.881258 ;
-0.000000 0.000000 0.000000 1.000000 ];
+-0.036632 0.110679 -0.993181 -0.205369 ;
+-0.998529 0.035703 0.040808 0.022663 ;
+0.039976 0.993215 0.109209 -0.887742 ;
+0.000000 0.000000 0.000000 1.000000] ;
      
 % @ UPDATE CHECKPOINT 2/3
 % This is the directory of the quality test small spheres csv files. 
-file_path = 'Data/20180809_PSM2_intrinsic_1_quality/';
+file_path = 'Data/20180813_PSM1_intrinsic_2_quality/';
 
 
 % @ UPDATE CHECKPOINT 3/3
@@ -47,16 +47,19 @@ file_path = 'Data/20180809_PSM2_intrinsic_1_quality/';
 % new wrist points. 
 
 % The Centres (targets) wrt base frame.
-% --- without J2 scale factor
-wrist_pt_1 = [0.0248585 0.0167289 -0.142448 1];
-wrist_pt_2 = [-0.0105949  0.0166581  -0.142223 1];
-wrist_pt_3 = [0.0253588 0.0523765 -0.144366 1];
-wrist_pt_4 = [-0.0105133  0.0521436  -0.143126 1];
-wrist_pt_5 = [0.0260552 0.0165619 -0.182538 1];
-wrist_pt_6 = [-0.0102637  0.0165782  -0.182112 1];
-wrist_pt_7 = [0.0264681 0.0530215 -0.183861 1];
-wrist_pt_8 = [-0.0101208   0.052867  -0.183466 1];
 % ---
+wrist_pt_1 = [0.0266301 0.0216994 -0.141057 1];
+wrist_pt_2 = [-0.00858453   0.0215455   -0.141312 1];
+wrist_pt_3 = [0.0267623 0.0572595 -0.141962 1];
+wrist_pt_4 = [-0.00859828   0.0569082   -0.141158 1];
+wrist_pt_5 = [  0.02726 0.0232203 -0.181215 1];
+wrist_pt_6 = [-0.00887142   0.0231518   -0.181052 1];
+wrist_pt_7 = [0.0273534 0.0594642 -0.181412 1];
+wrist_pt_8 = [-0.0088207  0.0592291  -0.181248 1];
+% ---
+
+
+
 
 % % --- With J2 scale factor
 % wrist_pt_1 = [0.0248715 0.0162037 -0.142505 1];
