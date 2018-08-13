@@ -50,7 +50,7 @@ n = size(psm1_pts_Polaris_cube,1);
 
 %%
 
-tip_to_marker_offset = 0.001;
+tip_to_marker_offset = 0.000; % Just assume there is no such an offset in between.
 
 for i = 1 : n
     
