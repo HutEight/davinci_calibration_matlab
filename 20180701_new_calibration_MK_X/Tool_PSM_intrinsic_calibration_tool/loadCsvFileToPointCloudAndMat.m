@@ -22,7 +22,7 @@ raw_size = size(raw_points,1);
 
 %% Applying Mask and Removing NANs
 mask_begin = 11; % CAUTION: Currently any changes to this would affect the result of intrinsic calibration's arc fitting. Recommend 11.
-mask_end = raw_points(raw_size, 1) - 10;
+mask_end = raw_points(raw_size, 1) - 10; % normally 10
 mask = (raw_points(:,1) > mask_begin & raw_points(:,1) < mask_end);
 
 pt_mat_0 = [seq(mask), raw_pose_x(mask), raw_pose_y(mask), raw_pose_z(mask)];

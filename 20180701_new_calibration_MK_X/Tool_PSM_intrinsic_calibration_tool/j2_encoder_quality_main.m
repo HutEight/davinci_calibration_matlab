@@ -25,11 +25,11 @@ clear all
 %% Initialise
 
 
-% @ UPDATE CHECKPOINT 1/2
+% @ UPDATE CHECKPOINT 1/4
 % Update the path and flags accordingly
-csv_folder = 'Data/20180813_PSM1_intrinsic_2_j2_encoder_a/';
+csv_folder = 'Data/20180814_PSM1_intrinsic_1_j2_encoder_k/';
 
-% @ UPDATE CHECKPOINT 2/2
+% @ UPDATE CHECKPOINT 2/4
 test_joint_index = 2;
 
 
@@ -56,16 +56,22 @@ remove_static_flag = 0;
 % there are only 8 points picked up after the data pre-processing.
 n = 1;
 fixed_pt_count = 0;
+
+% @ UPDATE CHECKPOINT 3/4
+% Normally 200
+pt_mat_pts(1:200,:) = [];
+
+
 for i = 1:(size(pt_mat_pts, 1) -1)
      pt_0 = pt_mat_pts(i, 1:3);
      pt_1 = pt_mat_pts(i+1, 1:3);
      dist = norm( pt_1 - pt_0 );
 
-     if (dist < 0.00006) % A threshold to filter the (motion) static points.
+     if (dist < 0.000015) % A threshold to filter the (motion) static points.
         to_save(n,:) = (i+1);
         
         if (n > 1)
-            if (i-to_save(n-1)) > 100
+            if (i-to_save(n-1)) > 25
                fixed_pt_count = fixed_pt_count + 1;
                section_begin_time(fixed_pt_count,:) = pt_mat_pts(i, 4);
                section_begin_seq(fixed_pt_count,:) = i;
@@ -86,13 +92,39 @@ end
     
 fixed_pts_mat = pt_mat_pts(to_save,:);
 
+
+% An extra filter to get rid of points that are not fixed for long enough.
+i = 1;
+for n = 1:size(section_end_time,1)
+    
+    if (section_end_time(i) - section_begin_time(i)) < 6
+
+        warning("removed one fixed point due to short still time");
+        temp = strcat("at: ", num2str(section_begin_time(i) ));
+        
+        section_end_time(i)=[];
+        section_begin_time(i)=[];
+        
+        disp(temp);
+    else
+        i = i + 1;
+    end
+    
+end
+
 fixed_pts_section_begin_and_end_time = [section_begin_time section_end_time];
+
 mid_time = mean(fixed_pts_section_begin_and_end_time,2);
+
+% @ UPDATE CHECKPOINT 4/4
 % Change the window size here
-fixed_pts_section_begin_and_end_time = [(mid_time-3) (mid_time+3)];
+fixed_pts_section_begin_and_end_time = [(mid_time-2) (mid_time+2)];
+
+fixed_pt_count = size(fixed_pts_section_begin_and_end_time,1);
 
 pt_val_total = zeros(fixed_pt_count,3);
 pt_count_mat = zeros(fixed_pt_count,1);
+fitlered_n = 1;
 for i = 1:(size(fixed_pts_mat, 1))
     
     found_slot = 0;
@@ -104,6 +136,9 @@ for i = 1:(size(fixed_pts_mat, 1))
             % Add to the pt total
             pt_val_total(n,:) = fixed_pts_mat(i,1:3) + pt_val_total(n,:);
             pt_count_mat(n) = pt_count_mat(n)+1;
+            
+            fixed_pts_mat_filtered(fitlered_n,:) = fixed_pts_mat(i,:);
+            fitlered_n = fitlered_n + 1;
         
             found_slot = 1;
             
@@ -125,10 +160,20 @@ pt_val_average = pt_val_total./pt_count_mat;
 
 
 figure('name','Mask Review')
-plot(pt_mat_pts(:,4),pt_mat_pts(:,1),'.');
+plot(pt_mat_pts(:,4),pt_mat_pts(:,2),'.');
 hold on;
-plot(fixed_pts_mat(:,4),fixed_pts_mat(:,1),'.');
+plot(fixed_pts_mat(:,4),fixed_pts_mat(:,2),'.');
 hold off;
+
+
+figure('name','Mask Review II')
+plot(pt_mat_pts(:,4),pt_mat_pts(:,2),'.');
+hold on;
+plot(fixed_pts_mat(:,4),fixed_pts_mat(:,2),'.');
+plot(fixed_pts_mat_filtered(:,4),fixed_pts_mat_filtered(:,2),'+');
+hold off;
+
+
 
 
 %% Get J2 axis
@@ -143,6 +188,7 @@ scatter3(pt_mat_pts(:,1),pt_mat_pts(:,2),pt_mat_pts(:,3), '.');
 hold on;
 scatter3(fixed_pts_mat(:,1),fixed_pts_mat(:,2),fixed_pts_mat(:,3), 'filled', 'red');
 scatter3(pt_val_average(:,1),pt_val_average(:,2),pt_val_average(:,3), 'O', 'blue');
+scatter3(pt_val_average(:,1),pt_val_average(:,2),pt_val_average(:,3), 'x', 'white');
 scatter3(j2_arc_circle_params(:,1),j2_arc_circle_params(:,2),j2_arc_circle_params(:,3), '+', 'black')
 text(j2_arc_circle_params(:,1),j2_arc_circle_params(:,2),j2_arc_circle_params(:,3),'  Arc Origin','Color', 'black');
 for n = 1:(fixed_pt_count)
@@ -150,50 +196,66 @@ for n = 1:(fixed_pt_count)
     text(pt_val_average(n,1)+0.01,pt_val_average(n,2)+0.01,pt_val_average(n,3)+0.01,strcat('  ', int2str(n)),'Color', 'red');
     
 end
-% Polaris Frame
-    text(0.01,0.01,0.01,'Polaris Origin','Color', 'red');
-    scale = 0.1;
-    % Y axis
-    yx_0 = 0;
-    yy_0 = 0;
-    yz_0 = 0;
-    yx_t = 0*scale;
-    yy_t = 1*scale;
-    yz_t = 0*scale;
-    v0_y= [yx_0 yy_0 yz_0];
-    vz_y= [yx_t yy_t yz_t];
-    v0z_y=[vz_y;v0_y];
-    plot3(v0z_y(:,1),v0z_y(:,2),v0z_y(:,3),'g');
-    % X axis
-    xx_0 = 0;
-    xy_0 = 0;
-    xz_0 = 0;
-    xx_t = 1*scale;
-    xy_t = 0*scale;
-    xz_t = 0*scale;
-    v0_y= [xx_0 xy_0 xz_0];
-    vx_y= [xx_t xy_t xz_t];
-    v0x_y=[vx_y;v0_y];
-    plot3(v0x_y(:,1),v0x_y(:,2),v0x_y(:,3),'r');       
-    % Z axis
-    zx_0 = 0;
-    zy_0 = 0;
-    zz_0 = 0;
-    zx_t = 0*scale;
-    zy_t = 0*scale;
-    zz_t = 1*scale;
-    v0_y= [zx_0 zy_0 zz_0];
-    vy_y= [zx_t zy_t zz_t];
-    v0y_y=[vy_y;v0_y];
-    plot3(v0y_y(:,1),v0y_y(:,2),v0y_y(:,3),'b');
+% % Polaris Frame
+%     text(0.01,0.01,0.01,'Polaris Origin','Color', 'red');
+%     scale = 0.1;
+%     % Y axis
+%     yx_0 = 0;
+%     yy_0 = 0;
+%     yz_0 = 0;
+%     yx_t = 0*scale;
+%     yy_t = 1*scale;
+%     yz_t = 0*scale;
+%     v0_y= [yx_0 yy_0 yz_0];
+%     vz_y= [yx_t yy_t yz_t];
+%     v0z_y=[vz_y;v0_y];
+%     plot3(v0z_y(:,1),v0z_y(:,2),v0z_y(:,3),'g');
+%     % X axis
+%     xx_0 = 0;
+%     xy_0 = 0;
+%     xz_0 = 0;
+%     xx_t = 1*scale;
+%     xy_t = 0*scale;
+%     xz_t = 0*scale;
+%     v0_y= [xx_0 xy_0 xz_0];
+%     vx_y= [xx_t xy_t xz_t];
+%     v0x_y=[vx_y;v0_y];
+%     plot3(v0x_y(:,1),v0x_y(:,2),v0x_y(:,3),'r');       
+%     % Z axis
+%     zx_0 = 0;
+%     zy_0 = 0;
+%     zz_0 = 0;
+%     zx_t = 0*scale;
+%     zy_t = 0*scale;
+%     zz_t = 1*scale;
+%     v0_y= [zx_0 zy_0 zz_0];
+%     vy_y= [zx_t zy_t zz_t];
+%     v0y_y=[vy_y;v0_y];
+%     plot3(v0y_y(:,1),v0y_y(:,2),v0y_y(:,3),'b');
 
 
 axis equal;
 hold off;
 
+figure('name','Fixed Points II')
+scatter3(pt_mat_pts(:,1),pt_mat_pts(:,2),pt_mat_pts(:,3), '.');
+hold on;
+% scatter3(fixed_pts_mat(:,1),fixed_pts_mat(:,2),fixed_pts_mat(:,3), 'filled', 'red');
+scatter3(pt_val_average(:,1),pt_val_average(:,2),pt_val_average(:,3), 'filled', 'red');
+scatter3(pt_val_average(:,1),pt_val_average(:,2),pt_val_average(:,3), 'x', 'white');
+scatter3(j2_arc_circle_params(:,1),j2_arc_circle_params(:,2),j2_arc_circle_params(:,3), '+', 'black')
+text(j2_arc_circle_params(:,1),j2_arc_circle_params(:,2),j2_arc_circle_params(:,3),'  Arc Origin','Color', 'black');
+for n = 1:(fixed_pt_count)
+   
+    text(pt_val_average(n,1)+0.01,pt_val_average(n,2)+0.01,pt_val_average(n,3)+0.01,strcat('  ', int2str(n)),'Color', 'red');
+    
+end
+axis equal;
+hold off;
+
 %% Get Vectors from Arc Origin to Fixed Points
 
-arc_vec = pt_val_average - repmat(arc_origin, fixed_pt_count, 1);
+arc_vec = pt_val_average(:,1:3) - repmat(arc_origin, fixed_pt_count, 1);
 
 
 %% Get angles between them
@@ -263,3 +325,22 @@ axis equal;
 hold off;
 
 mean(angles)/0.2
+
+
+
+
+%% Extra Analysis
+
+for i = 1 : size(pt_val_average,1)/2
+   
+    pt_diff_vec(i,:) = pt_val_average(i,:) -  pt_val_average(size(pt_val_average,1)-i+1,:);
+    pt_diff_norm_vec(i,1) = norm(pt_val_average(i,:) -  pt_val_average(size(pt_val_average,1)-i+1,:));
+    
+end
+
+% You MUST make sure they are symmetric
+angles_section_1 = angles(1:(size(angles,1)-1)/2,:);
+angles_section_2 = angles((size(angles,1)-1)/2+2:size(angles,1),:);
+
+scale_1 = mean(angles_section_1)/0.1
+scale_2 = mean(angles_section_2)/0.1
