@@ -1,0 +1,11 @@
+ROYAL NAVY
+H.M.S. King Geroge V
+15/08/18
+---
+Point Numer: 18
+Range: -0.8 -> +0.8
+Increment: 0.2
+
+Notes & Instructions.
+
+1. No need to remove any points, apparently they are all within the range. 

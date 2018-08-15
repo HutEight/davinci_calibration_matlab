@@ -27,7 +27,7 @@ clear all
 
 % @ UPDATE CHECKPOINT 1/4
 % Update the path and flags accordingly
-csv_folder = 'Data/20180814_PSM1_intrinsic_1_j2_encoder_k/';
+csv_folder = 'Data/20180814_PSM1_intrinsic_1_j2_encoder_j/';
 
 % @ UPDATE CHECKPOINT 2/4
 test_joint_index = 2;
@@ -59,7 +59,7 @@ fixed_pt_count = 0;
 
 % @ UPDATE CHECKPOINT 3/4
 % Normally 200
-pt_mat_pts(1:200,:) = [];
+pt_mat_pts(1:0,:) = [];
 
 
 for i = 1:(size(pt_mat_pts, 1) -1)
@@ -71,6 +71,7 @@ for i = 1:(size(pt_mat_pts, 1) -1)
         to_save(n,:) = (i+1);
         
         if (n > 1)
+            % @
             if (i-to_save(n-1)) > 25
                fixed_pt_count = fixed_pt_count + 1;
                section_begin_time(fixed_pt_count,:) = pt_mat_pts(i, 4);
