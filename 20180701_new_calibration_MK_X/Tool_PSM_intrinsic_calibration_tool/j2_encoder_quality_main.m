@@ -45,12 +45,15 @@ elseif (test_joint_index == 2)
     pts_file = strcat(csv_folder,'03_j2_still_samples_j4_90_deg.csv');
 end
 
+data_mask_begin = 1;
+data_mask_end = 1;
+
 remove_static_flag = 1;
-[pt_cld_arc, pt_mat_arc] = loadCsvFileToPointCloudAndMat(arc_file,remove_static_flag);
+[pt_cld_arc, pt_mat_arc] = loadCsvFileToPointCloudAndMat(arc_file, data_mask_begin, data_mask_end, remove_static_flag);
 
 
 remove_static_flag = 0;
-[pt_cld_pts, pt_mat_pts] = loadCsvFileToPointCloudAndMat(pts_file,remove_static_flag);
+[pt_cld_pts, pt_mat_pts] = loadCsvFileToPointCloudAndMat(pts_file, data_mask_begin, data_mask_end, remove_static_flag);
 
 %% Data pre-processing
 

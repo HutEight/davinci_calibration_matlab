@@ -6,7 +6,7 @@
 %
 
 
-function [pt_cld, pt_mat] = loadCsvFileToPointCloudAndMat(file_path, remove_static_flag)
+function [pt_cld, pt_mat] = loadCsvFileToPointCloudAndMat(file_path, data_mask_begin, data_mask_end, remove_static_flag)
 
 %% Loading Data
 csv = csvread(file_path);
@@ -22,8 +22,8 @@ raw_size = size(raw_points,1);
 
 %% Applying Mask and Removing NANs
 % mask in seconds
-mask_begin = 2; % CAUTION: Currently any changes to this would affect the result of intrinsic calibration's arc fitting. Recommend 11.
-mask_end = raw_points(raw_size, 1) - 1; % normally 10
+mask_begin = data_mask_begin; % CAUTION: Currently any changes to this would affect the result of intrinsic calibration's arc fitting. Recommend 11.
+mask_end = raw_points(raw_size, 1) - data_mask_end; % normally 10
 mask = (raw_points(:,1) > mask_begin & raw_points(:,1) < mask_end);
 
 pt_mat_0 = [seq(mask), raw_pose_x(mask), raw_pose_y(mask), raw_pose_z(mask)];

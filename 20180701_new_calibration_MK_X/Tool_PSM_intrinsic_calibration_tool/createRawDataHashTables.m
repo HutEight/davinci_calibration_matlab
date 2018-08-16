@@ -36,14 +36,17 @@ try
     path_map = path_map_;  
     
     remove_static_flag = 1;
+    data_mask_begin = 10;
+    data_mask_end = 10;
+    
 
-    [pt_cld_J1Arc01, pt_mat_J1Arc01] = loadCsvFileToPointCloudAndMat(path_map_('J1Arc01'), remove_static_flag);
-    [pt_cld_J2Arc01, pt_mat_J2Arc01] = loadCsvFileToPointCloudAndMat(path_map_('J2Arc01'), remove_static_flag);
+    [pt_cld_J1Arc01, pt_mat_J1Arc01] = loadCsvFileToPointCloudAndMat(path_map_('J1Arc01'), data_mask_begin, data_mask_end, remove_static_flag);
+    [pt_cld_J2Arc01, pt_mat_J2Arc01] = loadCsvFileToPointCloudAndMat(path_map_('J2Arc01'), data_mask_begin, data_mask_end, remove_static_flag);
 
-    [pt_cld_SmallSphere01, pt_mat_SmallSphere01] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere01'), remove_static_flag);
-    [pt_cld_SmallSphere02, pt_mat_SmallSphere02] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere02'), remove_static_flag);
-    [pt_cld_SmallSphere03, pt_mat_SmallSphere03] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere03'), remove_static_flag);
-    [pt_cld_SmallSphere04, pt_mat_SmallSphere04] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere04'), remove_static_flag);
+    [pt_cld_SmallSphere01, pt_mat_SmallSphere01] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere01'), data_mask_begin, data_mask_end, remove_static_flag);
+    [pt_cld_SmallSphere02, pt_mat_SmallSphere02] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere02'), data_mask_begin, data_mask_end, remove_static_flag);
+    [pt_cld_SmallSphere03, pt_mat_SmallSphere03] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere03'), data_mask_begin, data_mask_end, remove_static_flag);
+    [pt_cld_SmallSphere04, pt_mat_SmallSphere04] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere04'), data_mask_begin, data_mask_end, remove_static_flag);
 
 catch
     
@@ -59,13 +62,13 @@ catch
     path_map_ = containers.Map(key_, path_val_);
     path_map = path_map_;
 
-    [pt_cld_J1Arc01, pt_mat_J1Arc01] = loadCsvFileToPointCloudAndMat(path_map_('J1Arc01'), remove_static_flag);
-    [pt_cld_J2Arc01, pt_mat_J2Arc01] = loadCsvFileToPointCloudAndMat(path_map_('J2Arc01'), remove_static_flag);
+    [pt_cld_J1Arc01, pt_mat_J1Arc01] = loadCsvFileToPointCloudAndMat(path_map_('J1Arc01'), data_mask_begin, data_mask_end, remove_static_flag);
+    [pt_cld_J2Arc01, pt_mat_J2Arc01] = loadCsvFileToPointCloudAndMat(path_map_('J2Arc01'), data_mask_begin, data_mask_end, remove_static_flag);
 
-    [pt_cld_SmallSphere01, pt_mat_SmallSphere01] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere01'), remove_static_flag);
-    [pt_cld_SmallSphere02, pt_mat_SmallSphere02] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere02'), remove_static_flag);
-    [pt_cld_SmallSphere03, pt_mat_SmallSphere03] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere03'), remove_static_flag);
-    [pt_cld_SmallSphere04, pt_mat_SmallSphere04] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere04'), remove_static_flag);
+    [pt_cld_SmallSphere01, pt_mat_SmallSphere01] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere01'), data_mask_begin, data_mask_end, remove_static_flag);
+    [pt_cld_SmallSphere02, pt_mat_SmallSphere02] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere02'), data_mask_begin, data_mask_end, remove_static_flag);
+    [pt_cld_SmallSphere03, pt_mat_SmallSphere03] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere03'), data_mask_begin, data_mask_end, remove_static_flag);
+    [pt_cld_SmallSphere04, pt_mat_SmallSphere04] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere04'), data_mask_begin, data_mask_end, remove_static_flag);
 
 end
 
