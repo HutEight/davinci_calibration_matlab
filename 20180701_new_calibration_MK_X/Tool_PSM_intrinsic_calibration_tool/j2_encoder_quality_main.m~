@@ -82,7 +82,7 @@ for i = 1:(size(pt_mat_pts, 1) -1)
         if (n > 1)
             
             % @ 
-            % This is the required gap (in sequence) from where you found your last
+            % This is the smalleset distance from where you found your last
             % point. 
             if (i-to_save(n-1)) > 25
                fixed_pt_count = fixed_pt_count + 1;
@@ -110,10 +110,6 @@ static_pts_mat = pt_mat_pts(to_save,:);
 i = 1;
 for n = 1:size(section_end_time,1)
     
-    % @
-    % This is the minimum requirement for a point to be identified as a
-    % static point.
-    
     if (section_end_time(i) - section_begin_time(i)) < 6
 
         warning("removed one fixed point due to short still time");
@@ -134,8 +130,7 @@ fixed_pts_section_begin_and_end_time = [section_begin_time section_end_time];
 mid_time = mean(fixed_pts_section_begin_and_end_time,2);
 
 % @ UPDATE CHECKPOINT 4/4
-% This is the window size that would be implemented to get the average of
-% a point cloud. 
+% Change the window size here
 fixed_pts_section_begin_and_end_time = [(mid_time-2) (mid_time+2)];
 
 fixed_pt_count = size(fixed_pts_section_begin_and_end_time,1);
@@ -201,7 +196,7 @@ hold off;
 
 arc_origin = [j2_arc_circle_params(:,1) j2_arc_circle_params(:,2) j2_arc_circle_params(:,3)];
     
-figure('name','Sample Points with All static points')
+figure('name','Sample Points')
 scatter3(pt_mat_pts(:,1),pt_mat_pts(:,2),pt_mat_pts(:,3), '.');
 hold on;
 scatter3(static_pts_mat(:,1),static_pts_mat(:,2),static_pts_mat(:,3), '.', 'red');
@@ -255,9 +250,10 @@ end
 axis equal;
 hold off;
 
-figure('name','Sample Points Only')
+figure('name','Fixed Points II')
 scatter3(pt_mat_pts(:,1),pt_mat_pts(:,2),pt_mat_pts(:,3), '.');
 hold on;
+% scatter3(fixed_pts_mat(:,1),fixed_pts_mat(:,2),fixed_pts_mat(:,3), 'filled', 'red');
 scatter3(pt_val_average(:,1),pt_val_average(:,2),pt_val_average(:,3), 'filled', 'red');
 scatter3(pt_val_average(:,1),pt_val_average(:,2),pt_val_average(:,3), 'x', 'white');
 scatter3(j2_arc_circle_params(:,1),j2_arc_circle_params(:,2),j2_arc_circle_params(:,3), '+', 'black')
@@ -300,7 +296,7 @@ angles_ratio
 
 %% Extra Figure(s)
 
-figure('name','Sample Points with info')
+figure('name','Fixed Points II')
 scatter3(pt_mat_pts(:,1),pt_mat_pts(:,2),pt_mat_pts(:,3), '.');
 hold on;
 scatter3(static_pts_mat(:,1),static_pts_mat(:,2),static_pts_mat(:,3), 'filled', 'red');
