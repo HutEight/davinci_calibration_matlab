@@ -11,7 +11,7 @@ clear all
 %%
 
 % @ UPDATE CHECKPOINT 1/1
-data_folder = 'Data/20180805_01/';
+data_folder = 'Data/20180805_01_psm1_adj_dh/';
 
 psm1_file_path = strcat(data_folder, 'green_evaluation.csv')
 psm2_file_path = strcat(data_folder, 'yellow_evaluation.csv')
