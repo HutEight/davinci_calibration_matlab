@@ -13,7 +13,7 @@ function [affine_dh_0_wrt_polaris, affine_dh_1_wrt_polaris, affine_base_wrt_pola
  
 %% Get z0 and z1 direction reference
 
-ref = j1_arc_in_polairs_mat(1,4);
+ref = j1_arc_in_polairs_mat(5,4);
 
 t1 = (ref < j1_arc_in_polairs_mat(:,4)) &  (j1_arc_in_polairs_mat(:,4) < ref + 0.2);
 t2 = (ref + 0.2 < j1_arc_in_polairs_mat(:,4)) &  (j1_arc_in_polairs_mat(:,4) < ref + 0.4);
