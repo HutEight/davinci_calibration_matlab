@@ -129,10 +129,10 @@ try
     scatter3(small_origin_3(1), small_origin_3(2), small_origin_3(3),'o','black');
     scatter3(small_origin_4(1), small_origin_4(2), small_origin_4(3),'o','black');
     
-    text(small_origin_1(1), small_origin_1(2), small_origin_1(3),'  small centre 1', 'Color', 'black');
-    text(small_origin_2(1), small_origin_2(2), small_origin_2(3),'  small centre 2', 'Color', 'black');
-    text(small_origin_3(1), small_origin_3(2), small_origin_3(3),'  small centre 3', 'Color', 'black');
-    text(small_origin_4(1), small_origin_4(2), small_origin_4(3),'  small centre 4', 'Color', 'black');
+%     text(small_origin_1(1), small_origin_1(2), small_origin_1(3),'  small centre 1', 'Color', 'black');
+%     text(small_origin_2(1), small_origin_2(2), small_origin_2(3),'  small centre 2', 'Color', 'black');
+%     text(small_origin_3(1), small_origin_3(2), small_origin_3(3),'  small centre 3', 'Color', 'black');
+%     text(small_origin_4(1), small_origin_4(2), small_origin_4(3),'  small centre 4', 'Color', 'black');
     
     hold off;
     savefig( strcat(save_file_path,'J1_2_3_with_small_centres.fig'));
