@@ -19,6 +19,11 @@ function [affine_dh_2_wrt_polaris] = ...
     x1_wrt_polaris = affine_dh_1_wrt_polaris(1:3, 1);
     y1_wrt_polaris = affine_dh_1_wrt_polaris(1:3, 2);
     z1_wrt_polaris = affine_dh_1_wrt_polaris(1:3, 3);
+    
+    
+%% Test new function   
+[frame_1_homogeneous, dh_d, dh_theta, dh_a, dh_alpha] = ...
+    calculateNextDhFrame (affine_dh_1_wrt_polaris, pt0, small_sphere_origins_line_param.direction) 
 
 
 %% Calculate the common norm of z1 and z2.
@@ -71,7 +76,7 @@ function [affine_dh_2_wrt_polaris] = ...
 %% Complete Frame_2 (O_2, y2) definition.
 
     x2_wrt_polaris = common_norm_j2_3;
-    % Check if x2 is pointint to the same hemisphere as vector O1O2
+    % Check if x2 is pointing to the same hemisphere as vector O1O2
     O1_O2_vec = O_2 - O_1;
     ang_diff_1 = atan2(norm(cross(O1_O2_vec, x2_wrt_polaris)), dot(O1_O2_vec, x2_wrt_polaris))
     if (ang_diff_1 > pi/2)

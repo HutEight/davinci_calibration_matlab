@@ -3,7 +3,7 @@
 % Descriptions.
 % 
 % Notes.
-% 
+% A line is defined by a fixed point p0 and its direction vector.
 
 function [dist] = calculatePointLineDist(p0, direction, point)
 
