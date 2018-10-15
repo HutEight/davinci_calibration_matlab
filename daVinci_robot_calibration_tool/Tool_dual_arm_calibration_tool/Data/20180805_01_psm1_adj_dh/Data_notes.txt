@@ -1,1 +1,0 @@
-The PSM2 data (yellow arm) here -- psm2_pts_generated_cube.mat and yellow_frozen.csv are copied from a random dataset collected previously. This entire data set is only to test the PSM1 cube.

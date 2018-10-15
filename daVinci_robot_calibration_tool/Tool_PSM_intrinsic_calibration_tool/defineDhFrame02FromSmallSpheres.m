@@ -5,7 +5,7 @@
 % Notes.
 %
 
-
+% virtual_flag: are you using simulated/virtual data?
 function [affine_dh_2_wrt_polaris] = ...
     defineDhFrame02FromSmallSpheres(affine_dh_1_wrt_polaris, small_sphere_origins_line_param, ...
     save_file_path, virtual_flag)
@@ -22,8 +22,8 @@ function [affine_dh_2_wrt_polaris] = ...
     
     
 %% Test new function   
-[frame_1_homogeneous, dh_d, dh_theta, dh_a, dh_alpha] = ...
-    calculateNextDhFrame (affine_dh_1_wrt_polaris, pt0, small_sphere_origins_line_param.direction) 
+% [frame_1_homogeneous, dh_d, dh_theta, dh_a, dh_alpha] = ...
+%     calculateNextDhFrame (affine_dh_1_wrt_polaris, pt0, small_sphere_origins_line_param.direction) 
 
 
 %% Calculate the common norm of z1 and z2.

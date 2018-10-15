@@ -7,7 +7,7 @@
 
 
 
-function [] = calculateDhD2OffsetAndPrismaticScalingFactor(small_sphere_origins_vec, affine_dh_2_wrt_polaris, save_file_path)
+function [d_3, j3_scale_factor] = calculateDhD2OffsetAndPrismaticScalingFactor(small_sphere_origins_vec, affine_dh_2_wrt_polaris, save_file_path)
 
     cmd_j3_values = [0.05 0.11 0.17 0.23];
     
@@ -92,7 +92,7 @@ function [] = calculateDhD2OffsetAndPrismaticScalingFactor(small_sphere_origins_
 %     %% Recommendation for the Joint 3 scaling factor.
 %     
 %     % actual_command = desired_command * j3_scale_factor
-    j3_scale_factor_ref = actual_small_spheres_increment_average/cmd_increment
+    j3_scale_factor_ref = actual_small_spheres_increment_average/cmd_increment % This is a never used one??
     
     
     %% 

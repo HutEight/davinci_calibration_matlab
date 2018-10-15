@@ -19,6 +19,11 @@ key_ = {...
 
     }
 
+% To be added
+% affine_dh_3_wrt_polaris
+% affine_dh_4_wrt_polaris
+% affine_dh_5_wrt_polaris
+
 
 %% Fitting.
 
@@ -58,7 +63,19 @@ key_ = {...
     [affine_dh_2_wrt_polaris] = ...
         defineDhFrame02FromSmallSpheres(affine_dh_1_wrt_polaris, small_sphere_origins_line_param, save_file_path, virtual_flag);
 
-    calculateDhD2OffsetAndPrismaticScalingFactor(small_sphere_origins_vec, affine_dh_2_wrt_polaris, save_file_path);
+    % Get Joint 3 (prismatic) quliaty here. Joint 2's encoder quality test
+    % is done in a standalone programme in the same package. 
+    [d_3, j3_scale_factor] = calculateDhD2OffsetAndPrismaticScalingFactor(small_sphere_origins_vec, affine_dh_2_wrt_polaris, save_file_path);
+    
+    
+    % This is related to the shaft rotation. affine_dh_03_wrt_polaris
+    % shares the same rotation matrix of affine_dh_02_wrt_polaris, but the
+    % translation is different due to the dh param of d3. 
+    [affine_dh_03_wrt_polaris] = defineDhFrame03FromDhFrame02(affine_dh_2_wrt_polaris, save_file_path);
+    
+    [affine_dh_04_wrt_polaris, affine_dh_05_wrt_polaris] = ... 
+        defineDhFrame04And05FromArcsWithJ3Offset(pt_mats_map('J5Arc05'), pt_mats_map('J6Arc06'), ...
+        affine_dh_03_wrt_polaris, j3_offset, d_3, j3_scale_factor, save_file_path);
     
     
 %% RMS
@@ -75,13 +92,13 @@ key_ = {...
         warning('Excessive rms_SmallSphere01:%f',rms_SmallSphere01);
     end    
     if (rms_SmallSphere02 > 0.001)
-    warning('Excessive rms_SmallSphere02:%f',rms_SmallSphere02);
+        warning('Excessive rms_SmallSphere02:%f',rms_SmallSphere02);
     end    
     if (rms_SmallSphere03 > 0.001)
-    warning('Excessive rms_SmallSphere03:%f',rms_SmallSphere03);
+        warning('Excessive rms_SmallSphere03:%f',rms_SmallSphere03);
     end    
     if (rms_SmallSphere04 > 0.001)
-    warning('Excessive rms_SmallSphere04:%f',rms_SmallSphere04);
+        warning('Excessive rms_SmallSphere04:%f',rms_SmallSphere04);
     end    
     
 
