@@ -1,9 +1,9 @@
 % RN@HMS Queen Elizabeth
 % 02/10/18
 % Description.
-%
+% This funciton is used to get the transform from a frame to its next frame via DH parameters. While used in chain, the forward kinematic of a robot can be solved.
 % Notes.
-%
+% 
 
 
 % Param@g_current_to_next: the return is a 4x4.
