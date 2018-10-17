@@ -71,6 +71,8 @@ catch
         strcat(csv_folder, '06_yellow_small_sphere_11cm.csv'), ...
         strcat(csv_folder, '07_yellow_small_sphere_17cm.csv'), ...
         strcat(csv_folder, '08_yellow_small_sphere_23cm.csv'), ...
+        strcat(csv_folder, '09_yellow_j5_arc_01_at_j3_14cm.csv'), ...
+        strcat(csv_folder, '10_yellow_j6_arc_01_at_j3_14cm.csv'), ...
     ''};
 
     path_map_ = containers.Map(key_, path_val_);
@@ -83,7 +85,16 @@ catch
     [pt_cld_SmallSphere02, pt_mat_SmallSphere02] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere02'), data_mask_begin, data_mask_end, remove_static_flag, plot_flag);
     [pt_cld_SmallSphere03, pt_mat_SmallSphere03] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere03'), data_mask_begin, data_mask_end, remove_static_flag, plot_flag);
     [pt_cld_SmallSphere04, pt_mat_SmallSphere04] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere04'), data_mask_begin, data_mask_end, remove_static_flag, plot_flag);
-
+    
+    % Tune this
+    data_mask_begin_special = 10;
+    data_mask_end_special = 5;
+    
+    [pt_cld_J5Arc01, pt_mat_J5Arc01] = loadCsvFileToPointCloudAndMat(path_map_('J5Arc01'), data_mask_begin_special, data_mask_end_special, remove_static_flag, plot_flag);
+    [pt_cld_J6Arc01, pt_mat_J6Arc01] = loadCsvFileToPointCloudAndMat(path_map_('J6Arc01'), data_mask_begin_special, data_mask_end_special, remove_static_flag, plot_flag);
+    
+    
+    
 end
 
 

@@ -118,7 +118,7 @@ function [affine_dh_04_wrt_polaris, affine_dh_05_wrt_polaris, dh_4, dh_5] = ...
         j5_fixed_pt = origin_j5_circle;
     end
     
-    
+    j5_fixed_pt = origin_j5_circle;
     
     
     
