@@ -97,9 +97,14 @@ function [d_3, j3_scale_factor] = calculateDhD2OffsetAndPrismaticScalingFactor(s
     
     %% 
     fileID = fopen( strcat(save_file_path,'DH_parameters_recommendation.txt'), 'a' );
-     
+        
     fprintf(fileID, '# DH_2 TO DH_3 FRAME\n');
-    fprintf(fileID, 'd_3: %f \n\n', d_3);
+    fprintf(fileID, 'theta_3: %f \n', 0);
+    fprintf(fileID, 'alpha_3: %f \n', 0);
+    fprintf(fileID, 'a_3: %f \n', 0);
+    fprintf(fileID, 'd_3: %f \n', d_3);
+    fprintf(fileID, '\n');
+        
     fprintf(fileID, 'j3_scale_factor: %f \n', j3_scale_factor);
     fprintf(fileID, '\n');
     fprintf(fileID, '# Please entre the j1 and j2 scale factor manually for the time being.');

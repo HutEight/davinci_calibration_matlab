@@ -63,7 +63,7 @@ x1 = common_norm;
 
 % Check if x1 is pointing to the same hemisphere as vector O1O2
 O0_O1_vec = O_1 - O_0;
-ang_diff_1 = atan2(norm(cross(O0_O1_vec, x1)), dot(O0_O1_vec, x1))
+ang_diff_1 = atan2(norm(cross(O0_O1_vec, x1)), dot(O0_O1_vec, x1));
 if (ang_diff_1 > pi/2)
    x1 = -x1; 
 end
@@ -82,7 +82,7 @@ frame_1_homogeneous(1:3, 4) = O_1(:);
 
 dh_d = calculatePointLineDist(O_1, common_norm, O_0);
 
-ang_diff_4 = atan2(norm(cross(O0_O1_vec, z0)), dot(O0_O1_vec, z0))
+ang_diff_4 = atan2(norm(cross(O0_O1_vec, z0)), dot(O0_O1_vec, z0));
 if (ang_diff_4 > pi/2)
     dh_d = -dh_d;
 end
@@ -90,11 +90,11 @@ end
 
 %% Calculate theta
 % By rotating about z_0 to align (moved) x_0 with x_1 (also the norm) direction.
-dh_theta = atan2(norm(cross(x0, x1)), dot(x0, x1))
+dh_theta = atan2(norm(cross(x0, x1)), dot(x0, x1));
 
 temp_vec_theta_2 = cross(x0, x1);
     
-ang_diff_2 = atan2(norm(cross(temp_vec_theta_2, z0)), dot(temp_vec_theta_2, z0))
+ang_diff_2 = atan2(norm(cross(temp_vec_theta_2, z0)), dot(temp_vec_theta_2, z0));
 if (ang_diff_2 > pi/2)
    dh_theta = -dh_theta; 
 end 
@@ -102,28 +102,18 @@ end
 
 %% Calculate alpha
 
-dh_alpha = atan2(norm(cross(z0, z1)), dot(z0, z1))
+dh_alpha = atan2(norm(cross(z0, z1)), dot(z0, z1));
     
 temp_vec_alpha_2 = cross(z0, z1);
     
-ang_diff_3 = atan2(norm(cross(temp_vec_alpha_2, x1)), dot(temp_vec_alpha_2, x1))
+ang_diff_3 = atan2(norm(cross(temp_vec_alpha_2, x1)), dot(temp_vec_alpha_2, x1));
 if (ang_diff_3 > pi/2)
    dh_alpha = -dh_alpha; 
 end
 
 
-
-
 %% Figures
 
-
-
-%% Print
-
-dh_d
-dh_theta
-dh_a
-dh_alpha
 
 
 

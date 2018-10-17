@@ -3,7 +3,7 @@
 % Description.
 %
 % Notes.
-% READ THE CODE COMMENTS
+%
 
 
 function [affine_dh_03_wrt_polaris, dh_3] = defineDhFrame03FromDhFrame02(affine_dh_2_wrt_polaris, d_3, save_file_path)
@@ -20,13 +20,7 @@ affine_dh_03_wrt_polaris = affine_dh_2_wrt_polaris;
 
 % Becuase we are currently following the kinematic package's naming
 % convention, we are still exporting this sensor offset in the name of d_3.
-% This should be clarified and fixed in the future. 
-
-dh_3.theta = 0;
-dh_3.d = d_3;
-dh_3.a = 0;
-dh_3.alpha = 0;
-    
+% This should be clarified and fixed in the nera f
 
 
 

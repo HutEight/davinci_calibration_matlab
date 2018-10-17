@@ -51,7 +51,7 @@ plot_flag = 1;
 [path_map_1, pt_clds_map_1, pt_mats_map_1] = createRawDataHashTables(csv_folder_1, plot_flag);
 
 % [result_map_1] = createPostProcessingHashTables(pt_clds_map_1, pt_mats_map_1, joint_12_flag, plot_flag, csv_folder_1);
-[result_map] = createPostProcessingHashTables(pt_clds_map_1, pt_mats_map_1, plot_flag, csv_folder_1)
+[result_map, dh_params] = createPostProcessingHashTables(pt_clds_map_1, pt_mats_map_1, plot_flag, csv_folder_1)
 
-generateTestTrajectory(csv_folder_1, arm_index, affine_Md_wrt_polaris, result_map('affine_base_wrt_polaris'))
+% generateTestTrajectory(csv_folder_1, arm_index, affine_Md_wrt_polaris, result_map('affine_base_wrt_polaris'))
 

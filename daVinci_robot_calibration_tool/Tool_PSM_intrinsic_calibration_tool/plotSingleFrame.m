@@ -4,7 +4,8 @@
 % 
 % Notes.
 %
-%
+% You must create a figure and hold on before calling this function. And
+% you need to hold off after using it. 
 
 
 function [] = plotSingleFrame(frame_homo, index) 

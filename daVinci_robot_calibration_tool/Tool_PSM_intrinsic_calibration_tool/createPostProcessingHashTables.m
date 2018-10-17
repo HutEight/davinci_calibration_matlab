@@ -6,7 +6,7 @@
 % 1. Joint 1 and 2 sphere fitting has been removed from Mark X due to the
 % fact that there is an a offset between DH_0 and DH_1 frames.
 
-function [result_map] = createPostProcessingHashTables(pt_clds_map, pt_mats_map, plot_flag, save_file_path)
+function [result_map, dh_params] = createPostProcessingHashTables(pt_clds_map, pt_mats_map, plot_flag, save_file_path)
 
 %% Keys.
 
@@ -57,10 +57,10 @@ key_ = {...
 
     virtual_flag = 0;
 
-    [affine_dh_0_wrt_polaris, affine_dh_1_wrt_polaris, affine_base_wrt_polaris] = ...
+    [affine_dh_0_wrt_polaris, affine_dh_1_wrt_polaris, affine_base_wrt_polaris, dh_1] = ...
         defineBaseFrameAndDhFrame0And1FromArcs(pt_mats_map('J1Arc01'), pt_mats_map('J2Arc01'), save_file_path);
 
-    [affine_dh_2_wrt_polaris] = ...
+    [affine_dh_2_wrt_polaris, dh_2] = ...
         defineDhFrame02FromSmallSpheres(affine_dh_1_wrt_polaris, small_sphere_origins_line_param, save_file_path, virtual_flag);
 
     % Get Joint 3 (prismatic) quliaty here. Joint 2's encoder quality test
@@ -71,12 +71,12 @@ key_ = {...
     % This is related to the shaft rotation. affine_dh_03_wrt_polaris
     % shares the same rotation matrix of affine_dh_02_wrt_polaris, but the
     % translation is different due to the dh param of d3. 
-    [affine_dh_03_wrt_polaris] = defineDhFrame03FromDhFrame02(affine_dh_2_wrt_polaris, save_file_path);
+    [affine_dh_03_wrt_polaris, dh_3] = defineDhFrame03FromDhFrame02(affine_dh_2_wrt_polaris, d_3, save_file_path);
     
     % Corresponding the the playfile (14 cm)
     j3_offset = 0.14;
     
-    [affine_dh_04_wrt_polaris, affine_dh_05_wrt_polaris] = ... 
+    [affine_dh_04_wrt_polaris, affine_dh_05_wrt_polaris, dh_4, dh_5] = ... 
         defineDhFrame04And05FromArcsWithJ3Offset(pt_mats_map('J5Arc01'), pt_mats_map('J6Arc01'), ...
         affine_dh_03_wrt_polaris, j3_offset, d_3, j3_scale_factor, save_file_path);
     
@@ -133,6 +133,7 @@ fprintf(fileID, 'rms_Small_Spheres_vec(1): %f\n', rms_Small_Spheres_vec(1) );
 fprintf(fileID, 'rms_Small_Spheres_vec(2): %f\n', rms_Small_Spheres_vec(2) );
 fprintf(fileID, 'rms_Small_Spheres_vec(3): %f\n', rms_Small_Spheres_vec(3) );
 fprintf(fileID, 'rms_Small_Spheres_vec(4): %f\n', rms_Small_Spheres_vec(4) );
+
 fclose(fileID);
 
 %% Figures
@@ -169,10 +170,19 @@ plotDavinciDHFrames(affine_dh_0_wrt_polaris, ...
     affine_dh_2_wrt_polaris, ...
     affine_dh_03_wrt_polaris, ...
     affine_dh_04_wrt_polaris, ...
-    affine_dh_05_wrt_polaris);
+    affine_dh_05_wrt_polaris, ...
+    save_file_path);
 
 
 %% Values and Return
+
+dh_params.dh_1 = dh_1;
+dh_params.dh_2 = dh_2;
+dh_params.dh_3 = dh_3;
+dh_params.dh_4 = dh_4;
+dh_params.dh_5 = dh_5;
+
+exportDhParamsIntoFile(dh_params, j3_scale_factor, save_file_path);
 
 values_ = {...
     small_sphere_param_1, small_sphere_param_2, small_sphere_param_3, small_sphere_param_4, ...

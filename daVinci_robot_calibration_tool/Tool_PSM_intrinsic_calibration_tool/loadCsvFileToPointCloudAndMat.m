@@ -6,7 +6,7 @@
 %
 
 
-function [pt_cld, pt_mat] = loadCsvFileToPointCloudAndMat(file_path, data_mask_begin, data_mask_end, remove_static_flag)
+function [pt_cld, pt_mat] = loadCsvFileToPointCloudAndMat(file_path, data_mask_begin, data_mask_end, remove_static_flag, plot_flag)
 
 %% Loading Data
 csv = csvread(file_path);
@@ -99,9 +99,11 @@ end
 
 pt_cld = pointCloud([pt_mat_0(:,2), pt_mat_0(:,3), pt_mat_0(:,4)]);
     
-figure('Name', 'CONFIG - Point Cloud');
-pcshow(pt_cld);
-hold off;    
+if (plot_flag == 1)
+    figure('Name', 'CONFIG - Point Cloud');
+    pcshow(pt_cld);
+    hold off;  
+end
     
     
 

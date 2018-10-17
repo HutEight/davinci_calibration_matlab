@@ -190,11 +190,12 @@ function [affine_dh_04_wrt_polaris, affine_dh_05_wrt_polaris, dh_4, dh_5] = ...
     
     %% Export 
 
-    fileID = fopen( strcat(save_file_path, 'Fitting_rms_summary.txt'), 'a');
-    fprintf(fileID, 'rms_j5_circle: %f\n', j5_rms);
-    fprintf(fileID, 'rms_j6_circle: %f\n', j6_rms);
+fileID = fopen( strcat(save_file_path, 'Fitting_rms_summary.txt'), 'a');
+
+fprintf(fileID, 'small_sphere_origins_line_rms: %f\n', small_sphere_origins_line_rms);
     fclose(fileID);
 
+    affine_dh_0_wrt_polaris, affine_dh_1_wrt_polaris, affine_base_wrt_polaris
     save(strcat(save_file_path, 'affine_dh_04_wrt_polaris.mat'), 'affine_dh_04_wrt_polaris');
     save(strcat(save_file_path, 'affine_dh_05_wrt_polaris.mat'), 'affine_dh_05_wrt_polaris');
 

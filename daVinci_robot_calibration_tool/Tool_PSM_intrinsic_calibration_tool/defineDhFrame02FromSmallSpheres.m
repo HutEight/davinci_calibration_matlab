@@ -6,7 +6,7 @@
 %
 
 % virtual_flag: are you using simulated/virtual data?
-function [affine_dh_2_wrt_polaris] = ...
+function [affine_dh_2_wrt_polaris, dh_2] = ...
     defineDhFrame02FromSmallSpheres(affine_dh_1_wrt_polaris, small_sphere_origins_line_param, ...
     save_file_path, virtual_flag)
 
@@ -279,6 +279,13 @@ end
 
 
 %% Export DH parameters
+
+dh_2.theta = theta_2;
+dh_2.d = d_2;
+dh_2.a = a_2;
+dh_2.alpha = alpha_2;
+    
+
 
 fileID = fopen( strcat(save_file_path,'DH_parameters_recommendation.txt'), 'a' );
 

@@ -7,9 +7,10 @@
 %
 
 function [] = plotDavinciDHFrames(dh_frame_0, dh_frame_1, dh_frame_2, ...
-    dh_frame_3, dh_frame_4, dh_frame_5) 
+    dh_frame_3, dh_frame_4, dh_frame_5, ...
+    save_file_path) 
 
-figure('Name', 'All Frames');
+figure('Name', 'All_Frames');
 hold on;
 axis equal;
 
@@ -22,5 +23,7 @@ plotSingleFrame(dh_frame_4, 4);
 plotSingleFrame(dh_frame_5, 5); 
 
 hold off;
+
+savefig( strcat(save_file_path,'All_Frames.fig'));
 
 end
