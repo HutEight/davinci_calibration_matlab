@@ -53,8 +53,12 @@ try
     [pt_cld_SmallSphere03, pt_mat_SmallSphere03] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere03'), data_mask_begin, data_mask_end, remove_static_flag);
     [pt_cld_SmallSphere04, pt_mat_SmallSphere04] = loadCsvFileToPointCloudAndMat(path_map_('SmallSphere04'), data_mask_begin, data_mask_end, remove_static_flag);
 
-    [pt_cld_J1Arc01, pt_mat_J1Arc01] = loadCsvFileToPointCloudAndMat(path_map_('J5Arc01'), data_mask_begin, data_mask_end, remove_static_flag);
-    [pt_cld_J2Arc01, pt_mat_J2Arc01] = loadCsvFileToPointCloudAndMat(path_map_('J6Arc01'), data_mask_begin, data_mask_end, remove_static_flag);
+    % Tune this
+    data_mask_begin_special = 10;
+    data_mask_end_special = 5;
+    
+    [pt_cld_J5Arc01, pt_mat_J5Arc01] = loadCsvFileToPointCloudAndMat(path_map_('J5Arc01'), data_mask_begin_special, data_mask_end_special, remove_static_flag);
+    [pt_cld_J6Arc01, pt_mat_J6Arc01] = loadCsvFileToPointCloudAndMat(path_map_('J6Arc01'), data_mask_begin_special, data_mask_end_special, remove_static_flag);
     
 catch
     
@@ -89,7 +93,9 @@ all_Pts_Mat_ = [...
     pt_mat_SmallSphere01;
     pt_mat_SmallSphere02;
     pt_mat_SmallSphere03;
-    pt_mat_SmallSphere04
+    pt_mat_SmallSphere04;
+    pt_mat_J5Arc01;
+    pt_mat_J6Arc01
     ];
 
 
@@ -97,10 +103,12 @@ all_Pt_Clouds_ = pointCloud([all_Pts_Mat_(:,1), all_Pts_Mat_(:,2), all_Pts_Mat_(
 
 pt_clds_val_ = {pt_cld_J1Arc01, pt_cld_J2Arc01, ...
     pt_cld_SmallSphere01, pt_cld_SmallSphere02, pt_cld_SmallSphere03, pt_cld_SmallSphere04, ...
+    pt_cld_J5Arc01, pt_cld_J6Arc01, ...
     all_Pt_Clouds_};
 
 pt_mats_val_ = {pt_mat_J1Arc01, pt_mat_J2Arc01, ...
     pt_mat_SmallSphere01, pt_mat_SmallSphere02, pt_mat_SmallSphere03, pt_mat_SmallSphere04, ...
+    pt_mat_J5Arc01, pt_mat_J6Arc01, ...
     all_Pts_Mat_};
 
 pt_clds_map_ = containers.Map(key_, pt_clds_val_);

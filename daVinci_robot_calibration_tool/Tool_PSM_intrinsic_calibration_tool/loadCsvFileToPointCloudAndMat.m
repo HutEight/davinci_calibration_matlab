@@ -99,9 +99,9 @@ end
 
 pt_cld = pointCloud([pt_mat_0(:,2), pt_mat_0(:,3), pt_mat_0(:,4)]);
     
-% figure('Name', 'CONFIG - Point Cloud');
-% pcshow(pt_cld);
-% hold off;    
+figure('Name', 'CONFIG - Point Cloud');
+pcshow(pt_cld);
+hold off;    
     
     
 

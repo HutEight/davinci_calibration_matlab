@@ -59,7 +59,7 @@ circle_fitting_error = @(a) sum(abs(...
 
 
 
-lb = [-2, -2, -2, 0.1];
+lb = [-2, -2, -2, 0.001];
 ub = [2, 2, 2, 2];
 a0 = [init_center(1), init_center(2), init_center(3), init_rad];
 A= [];

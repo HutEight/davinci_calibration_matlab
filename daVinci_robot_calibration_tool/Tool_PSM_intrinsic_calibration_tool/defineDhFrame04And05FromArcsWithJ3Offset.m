@@ -19,7 +19,7 @@ function [affine_dh_04_wrt_polaris, affine_dh_05_wrt_polaris] = ...
     % This transform will change every frame after Frame 03. Therefore we
     % can use its inverse to get the zero config as well.  
     transform_d3 = eye(4, 4);
-    transform_d3(1:3, 4) = d_3 * affine_dh_03_wrt_polaris(1:3, 4);
+    transform_d3(1:3, 4) = d_3 * affine_dh_03_wrt_polaris(1:3, 3);
     
     % This will be used to calculate the DH params to frame 04.
     affine_dh_03_wrt_polaris_with_d3_offset = transform_d3 * affine_dh_03_wrt_polaris;
@@ -47,11 +47,12 @@ function [affine_dh_04_wrt_polaris, affine_dh_05_wrt_polaris] = ...
     j5_vec_ref = j5_vec_ref/norm(j5_vec_ref)
 
     if isnan(j5_vec_ref)
-       warning('j5_vec_ref is NaA'); 
+       warning('j5_vec_ref calculation is NaA. Using y_3 vector instead.'); 
+       j5_vec_ref = transpose(affine_dh_03_wrt_polaris(1:3,2));
     end
     
     
-    ref = 6_arc_in_polairs_mat(5,4);
+    ref = j6_arc_in_polairs_mat(5,4);
 
     t1 = (ref < j6_arc_in_polairs_mat(:,4)) &  (j6_arc_in_polairs_mat(:,4) < ref + 0.2);
     t2 = (ref + 0.2 < j6_arc_in_polairs_mat(:,4)) &  (j6_arc_in_polairs_mat(:,4) < ref + 0.4);
@@ -71,7 +72,8 @@ function [affine_dh_04_wrt_polaris, affine_dh_05_wrt_polaris] = ...
     j6_vec_ref = j6_vec_ref/norm(j6_vec_ref)
 
     if isnan(j6_vec_ref)
-       warning('j6_vec_ref is NaA'); 
+       warning('j6_vec_ref calculation is NaA. Using x_3 vector instead.'); 
+       j6_vec_ref = transpose(affine_dh_03_wrt_polaris(1:3,1));
     end
 
     
@@ -90,6 +92,8 @@ function [affine_dh_04_wrt_polaris, affine_dh_05_wrt_polaris] = ...
     
     % Origin of j5 circle
     origin_j5_circle = j5_arc_circle_params(1, 1:3);
+    
+    origin_j5_circle = origin_j5_circle(:);
     
     % Adjust j5_vec direction according to the j5_vec_ref
     ang_diff_j5 = atan2(norm(cross(j5_vec, j5_vec_ref)), dot(j5_vec, j5_vec_ref))
@@ -114,6 +118,9 @@ function [affine_dh_04_wrt_polaris, affine_dh_05_wrt_polaris] = ...
     end
     
     
+    
+    
+    
     %% Get Joint 6
     
     % Circle and Plane fitting
@@ -130,6 +137,8 @@ function [affine_dh_04_wrt_polaris, affine_dh_05_wrt_polaris] = ...
     % Origin of j5 circle
     origin_j6_circle = j6_arc_circle_params(1, 1:3);
     
+    origin_j6_circle = origin_j6_circle(:);
+    
     % Adjust j5_vec direction according to the j5_vec_ref
     ang_diff_j6 = atan2(norm(cross(j6_vec, j6_vec_ref)), dot(j6_vec, j6_vec_ref))
     if (ang_diff_j6 > pi/2)
@@ -139,13 +148,32 @@ function [affine_dh_04_wrt_polaris, affine_dh_05_wrt_polaris] = ...
     j6_fixed_pt = origin_j6_circle;
 
     if (rms_j6_circle > 0.001)
-        warning('Excessive rms_j5_circle:%f',rms_j6_circle);
+        warning('Excessive rms_j6_circle:%f',rms_j6_circle);
     end
+    
+   
     
     %% Calculate Frame 4 (with a non-zero d3)
     
     [affine_dh_04_wrt_polaris_with_d3_offset, d_4, theta_4, a_4, alpha_4] = ...
         calculateNextDhFrame (affine_dh_03_wrt_polaris_with_d3_offset, j5_fixed_pt, j5_vec); 
+    
+    affine_dh_04_wrt_polaris =  inv(transform_d3) * affine_dh_04_wrt_polaris_with_d3_offset;
+    
+
+    
+    %% Calculate Frame 5 (with a non-zero d3)
+    [affine_dh_05_wrt_polaris_with_d3_offset, d_5, theta_5, a_5, alpha_5] = ...
+        calculateNextDhFrame (affine_dh_04_wrt_polaris_with_d3_offset, j6_fixed_pt, j6_vec);  
+    
+    affine_dh_05_wrt_polaris = inv(transform_d3) * affine_dh_05_wrt_polaris_with_d3_offset;
+    
+    
+    %% 
+    figure('Name', 'J5')
+    scatter3(j5_arc_in_polairs_mat(:,1), j5_arc_in_polairs_mat(:,2), j5_arc_in_polairs_mat(:,3));
+    figure('Name', 'J6')
+    scatter3(j6_arc_in_polairs_mat(:,1), j6_arc_in_polairs_mat(:,2), j6_arc_in_polairs_mat(:,3));
     
     % DEBUG
     disp('Frame 3 to Frame 4');
@@ -154,10 +182,6 @@ function [affine_dh_04_wrt_polaris, affine_dh_05_wrt_polaris] = ...
     a_4
     alpha_4
     
-    %% Calculate Frame 5 (with a non-zero d3)
-    [affine_dh_05_wrt_polaris_with_d3_offset, d_5, theta_5, a_5, alpha_5] = ...
-        calculateNextDhFrame (affine_dh_04_wrt_polaris_with_d3_offset, j6_fixed_pt, j6_vec);  
-    
     % DEBUG
     disp('Frame 4 to Frame 5');
     d_5
@@ -165,5 +189,6 @@ function [affine_dh_04_wrt_polaris, affine_dh_05_wrt_polaris] = ...
     a_5
     alpha_5    
     
+
     
 end
