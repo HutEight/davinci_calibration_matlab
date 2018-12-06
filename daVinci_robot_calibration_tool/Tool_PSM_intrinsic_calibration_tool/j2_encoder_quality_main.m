@@ -27,7 +27,7 @@ clear all
 
 % @ UPDATE CHECKPOINT 1/4
 % Update the path and flags accordingly
-csv_folder = 'Data/20180814_PSM1_intrinsic_1_j2_encoder_j/';
+csv_folder = 'Data/20181118_PSM2_intrinsic_mk_xi_01/';
 
 % @ UPDATE CHECKPOINT 2/4
 test_joint_index = 2;
@@ -35,7 +35,7 @@ test_joint_index = 2;
 
 % @ 
 %
-joint_increment = 0.1;
+joint_increment = 0.2;
 
 if (test_joint_index == 1)
     arc_file = strcat(csv_folder,'02_j1_arc.csv');
@@ -49,11 +49,12 @@ data_mask_begin = 1;
 data_mask_end = 1;
 
 remove_static_flag = 1;
-[pt_cld_arc, pt_mat_arc] = loadCsvFileToPointCloudAndMat(arc_file, data_mask_begin, data_mask_end, remove_static_flag);
+plot_flag = 0;
+[pt_cld_arc, pt_mat_arc] = loadCsvFileToPointCloudAndMat(arc_file, data_mask_begin, data_mask_end, remove_static_flag, plot_flag);
 
 
 remove_static_flag = 0;
-[pt_cld_pts, pt_mat_pts] = loadCsvFileToPointCloudAndMat(pts_file, data_mask_begin, data_mask_end, remove_static_flag);
+[pt_cld_pts, pt_mat_pts] = loadCsvFileToPointCloudAndMat(pts_file, data_mask_begin, data_mask_end, remove_static_flag, plot_flag);
 
 %% Data pre-processing
 
@@ -67,7 +68,7 @@ fixed_pt_count = 0;
 % @ UPDATE CHECKPOINT 3/4
 % If there are some unwanted points at the beginning of the recording, you 
 % can use this line to remove them.
-pt_mat_pts(1:0,:) = [];
+pt_mat_pts(1:100,:) = [];
 
 
 for i = 1:(size(pt_mat_pts, 1) -1)
@@ -117,7 +118,7 @@ for n = 1:size(section_end_time,1)
     % This is the minimum requirement for a point to be identified as a
     % static point.
     
-    if (section_end_time(i) - section_begin_time(i)) < 6
+    if (section_end_time(i) - section_begin_time(i)) < 4
 
         warning("removed one fixed point due to short still time");
         temp = strcat("at: ", num2str(section_begin_time(i) ));
@@ -344,8 +345,13 @@ end
 axis equal;
 hold off;
 
-mean(angles)/0.2
+angles
 
+ratio_opt_1 = mean(angles)/0.2
+
+
+% @ Update
+ratio_opt_2 = mean(angles(2:4))/0.2
 
 
 

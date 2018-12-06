@@ -15,7 +15,7 @@ clear all
 
 % Get the PSM1 to PSM2 (PSM2 in PSM1 frame) Transform.
 
-data_folder = 'Data/20180702_02/';
+data_folder = 'Data/20181105_02/';
 
 load(strcat(data_folder,'affine_psm2_wrt_psm1.mat'))
 load(strcat(data_folder,'affine_psm1_wrt_polaris.mat'))

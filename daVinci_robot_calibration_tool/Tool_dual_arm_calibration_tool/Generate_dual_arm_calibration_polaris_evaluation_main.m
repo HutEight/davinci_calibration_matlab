@@ -23,26 +23,35 @@ clear all
 
 % Or load it from the global variable (generated bt dual_PSMs_match_CUBE.m)
 % @ UPDATE CHECKPOINT 1/2
-data_folder = 'Data/20180702_02/';
+data_folder = 'Data/20181119_02/';
 
 load(strcat(data_folder,'affine_psm2_wrt_psm1.mat'))
 
 affine_psm1_wrt_psm2 = inv(affine_psm2_wrt_psm1);
 
-load(strcat(data_folder,'affine_psm2_wrt_polaris.mat'))
 
-affine_polaris_wrt_psm2 = inv(affine_psm2_wrt_polaris);
 
 load(strcat(data_folder,'affine_psm1_wrt_polaris.mat'))
 
 affine_polaris_wrt_psm1 = inv(affine_psm1_wrt_polaris);
 
+
+try
+    load(strcat(data_folder,'adjusted_affine_psm2_wrt_polaris.mat'))
+    warning('Using adjusted affine psm2 wrt polaris');
+    affine_psm2_wrt_polaris = adjusted_affine_psm2_wrt_polaris;
+catch
+    load(strcat(data_folder,'affine_psm2_wrt_polaris.mat'))
+end
+affine_polaris_wrt_psm2 = inv(affine_psm2_wrt_polaris);
+
+
 %% PSM 1 sphere (range)
 
 % @ UPDATE CHECKPOINT 2/2
-centre_x = -0.00302805656706;
-centre_y = 0.0417731450507;
-centre_z = -0.13409265241;
+centre_x = -0.0518711250804;
+centre_y = 0.0418876388639;
+centre_z = -0.0966702159603;
 
 
 centre_in_psm1 = [centre_x centre_y centre_z];
@@ -85,12 +94,21 @@ end
 
 
 % ---  
-adjusted_affine_psm1_wrt_psm2 = affine_polaris_wrt_psm2 * ...
-    additional_affine_psm_2_init_to_2_refined_in_polaris_frame * ...
-    affine_psm1_wrt_polaris; 
+% adjusted_affine_psm1_wrt_psm2 = affine_polaris_wrt_psm2 * ...
+%     additional_affine_psm_2_init_to_2_refined_in_polaris_frame * ...
+%     affine_psm1_wrt_polaris; 
+
+adjusted_affine_psm2_wrt_polaris = additional_affine_psm_2_init_to_2_refined_in_polaris_frame * ...
+    affine_psm2_wrt_polaris;
+
+adjusted_affine_psm1_wrt_psm2 = inv(adjusted_affine_psm2_wrt_polaris) * affine_psm1_wrt_polaris;
 
 
+save(strcat(data_folder, 'adjusted_affine_psm1_wrt_psm2.mat'), ...
+    'adjusted_affine_psm1_wrt_psm2');
 
+save(strcat(data_folder, 'adjusted_affine_psm2_wrt_polaris.mat'), ...
+    'adjusted_affine_psm2_wrt_polaris');
 
 
 psm_x = [1 0 0];
@@ -136,7 +154,7 @@ for i = 1:n_pts
    psm2_pt = psm2_pt';
    psm2_pts(i,:) = psm2_pt(1,1:3);
    
-   
+   % Without the refinement of previous test. 
    temp_pt = affine_psm1_wrt_psm2 * transpose(psm1_pt);
    temp_pt = temp_pt';
    temp_pts(i,:) = temp_pt(1,1:3);
@@ -191,5 +209,11 @@ for i = 1:n_pts
     
     
 end
+
+
+
+
+
+
 
 

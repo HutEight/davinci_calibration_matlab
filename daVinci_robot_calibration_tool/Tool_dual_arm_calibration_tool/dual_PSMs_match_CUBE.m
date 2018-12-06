@@ -10,7 +10,7 @@ clear all
 
 %%
 % @ UPDATE CHECKPOINT 1/1
-data_folder = 'Data/20180805_01_generic_dh/';
+data_folder = 'Data/20181119_02/';
 
 load(strcat(data_folder, 'psm1_pts_generated_cube.mat'))
 % pts_generated

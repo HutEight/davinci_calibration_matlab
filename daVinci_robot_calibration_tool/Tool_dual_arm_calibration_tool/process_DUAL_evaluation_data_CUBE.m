@@ -11,7 +11,7 @@ clear all
 %%
 
 % @ UPDATE CHECKPOINT 1/1
-data_folder = 'Data/20180805_01_psm1_adj_dh/';
+data_folder = 'Data/20181119_02/';
 
 psm1_file_path = strcat(data_folder, 'green_evaluation.csv')
 psm2_file_path = strcat(data_folder, 'yellow_evaluation.csv')
@@ -443,6 +443,8 @@ vpa(rms,5)
 
 %% TEST matching (CAN IT BE FURTHER IMPROVED?)
 size = size(pms1_test_pts,1);
+% rigid_transform_3D(target, base). So what we are getting here is
+% pms1_test_pts to pms2_test_pts. 
 [pts2_to_1_R, pts2_to_1_t] = rigid_transform_3D(pms2_test_pts, pms1_test_pts); % This should yeild a new tf psm2 to psm1 pts. 
 
 % TEST
@@ -483,6 +485,9 @@ hold off;
 additional_affine_psm_2_init_to_2_refined_in_polaris_frame(1:3,1:3) = pts2_to_1_R;
 additional_affine_psm_2_init_to_2_refined_in_polaris_frame(1:3,4) = pts2_to_1_t;
 additional_affine_psm_2_init_to_2_refined_in_polaris_frame(4,:) = [0 0 0 1];
+
+% Do we need to inverse this??? We were probably wrong before
+additional_affine_psm_2_init_to_2_refined_in_polaris_frame = inv(additional_affine_psm_2_init_to_2_refined_in_polaris_frame);
 
 
 save(strcat(data_folder, 'additional_affine_psm_2_init_to_2_refined_in_polaris_frame.mat'), ...

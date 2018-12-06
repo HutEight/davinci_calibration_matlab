@@ -51,7 +51,10 @@ function [affine_dh_04_wrt_polaris, affine_dh_05_wrt_polaris, dh_4, dh_5] = ...
        j5_vec_ref = transpose(affine_dh_03_wrt_polaris(1:3,2));
     end
     
+    % TODO make generalised
+    j5_vec_ref = [0 1 0]; % Along Poarlis y direction
     
+
     ref = j6_arc_in_polairs_mat(5,4);
 
     t1 = (ref < j6_arc_in_polairs_mat(:,4)) &  (j6_arc_in_polairs_mat(:,4) < ref + 0.2);
@@ -75,6 +78,9 @@ function [affine_dh_04_wrt_polaris, affine_dh_05_wrt_polaris, dh_4, dh_5] = ...
        warning('j6_vec_ref calculation is NaA. Using x_3 vector instead.'); 
        j6_vec_ref = transpose(affine_dh_03_wrt_polaris(1:3,1));
     end
+    
+    % TODO make generalised
+    j6_vec_ref = [0 0 -1]; % Along Poarlis -z direction
 
     
     %% Get Joint 5 (Joint 5 after a d3 transform).
@@ -118,6 +124,7 @@ function [affine_dh_04_wrt_polaris, affine_dh_05_wrt_polaris, dh_4, dh_5] = ...
         j5_fixed_pt = origin_j5_circle;
     end
     
+    % TODO what? Why here?
     j5_fixed_pt = origin_j5_circle;
     
     

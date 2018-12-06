@@ -1,0 +1,12 @@
+FITTING RMS SUMMARY
+# GENERATED AT:18-Nov-2018 22:52:30
+---
+rms_j1_circle: 0.000093
+rms_j2_circle: 0.000197
+rms_j5_circle: 0.000166
+rms_j6_circle: 0.000164
+small_sphere_origins_line_rms: 0.000031
+rms_Small_Spheres_vec(1): 0.000122
+rms_Small_Spheres_vec(2): 0.000139
+rms_Small_Spheres_vec(3): 0.000135
+rms_Small_Spheres_vec(4): 0.000166

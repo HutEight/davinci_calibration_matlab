@@ -57,7 +57,8 @@ j2_vec_ref = - cross((j2_pt2 - j2_pt1),(j2_pt3 - j2_pt1));
 j2_vec_ref = j2_vec_ref/norm(j2_vec_ref)
 
 if isnan(j2_vec_ref)
-   j2_vec_ref('j1_vec_ref is NaA'); 
+   warning('j2_vec_ref is NaA, assuming general case'); 
+   j2_vec_ref = [0 1 0];
 end
 
 %% Joint 1 Params

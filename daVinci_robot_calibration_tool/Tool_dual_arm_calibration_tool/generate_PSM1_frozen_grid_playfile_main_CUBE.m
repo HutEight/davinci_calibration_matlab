@@ -13,12 +13,12 @@ clear all
 % centre of the 7x7 cube
 
 % @ UPDATE CHECKPOINT 1/2
-centre_x = 0.0406170487111;
-centre_y = 0.0726209279713;
-centre_z = -0.109687224889;
+centre_x = -0.0518711250804;
+centre_y = 0.0418876388639;
+centre_z = -0.0966702159603;
 
 % @ UPDATE CHECKPOINT 2/2
-data_seq = '03';
+data_seq = '02';
 
 t = datetime('now');
 formatOut = 'yyyymmdd';
